@@ -37,7 +37,7 @@
                 RESTABLECER CONTRASEÑA
             </a>
             <div class="d-flex justify-content-between mt-4">
-                <a href="#" style="color: #4285f4; text-decoration: none;">Acceso</a>
+                <a href="login.blade.php" style="color: #4285f4; text-decoration: none;">Acceso</a>
                 <a href="#" style="color: #4285f4; text-decoration: none;">Registro</a>
             </div>
         </div>
