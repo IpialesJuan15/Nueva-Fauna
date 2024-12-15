@@ -15,8 +15,8 @@
         rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous" />
-        <link rel="stylesheet" href="../css/recuperarEmail.css">
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="../css/recuperarEmail.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
 
 <body>
@@ -57,7 +57,7 @@
                                         </div>
 
                                         <a class="small text-muted" href="recuperarEmail.blade.php">¿Olvidó su contraseña?</a>
-                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">¿No tienes una cuenta? <a href="#!"
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">¿No tienes una cuenta? <a href="register.blade.php"
                                                 style="color: #393f81;">Regístrese aquí</a></p>
                                         <a href="#!" class="small text-muted">Terms of use.</a>
                                         <a href="#!" class="small text-muted">Privacy policy</a>
