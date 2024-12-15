@@ -57,7 +57,7 @@
                                         </div>
 
                                         <a class="small text-muted" href="recuperarEmail.blade.php">¿Olvidó su contraseña?</a>
-                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">¿No tienes una cuenta? <a href="#!"
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">¿No tienes una cuenta? <a href="register.blade.php"
                                                 style="color: #393f81;">Regístrese aquí</a></p>
                                         <a href="#!" class="small text-muted">Terms of use.</a>
                                         <a href="#!" class="small text-muted">Privacy policy</a>
