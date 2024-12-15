@@ -24,7 +24,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-xxl-11">
-                    <div class="card border-0 shadow-sm" style="background-color: #f8f9f5;">
+                    <div class="card border-0 shadow-sm" style="background-color:rgb(255, 255, 255);">
                         <div class="row g-0">
                             <!-- Imagen -->
                             <div class="col-12 col-md-6">
@@ -34,7 +34,7 @@
                             </div>
 
                             <!-- Formulario -->
-                            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center" style="background-color: #f2f6f3;">
+                            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center" style="background-color:rgb(255, 255, 255);">
                                 <div class="col-12 col-lg-11 col-xl-10">
                                     <div class="card-body p-3 p-md-4 p-xl-5">
                                         <div class="text-center mb-4">
