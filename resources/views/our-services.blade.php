@@ -316,7 +316,7 @@ https://templatemo.com/tm-573-eduwell
         <div class="col-lg-8">
           <div id="video">
             <div class="thumb">
-              <img src="assets/images/video-thumb.jpg" alt="">
+              <img src="../../public/images/video-thumb.jpg" alt="">
               <div class="play-button">
                 <a href="http://youtube.com" target="_blank"><i class="fa fa-play"></i></a>
               </div>
