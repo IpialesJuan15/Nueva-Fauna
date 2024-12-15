@@ -926,7 +926,10 @@ section.our-courses ul.nacc li .left-image {
 section.our-courses ul.nacc li .left-image img {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+  width: 320px; /* Ajusta el ancho */
+  height: auto; /* Mantén las proporciones */
 }
+
 
 section.our-courses ul.nacc li .left-image .price h6 {
   position: absolute;
