@@ -257,7 +257,7 @@ header
 }
 
 .header-area {
-  background-image: url(../images/header-bg.png);
+  background-image: url(../../public/images/header-bg.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -279,21 +279,61 @@ header
 }
 
 .header-area .main-nav .logo {
-  line-height: 100px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
   color: #fff;
-  font-size: 28px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  float: left;
+  text-align: center;
+  float: left; 
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
 }
 
+.header-area .main-nav .logo img {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.header-area .main-nav .logo .logo-text {
+  font-size: 24px; 
+  font-weight: bold;
+  color: #fff; 
+  text-transform: uppercase;
+}
+
+.background-header .main-nav {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 80px; 
+}
 .background-header .main-nav .logo {
-  line-height: 75px;
+  display: flex; 
+  justify-content: flex-start; 
+  align-items: center; 
+  color: #fff;
+  text-align: left;
+  margin-right: 200px; 
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.background-header .main-nav .logo img {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.background-header .main-nav .logo .logo-text {
+  font-size: 24px; 
+  font-weight: bold;
+  color: #fff; 
+  text-transform: uppercase;
 }
 
 .background-header .nav {
@@ -1866,6 +1906,20 @@ body {
 }
 
 @media (max-width: 767px) {
+.header-area .main-nav .logo {
+    flex-direction: column; /* Alinea el logo y el texto verticalmente */
+    align-items: center;
+    margin-left: 0; /* Ajusta la posición para pantallas pequeñas */
+}
+
+.header-area .main-nav .logo img {
+    width: 40px; /* Reduce el tamaño del logo en móviles */
+    margin-bottom: 5px; /* Espaciado entre el logo y el texto */
+}
+
+.header-area .main-nav .logo .logo-text {
+    font-size: 18px; /* Ajusta el tamaño del texto para móviles */
+}
   .header-area .main-nav .nav li.has-sub ul.sub-menu {
     display: none;
   }

@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
-    <title>EduWell - Education HTML5 Template</title>
+    <title>Birdly</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,8 @@ https://templatemo.com/tm-573-eduwell
                   <nav class="main-nav">
                       <!-- ***** Logo Start ***** -->
                       <a href="index.html" class="logo">
-                          <img src="../../public/images/templatemo-eduwell.png" alt="EduWell Template">
+                          <img src="../../public/images/avelogo.png" alt="Birdly">
+                          <span class="logo-text">Birdly</span>
                       </a>
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
@@ -76,8 +77,8 @@ https://templatemo.com/tm-573-eduwell
       <div class="row">
         <div class="col-lg-6 align-self-center">
           <div class="header-text">
-            <h6>Welcome to our school</h6>
-            <h2>Best Place To Learn Graphic <em>Design!</em></h2>
+            <h6>Bienvenido a Birdly</h6>
+            <h2>El mejor lugar para registro y consulta de <em>Aves!</em></h2>
             <div class="main-button-gradient">
               <div class="scroll-to-section"><a href="#contact-section">Join Us Now!</a></div>
             </div>
@@ -85,7 +86,7 @@ https://templatemo.com/tm-573-eduwell
         </div>
         <div class="col-lg-6">
           <div class="right-image">
-            <img src="../../public/images/banner-right-image.png" alt="">
+            <img src="../../public/images/avelogo.png" alt="">
           </div>
         </div>
       </div>
