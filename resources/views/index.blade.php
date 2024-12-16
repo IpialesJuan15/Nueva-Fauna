@@ -252,9 +252,9 @@ https://templatemo.com/tm-573-eduwell
                           <h4>Zenaida auriculata</h4>
                           <p>La tórtola orejuda es una ave comúnmente encontrada en áreas abiertas y semiáridas.</a> Es conocida por su plumaje grisáceo con reflejos rosados, y su distintivo anillo ocular azul pálido 
                           <br><br>Esta especie es ampliamente distribuida en América del Sur y se adapta fácilmente a ambientes urbanos. Su canto suave y repetitivo es un sonido característico en muchos paisajes rurales.</p>
-                          <span>36 Hours</span>
-                          <span>4 Weeks</span>
-                          <span class="last-span">3 Certificates</span>
+                          <span>Vel Max: 55km/h</span>
+                          <span>Incubación: 2 sem</span>
+                          <span class="last-span">Vida: 15 años</span>
                         </div>
                       </div>
                     </li>
@@ -266,10 +266,10 @@ https://templatemo.com/tm-573-eduwell
                         </div>
                         <div class="right-content">
                           <h4>Pyrocephalus rubinus</h4>
-                          <p>You are not allowed to redistribute this template ZIP file on any other website without a permission from us.<br><br>There are some unethical people on this world copied and reposted our templates without any permission from us. Their Karma will hit them really hard. Yeah!</p>
-                          <span>48 Hours</span>
-                          <span>6 Weeks</span>
-                          <span class="last-span">1 Certificate</span>
+                          <p>El pájaro brujo, conocido también como atrapamoscas bermellón, es un ave pequeña de América Latina, famosa por el llamativo plumaje rojo intenso de los machos. Habita en áreas abiertas, bordes de bosques y zonas semiáridas, donde se alimenta de insectos que captura en pleno vuelo.<br><br>Durante el cortejo, los machos realizan espectaculares vuelos acrobáticos para atraer a las hembras. Esta especie es altamente territorial, protegiendo su nido con gran valentía.  </p>
+                          <span>Vel Max: 40km/h</span>
+                          <span>Incubación: 2 sem</span>
+                          <span class="last-span">Vida: 8 años</span>
                         </div>
                       </div>
                     </li>
@@ -281,10 +281,10 @@ https://templatemo.com/tm-573-eduwell
                         </div>
                         <div class="right-content">
                           <h4>Pygochelidon cyanoleuca</h4>
-                          <p>Quinoa roof party squid prism sustainable letterpress cray hammock tumeric man bun mixtape tofu subway tile cronut. Deep v ennui subway tile organic seitan.<br><br>Kogi VHS freegan bicycle rights try-hard green juice probably haven't heard of them cliche la croix af chillwave.</p>
-                          <span>28 Hours</span>
-                          <span>4 Weeks</span>
-                          <span class="last-span">1 Certificate</span>
+                          <p>La golondrina aliblanca es un ave pequeña y ágil, conocida por su plumaje azul metálico en el dorso y alas negras, con un vientre blanco puro. Se encuentra en áreas abiertas, bosques y zonas urbanas, donde construye nidos en cavidades o estructuras humanas<br>Es una especie migratoria que recorre largas distancias, cazando insectos al vuelo con gran destreza. Su vuelo rápido y su capacidad de adaptación la convierten en una vista común y apreciada.</br></p>
+                          <span>Vel Max: 50km/h</span>
+                          <span>Incubación: 2 sem</span>
+                          <span class="last-span">Vida: 6 años</span>
                         </div>
                       </div>
                     </li>
@@ -296,10 +296,10 @@ https://templatemo.com/tm-573-eduwell
                         </div>
                         <div class="right-content">
                           <h4>Zonotrichia capensis</h4>
-                          <p>Quinoa roof party squid prism sustainable letterpress cray hammock tumeric man bun mixtape tofu subway tile cronut. Deep v ennui subway tile organic seitan.<br><br>Kogi VHS freegan bicycle rights try-hard green juice probably haven't heard of them cliche la croix af chillwave.</p>
-                          <span>48 Hours</span>
-                          <span>4 Weeks</span>
-                          <span class="last-span">2 Certificates</span>
+                          <p>El gorrión ruficollarejo es un ave pequeña y muy adaptable, conocida por su distintivo parche anaranjado en el cuello, franjas negras y blancas en la cabeza, y su cuerpo de tonos marrones y beige. Es común en campos abiertos, zonas rurales y áreas urbanas, donde emite su canto melodioso y repetitivo. <br>Se alimenta principalmente de semillas, insectos pequeños y frutos. Su capacidad para adaptarse a diversos hábitats lo convierte en uno de los pájaros más vistos en América Latina.</br></p>
+                          <span>Vel Max: 55km/h</span>
+                          <span>Incubación: 2 sem</span>
+                          <span class="last-span">Vida: 15 años</span>
                         </div>
                       </div>
                       </li>
