@@ -238,7 +238,19 @@ section {
 .section-heading p {
   margin-top: 30px;
 }
+.left-image {
+  border-radius: 20px; /* Redondeo de las esquinas del contenedor */
+  overflow: hidden; /* Asegura que la imagen no sobresalga de las esquinas */
+  width: 150%; /* Ajusta el ancho del contenedor */
+  height: auto; /* Mantén la proporción del contenedor */
+}
 
+.left-image img {
+  border-radius: 20px; /* Redondeo adicional para la imagen */
+  width: 325px; /* Ajusta el tamaño de la imagen al contenedor */
+  height: auto; /* Mantén la proporción de la imagen */
+  display: block; /* Elimina espacios blancos debajo de la imagen */
+}
 
 /* 
 ---------------------------------------------
@@ -926,10 +938,7 @@ section.our-courses ul.nacc li .left-image {
 section.our-courses ul.nacc li .left-image img {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
-  width: 320px; /* Ajusta el ancho */
-  height: auto; /* Mantén las proporciones */
 }
-
 
 section.our-courses ul.nacc li .left-image .price h6 {
   position: absolute;

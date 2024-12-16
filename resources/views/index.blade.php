@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
     <title>Birdly</title>
+    <link rel="icon" href="../../public/images/avelogo.png" type="image/x-icon">
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -46,19 +47,19 @@ https://templatemo.com/tm-573-eduwell
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="#services">Services</a></li>
-                          <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+                          <li class="scroll-to-section"><a href="#top" class="active">Inicio</a></li>
+                          <li class="scroll-to-section"><a href="#courses">Aves</a></li>
                           <li class="has-sub">
-                              <a href="javascript:void(0)">Pages</a>
+                              <a href="javascript:void(0)">Mas sobre Nosotrs</a>
                               <ul class="sub-menu">
-                                  <li><a href="../views/about-us.blade.php ">About Us</a></li>
-                                  <li><a href="../views/our-services.blade.php">Our Services</a></li>
-                                  <li><a href="../views/contact-us.blade.php">Contact Us</a></li>
+                                  <li><a href="../views/about-us.blade.php ">Sobre nosotros</a></li>
+                                  <li><a href="../views/our-services.blade.php">Tienda</a></li>
+                                  <li><a href="../views/contact-us.blade.php">Contactanos</a></li>
                               </ul>
                           </li>
-                          <li class="scroll-to-section"><a href="#testimonials">Testimonials</a></li> 
-                          <li class="scroll-to-section"><a href="#contact-section">Contact Us</a></li> 
+                          <li class="scroll-to-section"><a href="#testimonials">Comentarios</a></li> 
+                          <li class="scroll-to-section"><a href="#contact-section">Contactanos</a></li>
+                          <li><a href="../views/login.blade.php">Iniciar Sesión</a></li> 
                       </ul>        
                       <a class='menu-trigger'>
                           <span>Menu</span>
@@ -78,146 +79,21 @@ https://templatemo.com/tm-573-eduwell
         <div class="col-lg-6 align-self-center">
           <div class="header-text">
             <h6>Bienvenido a Birdly</h6>
-            <h2>El mejor lugar para registro y consulta de <em>Aves!</em></h2>
+            <h2>El mejor lugar para que tus sueños <em>Vuelen!</em></h2>
             <div class="main-button-gradient">
-              <div class="scroll-to-section"><a href="#contact-section">Join Us Now!</a></div>
+              <div class="scroll-to-section"><a href="#contact-section">Contactanos!</a></div>
             </div>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="right-image">
-            <img src="../../public/images/avelogo.png" alt="">
+            <img src="../../public/images/portada.png" alt="">
           </div>
         </div>
       </div>
     </div>
   </section>
   <!-- ***** Main Banner Area End ***** -->
-
-  <section class="services" id="services">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="section-heading">
-            <h6>Our Services</h6>
-            <h4>Provided <em>Services</em></h4>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="owl-service-item owl-carousel">
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-01.png" alt="">
-                </div>
-                <h4>Useful Tricks</h4>
-                <p>EduWell is the professional HTML5 template for your school or university websites.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-02.png" alt="">
-                </div>
-                <h4>Creative Ideas</h4>
-                <p>You can download and use this EduWell Template for your teaching and learning stuffs.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-03.png" alt="">
-                </div>
-                <h4>Ready Target</h4>
-                <p>Please tell your friends about the best CSS template website that is TemplateMo.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-04.png" alt="">
-                </div>
-                <h4>Technology</h4>
-                <p>Aenean bibendum consectetur ex eu porttitor. Pellentesque id ultrices metus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-01.png" alt="">
-                </div>
-                <h4>Useful Tricks</h4>
-                <p>In non nisi eget magna efficitur ultricies non quis sapien. Pellentesque tellus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-02.png" alt="">
-                </div>
-                <h4>Creative Ideas</h4>
-                <p>Aenean bibendum consectetur ex eu porttitor. Pellentesque id ultrices metus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-03.png" alt="">
-                </div>
-                <h4>Ready Target</h4>
-                <p>In non nisi eget magna efficitur ultricies non quis sapien. Pellentesque tellus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-04.png" alt="">
-                </div>
-                <h4>Technology</h4>
-                <p>Aenean bibendum consectetur ex eu porttitor. Pellentesque id ultrices metus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-01.png" alt="">
-                </div>
-                <h4>Useful Tricks</h4>
-                <p>In non nisi eget magna efficitur ultricies non quis sapien. Pellentesque tellus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-02.png" alt="">
-                </div>
-                <h4>Creative Ideas</h4>
-                <p>Aenean bibendum consectetur ex eu porttitor. Pellentesque id ultrices metus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-03.png" alt="">
-                </div>
-                <h4>Ready Target</h4>
-                <p>In non nisi eget magna efficitur ultricies non quis sapien. Pellentesque tellus.</p>
-              </div>
-            </div>
-            <div class="item">
-              <div class="service-item">
-                <div class="icon">
-                  <img src="../../public/images/service-icon-04.png" alt="">
-                </div>
-                <h4>Technology</h4>
-                <p>Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="our-courses" id="courses">
     <div class="container">
@@ -318,15 +194,15 @@ https://templatemo.com/tm-573-eduwell
       <div class="row">
         <div class="col-lg-5 offset-lg-1">
           <div class="left-image">
-            <img src="../../public/images/cta-left-image.png" alt="">
+            <img src="../../public/images/promo.png" alt="">
           </div>
         </div>
         <div class="col-lg-5 align-self-center">
-          <h6>Get the sale right now!</h6>
-          <h4>Up to 50% OFF For 1+ courses</h4>
-          <p>Kogi VHS freegan bicycle rights try-hard green juice probably haven't heard of them cliche la croix af chillwave.</p>
-          <div class="white-button">
-            <a href="contact-us.html">View Courses</a>
+          <h6>¡Compra productos amigables con las aves!</h6>
+            <h4>Hasta 50% de descuento en productos ecológicos</h4>
+            <p>Adquiere comederos, cajas nido y semillas sostenibles para atraer aves a tu jardín. Todos nuestros productos están diseñados pensando en el bienestar de las aves y el medio ambiente.</p>
+            <div class="white-button">
+            <a href="shop.html">Ver Productos</a>
           </div>
         </div>
       </div>
@@ -338,58 +214,58 @@ https://templatemo.com/tm-573-eduwell
       <div class="row">
         <div class="col-lg-12">
           <div class="section-heading">
-            <h6>Testimonials</h6>
-            <h4>What They <em>Think</em></h4>
+            <h6>Comentarios</h6>
+            <h4>Agradecemos tu <em>Opinión</em></h4>
           </div>
         </div>
         <div class="col-lg-12">
           <div class="owl-testimonials owl-carousel" style="position: relative; z-index: 5;">
             <div class="item">
-              <p>“just think about TemplateMo if you need free CSS templates for your website”</p>
-                <h4>Catherine Walk</h4>
-                <span>CEO &amp; Founder</span>
+              <p>“La página es increíblemente fácil de usar, y los productos de temática de aves son hermosos. Definitivamente la recomendaré.”</p>
+                <h4>Sofía Pérez</h4>
+                <span>Amante de la naturaleza</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“think about our website first when you need free HTML templates for your website”</p>
-                <h4>David Martin</h4>
-                <span>CTO of Tech Company</span>
+              <p>“Me encanta cómo todo está organizado. Pude encontrar exactamente lo que buscaba en cuestión de minutos.”</p>
+                <h4>Javier López</h4>
+                <span>Fotógrafo de aves</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“just think about our website wherever you need free templates for your website”</p>
-                <h4>Sophia Whity</h4>
-                <span>CEO and Co-Founder</span>
+              <p>“Las guías de aves y los cursos online son espectaculares. Estoy aprendiendo mucho sobre identificación de especies.”</p>
+                <h4>Ana Morales</h4>
+                <span>Bióloga</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.”</p>
-                <h4>Helen Shiny</h4>
-                <span>Tech Officer</span>
+              <p>“Los productos que ofrecen son de excelente calidad. ¡Las tazas con diseños de aves son mis favoritas!”</p>
+                <h4>Carlos Méndez</h4>
+                <span>Diseñador gráfico</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.”</p>
-                <h4>George Soft</h4>
-                <span>Gadget Reviewer</span>
+              <p>“Es un recurso fantástico para quienes disfrutamos de la observación de aves. La galería fotográfica es impresionante.”</p>
+                <h4>Laura Rodríguez</h4>
+                <span>Ornitóloga amateur</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.”</p>
-                <h4>Andrew Hall</h4>
-                <span>Marketing Manager</span>
+              <p>“Gracias a esta página, descubrí rutas locales para avistar aves que ni siquiera sabía que existían. ¡Excelente trabajo!”</p>
+                <h4>Andrés Torres</h4>
+                <span>Explorador y guía turístico</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.”</p>
-                <h4>Maxi Power</h4>
-                <span>Fashion Designer</span>
+              <p>“La sección de noticias y eventos es perfecta para mantenerme informado sobre conservación y actividades relacionadas”</p>
+                <h4>Marcela Ríos</h4>
+                <span>Voluntaria ambiental</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
             <div class="item">
-              <p>“Praesent accumsan condimentum arcu, id porttitor est semper nec. Nunc diam lorem.”</p>
-                <h4>Olivia Too</h4>
-                <span>Creative Designer</span>
+              <p>“¡Qué sorpresa tan agradable encontrar productos ecológicos aquí! Las cajas nido son de gran calidad y diseño.”</p>
+                <h4>Fernanda González</h4>
+                <span>Ecologista</span>
                 <img src="../../public/images/quote.png" alt="">
             </div>
           </div>
@@ -405,14 +281,14 @@ https://templatemo.com/tm-573-eduwell
           <div id="map">
           
             <!-- You just need to go to Google Maps for your own map point, and copy the embed code from Share -> Embed a map section -->
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7151.84524236698!2d-122.19494600413192!3d47.56605883252286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490695e625f8965%3A0xf99b055e76477def!2sNewcastle%20Beach%20Park%20Playground%2C%20Bellevue%2C%20WA%2098006%2C%20USA!5e0!3m2!1sen!2sth!4v1644335269264!5m2!1sen!2sth" width="100%" height="420px" frameborder="0" style="border:0; border-radius: 15px; position: relative; z-index: 2;" allowfullscreen=""></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127671.7820488545!2d-78.27055956261522!3d0.35161893238449426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e2a3ca1785b375d%3A0x85703f133e056adb!2sIbarra!5e0!3m2!1ses-419!2sec!4v1718475421896!5m2!1ses-419!2sec" width="100%" height="420px" frameborder="0" style="border:0; border-radius: 15px; position: relative; z-index: 2;" allowfullscreen=""></iframe>
             <div class="row">
               <div class="col-lg-4 offset-lg-1">
                 <div class="contact-info">
                   <div class="icon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <h4>Phone</h4>
+                  <h4>Teléfono</h4>
                   <span>010-020-0340</span>
                 </div>
               </div>
@@ -421,7 +297,7 @@ https://templatemo.com/tm-573-eduwell
                   <div class="icon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <h4>Mobile</h4>
+                  <h4>Celular</h4>
                   <span>090-080-0760</span>
                 </div>
               </div>
@@ -433,29 +309,29 @@ https://templatemo.com/tm-573-eduwell
             <div class="row">
               <div class="col-lg-12">
                 <div class="section-heading">
-                  <h6>Contact us</h6>
-                  <h4>Say <em>Hello</em></h4>
-                  <p>IF you need a working contact form by PHP script, please visit TemplateMo's contact page for more info.</p>
+                  <h6>Contactanos</h6>
+                  <h4>Saludanos con un <em>Hola!</em></h4>
+                  <p>Si alguna vez tienes problemas con nuestra pagina o servicio, háznoslo saber.<br>Estaremos encantados de ayudarte!</br></p>
                 </div>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <input type="name" name="name" id="name" placeholder="Full Name" autocomplete="on" required>
+                  <input type="name" name="name" id="name" placeholder="Nombre Completo" autocomplete="on" required>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
+                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Correo" required="">
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <textarea name="message" id="message" placeholder="Your Message"></textarea>
+                  <textarea name="message" id="message" placeholder="Saludanos!"></textarea>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <button type="submit" id="form-submit" class="main-gradient-button">Send Message</button>
+                  <button type="submit" id="form-submit" class="main-gradient-button">Enviar Mensaje</button>
                 </fieldset>
               </div>
             </div>
@@ -471,9 +347,9 @@ https://templatemo.com/tm-573-eduwell
           </ul>
         </div>
         <div class="col-lg-12">
-          <p class="copyright">Copyright © 2022 EduWell Co., Ltd. All Rights Reserved. 
+          <p class="copyright">Copyright © 2024 Universidad Técnica del Norte., Todos los derechos reservados. 
           
-          <br>Design: <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+          <br>Diseñado por: Rocha Mateo, Bolaños Nathaly, Ipales Juan, Requene Jorge </a></p>
         </div>
       </div>
     </div>
