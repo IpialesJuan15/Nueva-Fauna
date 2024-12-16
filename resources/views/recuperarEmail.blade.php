@@ -19,30 +19,30 @@
 </head>
 
 <body>
-<div class="d-flex justify-content-center align-items-center vh-100" 
-     style="background-image: url('../imagenes/imag3.jpg'); background-size: cover; background-position: center; 
+    <div class="d-flex justify-content-center align-items-center vh-100"
+        style="background-image: url('../../public/images/imag3.jpg'); background-size: cover; background-position: center; 
             background-color: rgba(0, 0, 0, 0.5); background-blend-mode: overlay;">
-    <div class="card text-center shadow-lg" style="width: 350px; border-radius: 10px; background-color: rgba(255, 255, 255, 0.9);">
-        <div class="card-header h5 text-white" style="background-color: #4285f4; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-            Restablecer contraseña
-        </div>
-        <div class="card-body px-4">
-            <p class="card-text py-3">
-                Ingrese su dirección de correo electrónico y le enviaremos un correo electrónico con instrucciones para restablecer su contraseña.
-            </p>
-            <div class="form-outline">
-                <input type="email" id="typeEmail" class="form-control my-3" placeholder="E-mail" />
+        <div class="card text-center shadow-lg" style="width: 350px; border-radius: 10px; background-color: rgba(255, 255, 255, 0.9);">
+            <div class="card-header h5 text-white" style="background-color: #4285f4; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                Restablecer contraseña
             </div>
-            <a href="#" class="btn btn-primary btn-block w-100 btn-hover" style="background-color: #4285f4; border: none; border-radius: 5px;">
-                RESTABLECER CONTRASEÑA
-            </a>
-            <div class="d-flex justify-content-between mt-4">
-                <a href="login.blade.php" style="color: #4285f4; text-decoration: none;">Acceso</a>
-                <a href="#" style="color: #4285f4; text-decoration: none;">Registro</a>
+            <div class="card-body px-4">
+                <p class="card-text py-3">
+                    Ingrese su dirección de correo electrónico y le enviaremos un correo electrónico con instrucciones para restablecer su contraseña.
+                </p>
+                <div class="form-outline">
+                    <input type="email" id="typeEmail" class="form-control my-3" placeholder="E-mail" />
+                </div>
+                <a href="#" class="btn btn-primary btn-block w-100 btn-hover" style="background-color: #4285f4; border: none; border-radius: 5px;">
+                    RESTABLECER CONTRASEÑA
+                </a>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="login.blade.php" style="color: #4285f4; text-decoration: none;">Acceso</a>
+                    <a href="#" style="color: #4285f4; text-decoration: none;">Registro</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

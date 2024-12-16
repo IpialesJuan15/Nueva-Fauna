@@ -29,7 +29,7 @@
                             <!-- Imagen -->
                             <div class="col-12 col-md-6">
                                 <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
-                                    src="../imagenes/imag5.jpg"
+                                    src="../../public/images/imag5.jpg"
                                     alt="Welcome back you've been missed!" loading="lazy">
                             </div>
 
