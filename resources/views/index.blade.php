@@ -121,7 +121,7 @@ https://templatemo.com/tm-573-eduwell
                     <li class="active">
                       <div>
                         <div class="left-image">
-                          <img src="../../public/images/tortola.png" alt="">
+                          <img src="../../public/images/zenaida.png" alt="">
                           <div class="price"><h6>#1</h6></div>
                         </div>
                         <div class="right-content">
