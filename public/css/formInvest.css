@@ -1,0 +1,245 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #d4edda; /* Fondo general en tono verde claro */
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #28a745; /* Verde oscuro */
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation Menu */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #28a745; /* Verde */
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #218838; /* Verde más oscuro */
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Sections */
+.content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.content h2 {
+    text-align: center;
+    color: #28a745;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+/* Formulario de Registro */
+.registro-contenedor {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.registro-izquierda, .registro-derecha {
+    width: 48%; /* Ancho de cada columna */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Contenedor del Mapa */
+#map {
+    height: 300px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+form input, form textarea, form button, form select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    background-color: #28a745; /* Verde */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #218838; /* Verde más oscuro */
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+table th {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botones en Tablas */
+table button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+
+table button:hover {
+    opacity: 0.9;
+}
+
+table button:first-child {
+    background-color: #28a745; /* Verde para Enviar Revisión */
+    color: white;
+}
+
+table button:last-child {
+    background-color: #dc3545; /* Rojo para Eliminar */
+    color: white;
+}
+
+/* Imágenes */
+img {
+    border-radius: 5px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .registro-contenedor {
+        flex-direction: column;
+    }
+
+    .registro-izquierda, .registro-derecha {
+        width: 100%; /* Apilan las columnas */
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    form input, form textarea, form button, form select {
+        font-size: 12px;
+    }
+
+    table th, table td {
+        font-size: 12px;
+    }
+}
+
+/* Animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
