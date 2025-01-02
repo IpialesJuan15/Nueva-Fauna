@@ -1,0 +1,536 @@
+/* Reset global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #4CAF50;
+    --color-secondary: #C8E6C9;
+    --color-dark: #2E7D32;
+    --color-background: #F5F9F4;
+    --color-white: #FFFFFF;
+    --color-text: #333;
+    --color-grey: #666;
+
+    --font-main: 'Poppins', sans-serif;
+    --header-height: 60px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--color-background);
+    color: var(--color-text);
+    padding-top: var(--header-height); /* para dejar espacio al header fijo */
+    overflow-x: hidden;
+}
+
+/* Header principal */
+header {
+    background: linear-gradient(90deg, var(--color-dark) 0%, #3c9f40 100%);
+    color: var(--color-white);
+    position: fixed;
+    top: 0; left:0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand i {
+    font-size: 20px;
+}
+
+.brand h1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: var(--color-secondary);
+}
+
+/* Sección de control (búsqueda, filtros, stats) */
+.control-section {
+    background: var(--color-white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 15px 20px;
+}
+
+.search-filter-stats {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar input {
+    padding: 8px 12px;
+    border: 2px solid var(--color-primary);
+    border-radius: 20px;
+    font-size: 14px;
+    width: 200px;
+    transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+    border-color: var(--color-dark);
+    outline: none;
+}
+
+.search-bar button {
+    background: var(--color-primary);
+    border: none;
+    color: var(--color-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-bar button:hover {
+    background: var(--color-dark);
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filter select, .filter input {
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.filter select:focus, .filter input:focus {
+    border-color: var(--color-dark);
+    outline: none;
+}
+
+.filter button {
+    background: var(--color-primary);
+    border: none;
+    color: var(--color-white);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter button:hover {
+    background: var(--color-dark);
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-item {
+    background: var(--color-secondary);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-item p {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--color-dark);
+}
+
+.stat-item span {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Layout principal */
+main {
+    max-width: 1200px;
+    margin: 20px auto 40px auto;
+    padding: 0 20px;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.map-section, .species-section {
+    flex: 1 1 500px;
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+}
+
+.map-section h3, .species-section h3 {
+    margin-bottom: 15px;
+    color: var(--color-dark);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#map {
+    flex: 1;
+    border-radius: 10px;
+    min-height: 350px;
+}
+
+/* Tarjetas de Especies */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 5px;
+}
+
+.card-container::-webkit-scrollbar {
+    width: 6px;
+}
+.card-container::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 3px;
+}
+
+.card {
+    background: var(--color-white);
+    width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 10px;
+    text-align: center;
+}
+
+.card-content h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: 5px;
+}
+
+.card-content p {
+    font-size: 11px;
+    color: var(--color-grey);
+    margin-bottom: 8px;
+}
+
+.card-content .btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+    text-decoration: none;
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 20px;
+    transition: background 0.3s;
+    display: inline-block;
+}
+.card-content .btn:hover {
+    background: var(--color-dark);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background: var(--color-dark);
+    color: var(--color-white);
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filter, .search-filter-stats {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-filter-stats {
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .brand h1 {
+        font-size: 16px;
+    }
+
+    #map {
+        min-height: 300px;
+    }
+}
+
+
+/* Estilos para el reporte */
+.report-body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    margin:0;
+    padding:0;
+}
+
+.report-header {
+    background: linear-gradient(90deg, var(--color-dark) 0%, #3c9f40 100%);
+    color: var(--color-white);
+    position: fixed;
+    top: 0; left:0;
+    width: 100%;
+    height: 60px;
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.report-footer {
+    text-align: center;
+    padding: 15px 0;
+    background: var(--color-dark);
+    color: var(--color-white);
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.report-main {
+    max-width: 800px;
+    margin: 80px auto 20px auto; /* espacio para header fijo */
+    padding: 20px;
+    background: transparent;
+}
+
+.report-container {
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    padding: 30px;
+    text-align: center;
+}
+
+.report-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: 20px;
+}
+
+.report-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.report-details {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.report-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.report-info-list li {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.report-info-list li strong {
+    color: var(--color-dark);
+    margin-right: 5px;
+}
+
+.report-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.action-btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 10px;
+    transition: background 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-btn:hover {
+    background: var(--color-dark);
+}
+
+.report-header .header-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.report-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-header .brand i {
+    font-size: 20px;
+}
+
+.report-header .brand h1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.report-header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.report-header nav ul li a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.report-header nav ul li a:hover {
+    color: var(--color-secondary);
+}
+/* Contenedor centrado para el botón de informe conjunto */
+.combined-report-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilo personalizado para el botón "Generar Informe Conjunto" */
+.combined-report-btn {
+    background: linear-gradient(45deg, #2E7D32, #4CAF50);
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.combined-report-btn:hover {
+    background: #2E7D32;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
