@@ -24,3 +24,7 @@ Route::get('/', function () {
 Route::get('/taxonomo', function () {
     return view('taxonomo');
 })->name('taxonomo');
+
+Route::get('/home', function () {
+    return view('home');
+});
