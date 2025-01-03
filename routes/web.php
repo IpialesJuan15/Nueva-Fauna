@@ -20,3 +20,7 @@ Route::get('/report', function () {
 Route::get('/', function () {
     return view('welcome'); // Esto carga el archivo resources/views/welcome.blade.php
 });
+
+Route::get('/taxonomo', function () {
+    return view('taxonomo');
+})->name('taxonomo');
