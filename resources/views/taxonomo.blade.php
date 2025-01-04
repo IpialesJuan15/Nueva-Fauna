@@ -22,11 +22,19 @@
         <nav class="navbar">
             <div class="logo">Taxonomía</div>
             <ul class="menu">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Registros</a></li>
-                <li><a href="#" id="notification-trigger">Notificaciones</a></li>
-                <li><a href="#">Cerrar Sesión</a></li>
-            </ul>
+    <!-- Enlace a la página de inicio -->
+    <li><a href="{{ route('home') }}">Inicio</a></li>
+    
+    <!-- Enlace a la página de registros -->
+    <li><a href="{{ route('registros') }}">Registros</a></li>
+    
+    <!-- Enlace para notificaciones -->
+    <li><a href="#" id="notification-trigger">Notificaciones</a></li>
+    
+    <!-- Enlace para cerrar sesión -->
+    <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
+</ul>
+
         </nav>
     </header>
 

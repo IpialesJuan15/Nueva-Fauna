@@ -2,12 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>Inicio de Sesión</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
     <link
@@ -15,7 +13,7 @@
         rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="../css/recuperarEmail.css">
+    <link rel="stylesheet" href="{{ asset('css/recuperarEmail.css') }}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
 
@@ -28,8 +26,8 @@
                         <div class="row g-0">
                             <!-- Imagen -->
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="../../public/images/imag2.jpg"
-                                    alt="login form" class="img-fluid"
+                                <img src="{{ asset('images/imag2.jpg') }}"
+                                    alt="Formulario de inicio de sesión" class="img-fluid"
                                     style="border-radius: 1rem 0 0 1rem; object-fit: cover; height: 100%;">
                             </div>
 
@@ -66,10 +64,10 @@
                                         </div>
 
                                         <!-- Links -->
-                                        <a class="small text-muted" href="recuperarEmail.blade.php">¿Olvidó su contraseña?</a>
+                                        <a class="small text-muted" href="{{ route('recuperarEmail') }}">¿Olvidó su contraseña?</a>
                                         <p class="mb-5 pb-lg-2" style="color: #00A86B;">
                                             ¿No tienes una cuenta?
-                                            <a href="register.blade.php" style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
+                                            <a href="{{ route('register') }}" style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
                                         </p>
                                         <a href="#!" class="small text-muted">Términos de uso</a>
                                         <a href="#!" class="small text-muted">Política de privacidad</a>
