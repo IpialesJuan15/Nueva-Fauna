@@ -11,6 +11,22 @@ Route::get('/observador', function () {
     return view('observador'); // Asegúrate de que el archivo observador.blade.php exista en resources/views
 });
 
+Route::get('/FormInvest', function () {
+    return view('FormInvest');
+});
+
+Route::get('/login', function () {
+    return view('login');
+});
+
+Route::get('/register', function () {
+    return view('register');
+});
+
+Route::get('/recuperarEmail', function () {
+    return view('recuperarEmail');
+});
+
 // Ruta para la página Report
 Route::get('/report', function () {
     return view('report'); // Esto carga el archivo resources/views/report.blade.php
