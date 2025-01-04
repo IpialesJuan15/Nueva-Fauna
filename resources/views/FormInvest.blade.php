@@ -15,7 +15,8 @@
         rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="../../public/css/formInvest.css">
+    <link rel="stylesheet" href="{{ asset('css/formInvest.css') }}" />
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -143,7 +144,7 @@
         </section>
     </main>
 
-    <script src="../../public/js/formInvest.js"></script>
+    <script src="{{ asset('js/formInvest.js') }}"></script>
     <!-- Bootstrap JavaScript Libraries -->
     <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
