@@ -29,7 +29,7 @@
                             <!-- Imagen -->
                             <div class="col-12 col-md-6">
                                 <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
-                                    src="../../public/images/imag5.jpg"
+                                    src="{{ asset('images/imag5.jpg') }}"
                                     alt="Welcome back you've been missed!" loading="lazy">
                             </div>
 
@@ -92,7 +92,7 @@
                                         </form>
                                         <!-- Enlace de inicio de sesión -->
                                         <p class="mt-4 text-center" style="color: #5f794e;">
-                                            ¿Ya tienes una cuenta? <a href="login.blade.php" class="link-primary text-decoration-none">Iniciar sesión</a>
+                                            ¿Ya tienes una cuenta? <a href="{{ url('/login') }}" class="link-primary text-decoration-none">Iniciar sesión</a>
                                         </p>
                                     </div>
                                 </div>

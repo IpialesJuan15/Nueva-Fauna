@@ -20,7 +20,7 @@
 
 <body>
     <div class="d-flex justify-content-center align-items-center vh-100"
-        style="background-image: url('../../public/images/imag3.jpg'); background-size: cover; background-position: center; 
+        style="background-image: url('{{ asset('images/imag3.jpg') }}'); background-size: cover; background-position: center; 
             background-color: rgba(0, 0, 0, 0.5); background-blend-mode: overlay;">
         <div class="card text-center shadow-lg" style="width: 350px; border-radius: 10px; background-color: rgba(255, 255, 255, 0.9);">
             <div class="card-header h5 text-white" style="background-color: #4285f4; border-top-left-radius: 10px; border-top-right-radius: 10px;">
@@ -37,8 +37,8 @@
                     RESTABLECER CONTRASEÑA
                 </a>
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="login.blade.php" style="color: #4285f4; text-decoration: none;">Acceso</a>
-                    <a href="#" style="color: #4285f4; text-decoration: none;">Registro</a>
+                    <a href="{{ url('/login') }}" style="color: #4285f4; text-decoration: none;">Acceso</a>
+                    <a href="{{ url('/register') }}" style="color: #4285f4; text-decoration: none;">Registro</a>
                 </div>
             </div>
         </div>

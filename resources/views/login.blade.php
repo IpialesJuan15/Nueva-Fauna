@@ -27,7 +27,7 @@
                         <div class="row g-0">
                             <!-- Imagen -->
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="../../public/images/imag2.jpg"
+                                <img src="{{ asset('images/imag2.jpg') }}"
                                     alt="login form" class="img-fluid"
                                     style="border-radius: 1rem 0 0 1rem; object-fit: cover; height: 100%;">
                             </div>
@@ -65,10 +65,10 @@
                                         </div>
 
                                         <!-- Links -->
-                                        <a class="small text-muted" href="recuperarEmail.blade.php">¿Olvidó su contraseña?</a>
+                                        <a class="small text-muted" href="{{ url('/recuperarEmail') }}">¿Olvidó su contraseña?</a>
                                         <p class="mb-5 pb-lg-2" style="color: #00A86B;">
                                             ¿No tienes una cuenta?
-                                            <a href="register.blade.php" style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
+                                            <a href="{{ url('/register') }}" style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
                                         </p>
                                         <a href="#!" class="small text-muted">Términos de uso</a>
                                         <a href="#!" class="small text-muted">Política de privacidad</a>
