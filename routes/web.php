@@ -34,7 +34,7 @@ Route::get('/report', function () {
 
 // Ruta principal de prueba
 Route::get('/', function () {
-    return "HOLA MUDO"; // Esto carga el archivo resources/views/welcome.blade.php
+    return "HOLA MUNDO"; // Esto carga el archivo resources/views/welcome.blade.php
 });
 
 Route::get('/taxonomo', function () {
