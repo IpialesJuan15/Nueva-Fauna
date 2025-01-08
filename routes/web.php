@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsuarioController;
 
 Route::get('/report', function () {
     return view('report');
@@ -22,6 +23,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register');
 });
+Route::post('/register', [UsuarioController::class, 'registrar']);
 
 Route::get('/recuperarEmail', function () {
     return view('recuperarEmail');
