@@ -24,6 +24,8 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::post('/register', [UsuarioController::class, 'registrar']);
+
 
 Route::get('/recuperarEmail', function () {
     return view('recuperarEmail');
