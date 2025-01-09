@@ -36,14 +36,29 @@
                                         <div class="text-center mb-4">
                                             <h2 class="h4 fw-bold" style="color: #5f794e;">Registro</h2>
                                         </div>
+                                        @if (session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <form action="{{ url('/register') }}" method="POST">
                                             @csrf
                                             <div class="row gy-3">
                                                 <!-- Nombre -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="text" name="user_nombre" class="form-control" id="firstName"
-                                                            placeholder="Nombre" required
+                                                        <input type="text" name="user_nombre" class="form-control"
+                                                            id="firstName" placeholder="Nombre" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="firstName" class="form-label"
                                                             style="color: #5f794e;">Nombre</label>
@@ -52,8 +67,8 @@
                                                 <!-- Apellido -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="text" name="user_apellido" class="form-control" id="lastName"
-                                                            placeholder="Apellido" required
+                                                        <input type="text" name="user_apellido" class="form-control"
+                                                            id="lastName" placeholder="Apellido" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="lastName" class="form-label"
                                                             style="color: #5f794e;">Apellido</label>
@@ -62,8 +77,8 @@
                                                 <!-- Email -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="email" name="user_email" class="form-control" id="email"
-                                                            placeholder="Email" required
+                                                        <input type="email" name="user_email" class="form-control"
+                                                            id="email" placeholder="Email" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="email" class="form-label"
                                                             style="color: #5f794e;">Email</label>
@@ -72,8 +87,8 @@
                                                 <!-- Teléfono -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="text" name="user_telefono" class="form-control" id="phone"
-                                                            placeholder="Teléfono" required
+                                                        <input type="text" name="user_telefono" class="form-control"
+                                                            id="phone" placeholder="Teléfono" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="phone" class="form-label"
                                                             style="color: #5f794e;">Teléfono</label>
@@ -82,8 +97,8 @@
                                                 <!-- Password -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="password" name="user_password" class="form-control" id="password"
-                                                            placeholder="Password" required
+                                                        <input type="password" name="user_password" class="form-control"
+                                                            id="password" placeholder="Password" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="password" class="form-label"
                                                             style="color: #5f794e;">Password</label>
