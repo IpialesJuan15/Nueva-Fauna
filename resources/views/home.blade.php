@@ -28,8 +28,8 @@
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                 </button>
-                <a href="#login" class="btn btn-ghost">Acceder</a>
-                <a href="#registro" class="btn btn-primary">Crear una cuenta</a>
+                <a href="{{ url('/login') }}" class="btn btn-ghost">Acceder</a>
+                <a href="{{ url('/register') }}" class="btn btn-primary">Crear una cuenta</a>
             </div>
         </div>
     </nav>

@@ -32,7 +32,17 @@
                                 <div class="card-body p-4 p-lg-5 text-black">
 
                                     <!-- Título -->
-                                    <form action="{{ route('login.process') }}" method="POST">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    <form action="{{ url('/login') }}" method="POST">
                                         @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <i class="fas fa-leaf fa-2x me-3" style="color: #00A86B;"></i>
@@ -43,12 +53,6 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Inicia sesión en tu
                                             cuenta</h5>
 
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                {{ $errors->first() }}
-                                            </div>
-                                        @endif
-
                                         <!-- Campo Email -->
                                         <div class="form-outline mb-4">
                                             <input type="email" name="user_email" id="form2Example17"
@@ -57,7 +61,7 @@
 
                                         <!-- Campo Contraseña -->
                                         <div class="form-outline mb-4">
-                                            <input type="password" name="password" id="form2Example27"
+                                            <input type="password" name="password" id="password"
                                                 class="form-control form-control-lg"
                                                 placeholder="Ingresa tu contraseña" />
                                         </div>
