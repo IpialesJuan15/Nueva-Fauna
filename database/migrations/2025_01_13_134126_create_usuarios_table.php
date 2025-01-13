@@ -9,12 +9,12 @@ return new class extends Migration {
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id('user_id');
-            $table->unsignedBigInteger('tipus_id')->default(1); // USER por defecto
             $table->string('user_nombre', 50);
             $table->string('user_apellido', 50);
             $table->string('user_email', 35)->unique();
-            $table->string('user_password');
+            $table->string('password');
             $table->string('user_telefono', 10);
+            $table->unsignedBigInteger('tipus_id')->default(1); // USER por defecto
             $table->boolean('user_estado')->default(true);
             $table->timestamps();
 

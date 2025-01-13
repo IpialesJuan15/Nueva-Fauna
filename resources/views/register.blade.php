@@ -97,7 +97,7 @@
                                                 <!-- Password -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="password" name="user_password" class="form-control"
+                                                        <input type="password" name="password" class="form-control"
                                                             id="password" placeholder="Password" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="password" class="form-label"

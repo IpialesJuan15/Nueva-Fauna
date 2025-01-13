@@ -2,34 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
-
 use App\Http\Controllers\AuthController;
-
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
-
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// Rutas protegidas según el rol
-Route::middleware(['auth'])->group(function () {
-    Route::get('/observador', function () {
-        return view('observador');
-    })->name('observador');
+// Redirección según el rol
+Route::get('/observador', function () {
+    return view('observador');
+})->name('observador')->middleware('auth');
 
-    Route::get('/FormInvest', function () {
-        return view('FormInvest');
-    })->name('FormInvest');
+Route::get('/FormInvest', function () {
+    return view('FormInvest');
+})->name('FormInvest')->middleware('auth');
 
-    Route::get('/taxonomo', function () {
-        return view('taxonomo');
-    })->name('taxonomo');
-});
+Route::get('/taxonomo', function () {
+    return view('taxonomo');
+})->name('taxonomo')->middleware('auth');
+
+
 
 Route::get('/report', function () {
     return view('report');

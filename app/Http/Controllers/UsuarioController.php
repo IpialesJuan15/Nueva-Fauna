@@ -15,7 +15,7 @@ class UsuarioController extends Controller
             'user_nombre' => 'required|string|max:50',
             'user_apellido' => 'required|string|max:50',
             'user_email' => 'required|email|unique:usuarios,user_email',
-            'user_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6',
             'user_telefono' => 'nullable|string|max:10',
         ]);
 
@@ -25,7 +25,7 @@ class UsuarioController extends Controller
             'user_nombre' => $request->user_nombre,
             'user_apellido' => $request->user_apellido,
             'user_email' => $request->user_email,
-            'user_password' => Hash::make($request->user_password),
+            'password' => Hash::make($request->password),
             'user_telefono' => $request->user_telefono,
             'user_estado' => true,
         ]);
