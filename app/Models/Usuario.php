@@ -14,13 +14,13 @@ class Usuario extends Authenticatable
     protected $primaryKey = 'user_id';
 
     protected $fillable = [
-        'tipus_id', // Relación con tipos de usuario
         'user_nombre',
         'user_apellido',
         'user_email',
         'user_password',
         'user_telefono',
         'user_estado',
+        'tipus_id',
     ];
 
     protected $hidden = [
@@ -28,7 +28,7 @@ class Usuario extends Authenticatable
     ];
 
     /**
-     * Cifra la contraseña automáticamente antes de guardarla
+     * Mutador para cifrar la contraseña automáticamente
      */
     public function setUserPasswordAttribute($value)
     {
@@ -36,10 +36,10 @@ class Usuario extends Authenticatable
     }
 
     /**
-     * Relación con `tipos_usuarios`
+     * Relación con TiposUsuarios
      */
-    public function tiposUsuario()
+    public function tipoUsuario()
     {
-        return $this->belongsTo(TiposUsuario::class, 'tipus_id');
+        return $this->belongsTo(TiposUsuario::class, 'tipus_id', 'tipus_id');
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB; // IMPORTAR DB
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
     public function up(): void
@@ -16,9 +16,9 @@ return new class extends Migration {
 
         // Insertar los 3 tipos de usuario por defecto
         DB::table('tipos_usuarios')->insert([
-            ['tipus_detalles' => 'USER'],
-            ['tipus_detalles' => 'INVEST'],
-            ['tipus_detalles' => 'TAX'],
+            ['tipus_id' => 1, 'tipus_detalles' => 'USER'],
+            ['tipus_id' => 2, 'tipus_detalles' => 'INVEST'],
+            ['tipus_id' => 3, 'tipus_detalles' => 'TAX'],
         ]);
     }
 
