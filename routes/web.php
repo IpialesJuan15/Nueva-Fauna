@@ -25,7 +25,9 @@ Route::get('/taxonomo', function () {
     return view('taxonomo');
 })->name('taxonomo')->middleware('auth');
 
-
+Route::get('/home', function () {
+    return view('home');
+})->name('home')->middleware('auth');
 
 Route::get('/report', function () {
     return view('report');
