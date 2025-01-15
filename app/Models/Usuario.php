@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
-    protected $table = 'usuarios';
-    protected $primaryKey = 'user_id';
+    use HasFactory;
+
+    protected $table = 'usuarios'; // Nombre de la tabla
+    protected $primaryKey = 'user_id'; // Clave primaria
 
     protected $fillable = [
         'tipus_id',
@@ -20,6 +25,16 @@ class Usuario extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected $hidden = ['user_password']; // Ocultar la contraseña al serializar
+
+    public $timestamps = true;
+
+    // Mutador para cifrar automáticamente la contraseña
+    public function setUserPasswordAttribute($value)
+    {
+        $this->attributes['user_password'] = Hash::make($value);
+    }
 
     // Relación con TipoUsuario
     public function tipoUsuario()

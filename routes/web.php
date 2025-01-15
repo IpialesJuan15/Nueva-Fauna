@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/login', function () {
@@ -41,7 +41,7 @@ Route::get('/register', function () {
     return view('register');
 });
 
-//Route::post('/register', [UsuarioController::class, 'registrar']);
+Route::post('/register', [UserController::class, 'register']);
 
 
 Route::get('/recuperarEmail', function () {

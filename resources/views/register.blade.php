@@ -36,21 +36,7 @@
                                         <div class="text-center mb-4">
                                             <h2 class="h4 fw-bold" style="color: #5f794e;">Registro</h2>
                                         </div>
-                                        @if (session('success'))
-                                            <div class="alert alert-success">
-                                                {{ session('success') }}
-                                            </div>
-                                        @endif
-
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+                                    
                                         <form action="{{ url('/register') }}" method="POST">
                                             @csrf
                                             <div class="row gy-3">
@@ -100,8 +86,17 @@
                                                         <input type="password" name="password" class="form-control"
                                                             id="password" placeholder="Password" required
                                                             style="border: 1px solid #d3e0cf;">
-                                                        <label for="password" class="form-label"
+                                                        <label for="password"class="form-label"
                                                             style="color: #5f794e;">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        <input type="password" name="password_confirmation" class="form-control"
+                                                            id="password" placeholder="Password" required
+                                                            style="border: 1px solid #d3e0cf;">
+                                                        <label for="password_confirmation" class="form-label"
+                                                            style="color: #5f794e;">Confirmar Contraseña</label>
                                                     </div>
                                                 </div>
                                                 <!-- Checkbox -->
