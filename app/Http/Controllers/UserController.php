@@ -37,6 +37,6 @@ class UserController extends Controller
         ]);
 
         // Redirigir con un mensaje de éxito
-        return redirect('/login')->with('success', 'Usuario registrado con éxito.');
+        return redirect('/')->with('success', 'Usuario registrado con éxito.');
     }
 }
