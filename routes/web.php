@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EspecieController;
+
 
 Route::get('/login', function () {
     return view('login');
@@ -20,6 +22,13 @@ Route::get('/observador', function () {
 Route::get('/FormInvest', function () {
     return view('FormInvest');
 });
+
+
+
+Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
+Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
+Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
+
 
 Route::get('/taxonomo', function () {
     return view('taxonomo');
