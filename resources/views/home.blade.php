@@ -28,8 +28,13 @@
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                 </button>
+<<<<<<< HEAD
+                <a href="{{ route('login') }}" class="btn btn-ghost">Acceder</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">Crear una cuenta</a>
+=======
                 <a href="{{ url('/login') }}" class="btn btn-ghost">Acceder</a>
                 <a href="{{ url('/register') }}" class="btn btn-primary">Crear una cuenta</a>
+>>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
             </div>
         </div>
     </nav>
@@ -53,7 +58,7 @@
                     <h1>Conéctate con la naturaleza</h1>
                     <p>Explora y comparte tus observaciones de la naturaleza.</p>
                     <div class="hero-buttons">
-                        <button class="btn btn-white">REGÍSTRATE</button>
+                    <a href="{{ route('register') }}" class="btn btn-white">REGÍSTRATE</a>
                         <button class="btn btn-outline-white">EXPLORA</button>
                     </div>
                 </div>

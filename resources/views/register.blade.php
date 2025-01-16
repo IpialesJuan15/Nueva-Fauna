@@ -2,15 +2,22 @@
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>Registro</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
+<<<<<<< HEAD
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous" />
+=======
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
+>>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
 </head>
 
 <body>
@@ -24,8 +31,13 @@
                             <!-- Imagen -->
                             <div class="col-12 col-md-6">
                                 <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
+<<<<<<< HEAD
+                                    src="{{ asset('images/imag5.jpg') }}"
+                                    alt="Welcome back you've been missed!" loading="lazy">
+=======
                                     src="{{ asset('images/imag5.jpg') }}" alt="Welcome back you've been missed!"
                                     loading="lazy">
+>>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
                             </div>
 
                             <!-- Formulario -->
@@ -119,8 +131,12 @@
                                         </form>
                                         <!-- Enlace de inicio de sesión -->
                                         <p class="mt-4 text-center" style="color: #5f794e;">
+<<<<<<< HEAD
+                                            ¿Ya tienes una cuenta? <a href="{{ route('login') }}" class="link-primary text-decoration-none">Iniciar sesión</a>
+=======
                                             ¿Ya tienes una cuenta? <a href="{{ url('/login') }}"
                                                 class="link-primary text-decoration-none">Iniciar sesión</a>
+>>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
                                         </p>
                                     </div>
                                 </div>
@@ -134,12 +150,21 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+<<<<<<< HEAD
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4l1g+QkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+=======
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
+>>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
 </body>
 
 </html>
