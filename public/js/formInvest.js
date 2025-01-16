@@ -2,7 +2,77 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 
 let registros = []; // Almacena todos los registros ingresados
 let map, marker;
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar datos al inicializar
+    cargarDatos();
 
+    function cargarDatos() {
+        fetch('/especies', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('#tabla-datos tbody');
+                tbody.innerHTML = ''; // Limpiar tabla antes de agregar datos
+
+                data.forEach(especie => {
+                    const ubicacion = especie.ubicaciones[0];
+                    const imagen = especie.imagenes[0];
+                    const fila = document.createElement('tr');
+
+                    fila.innerHTML = `
+                        <td>${especie.esp_nombre_comun}</td>
+                        <td>${especie.genero.familia.reino.reino_nombre}</td>
+                        <td>${especie.genero.familia.fam_nombre}</td>
+                        <td>${especie.genero.gene_nombre}</td>
+                        <td>${especie.esp_nombre_cientifico}</td>
+                        <td>${ubicacion ? `${ubicacion.ubi_latitud}, ${ubicacion.ubi_longitud}` : 'N/A'}</td>
+                        <td>${especie.created_at ? new Date(especie.created_at).toLocaleDateString() : 'N/A'}</td>
+                        <td>
+                            ${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm" onclick="enviarRevision(${especie.esp_id})">Enviar Revisión</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
+                        </td>
+                    `;
+
+                    tbody.appendChild(fila);
+                });
+            })
+            .catch(error => console.error('Error al cargar los datos:', error));
+    }
+
+    // Función para enviar una especie a revisión
+    window.enviarRevision = function (id) {
+        alert(`Enviar a revisión el registro con ID: ${id}`);
+        // Aquí puedes implementar la lógica para enviar a revisión
+    };
+
+    // Función para eliminar un registro
+    window.eliminarRegistro = function (id) {
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            fetch(`/especies/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Registro eliminado con éxito.');
+                        cargarDatos(); // Recargar la tabla
+                    } else {
+                        alert('Error al eliminar el registro.');
+                    }
+                })
+                .catch(error => console.error('Error al eliminar el registro:', error));
+        }
+    };
+});
 // Inicializar el mapa
 document.addEventListener('DOMContentLoaded', function () {
     map = L.map('map').setView([0, 0], 2); // Vista inicial
@@ -97,6 +167,5 @@ function showSection(sectionId) {
             section.style.display = 'none'; // Oculta las demás secciones
         }
     });
-    
 
 }

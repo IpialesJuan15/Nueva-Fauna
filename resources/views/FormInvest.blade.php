@@ -127,9 +127,10 @@
         </section>
 
         <!-- Datos Ingresados -->
-        <section id="datos_ingresados" class="content" style="display:none;">
+        
+        <section id="datos_ingresados" class="content">
             <h2>Datos Ingresados</h2>
-            <table id="tabla-datos">
+            <table id="tabla-datos" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Nombre Común</th>
@@ -146,6 +147,7 @@
                 <tbody></tbody>
             </table>
         </section>
+
     </main>
 
     <script src="{{ asset('js/formInvest.js') }}"></script>

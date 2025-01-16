@@ -127,4 +127,25 @@ class EspecieController extends Controller
 
         return response()->json(['message' => 'Especie no encontrada'], 404);
     }
+    public function index()
+    {
+        $especies = Especie::with(['genero.familia.reino', 'ubicaciones', 'imagenes'])->get();
+
+        return response()->json($especies);
+    }
+    public function destroy($id)
+    {
+        $especie = Especie::findOrFail($id);
+
+        // Eliminar ubicaciones relacionadas
+        $especie->ubicaciones()->delete();
+
+        // Eliminar imágenes relacionadas
+        $especie->imagenes()->delete();
+
+        // Eliminar la especie
+        $especie->delete();
+
+        return response()->json(['message' => 'Registro eliminado con éxito']);
+    }
 }

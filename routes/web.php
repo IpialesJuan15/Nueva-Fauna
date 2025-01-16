@@ -28,6 +28,8 @@ Route::get('/FormInvest', function () {
 Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
 Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
 Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
+Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
+Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
 
 
 Route::get('/taxonomo', function () {
