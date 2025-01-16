@@ -53,7 +53,6 @@ Route::post('/register', [UserController::class, 'register']);
 // Ruta Para recuperar contraseña
 Route::get('/recuperarEmail', function () {
     return view('recuperarEmail');
->>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
 });
 
 // Ruta para la página Report
