@@ -51,8 +51,8 @@
 
                                     <!-- Título -->
 
-                                    <form action="" method="POST">
-
+                                    <form action="{{ route('login') }}" method="POST">
+                                        @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <i class="fas fa-leaf fa-2x me-3" style="color: #00A86B;"></i>
                                             <span class="h1 fw-bold mb-0" style="color: #00A86B;">Hola
@@ -70,7 +70,7 @@
 
                                         <!-- Campo Contraseña -->
                                         <div class="form-outline mb-4">
-                                            <input type="password" name="password" id="password"
+                                            <input type="password" name="user_password" id="password"
                                                 class="form-control form-control-lg"
                                                 placeholder="Ingresa tu contraseña" />
                                         </div>
