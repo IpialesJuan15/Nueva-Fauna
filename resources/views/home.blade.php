@@ -12,7 +12,7 @@
         <div class="nav-container">
             <div class="nav-left">
                 <a href="/" class="logo">
-                    <span class="logo-text">iNaturalist</span>
+                    <span class="logo-text">Birdly</span>
                     <span class="logo-ec">Ec</span>
                 </a>
                 <div class="nav-links">
@@ -85,7 +85,7 @@
         </section>
 
         <section id="comunidad" class="community">
-            <h2>Comunidad iNaturalist Ecuador</h2>
+            <h2>Comunidad Birdly Ecuador</h2>
             <div class="stats-container">
                 <div class="stat">
                     <h3>1,234,567</h3>
