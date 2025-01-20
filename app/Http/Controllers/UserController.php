@@ -24,6 +24,7 @@ class UserController extends Controller
         ]);
 
 
+
         // Crear el usuario
         // Crear usuario
         Usuario::create([
@@ -32,16 +33,18 @@ class UserController extends Controller
             'user_nombre' => $request->user_nombre,
             'user_apellido' => $request->user_apellido,
             'user_email' => $request->user_email,
-            'user_password' => Hash::make($request->user_password), // Asegúrate de cifrar
+            'user_password' => Hash::make($request->user_password), // Contraseña cifrada
             'user_telefono' => $request->user_telefono,
             'user_estado' => true,
         ]);
+
 
         return redirect('/home')->with('success', 'Usuario registrado con éxito');
     }
 
     public function login(Request $request)
     {
+        // Validación
         // Validación
         $request->validate([
             'user_email' => 'required|email',
@@ -51,29 +54,43 @@ class UserController extends Controller
         $user = Usuario::where('user_email', $request->user_email)->first();
 
         if (!$user || !Hash::check($request->user_password, $user->user_password)) {
-            return response()->json(['error' => 'Credenciales inválidas'], 401);
+            return back()->withErrors(['error' => 'Credenciales inválidas']);
         }
-
-
 
         // Redirección según el tipo de usuario
         switch ($user->tipoUsuario->tipus_detalles) {
-            case 'USER':
+            case 'Observador':
                 $redirect = '/observador';
                 break;
-            case 'TAX':
+            case 'Taxónomo':
                 $redirect = '/taxonomo';
                 break;
-            case 'INVEST':
+            case 'Investigador':
                 $redirect = '/FormInvest';
                 break;
             default:
                 $redirect = '/';
         }
 
+
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
             'redirect' => $redirect,
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        // Cierra la sesión del usuario
+        Auth::logout();
+
+        // Invalida la sesión y elimina el token CSRF
+        $request->session()->invalidate();
+
+        // Genera un nuevo token CSRF
+        $request->session()->regenerateToken();
+
+        // Redirige al formulario de login
+        return redirect('/login')->with('success', 'Sesión cerrada correctamente.');
     }
 }

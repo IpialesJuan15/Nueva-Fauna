@@ -10,6 +10,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 // Redirección según el rol
 Route::get('/observador', function () {
