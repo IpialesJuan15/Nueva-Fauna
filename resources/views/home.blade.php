@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iNaturalist Ecuador</title>
+    <title>Birdly Ecuador</title>
     <!-- Usando el helper asset() para vincular el archivo CSS -->
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
@@ -28,13 +28,8 @@
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                 </button>
-<<<<<<< HEAD
                 <a href="{{ route('login') }}" class="btn btn-ghost">Acceder</a>
                 <a href="{{ route('register') }}" class="btn btn-primary">Crear una cuenta</a>
-=======
-                <a href="{{ url('/login') }}" class="btn btn-ghost">Acceder</a>
-                <a href="{{ url('/register') }}" class="btn btn-primary">Crear una cuenta</a>
->>>>>>> 3980256b1330902501c83864fd5c74a7918b9968
             </div>
         </div>
     </nav>

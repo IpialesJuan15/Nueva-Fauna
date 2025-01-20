@@ -18,6 +18,19 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="{{ route('home') }}" style="color: #00A86B;">
+                <i class="uil uil-estate"></i> Volver al Home
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
     <section class="vh-100" style="background: linear-gradient(to right, #00A86B, #98FB98, #00C853);">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -37,10 +50,9 @@
                                 <div class="card-body p-4 p-lg-5 text-black">
 
                                     <!-- Título -->
-                                   
 
                                     <form action="" method="POST">
-                                        
+
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <i class="fas fa-leaf fa-2x me-3" style="color: #00A86B;"></i>
                                             <span class="h1 fw-bold mb-0" style="color: #00A86B;">Hola
@@ -95,7 +107,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
 </body>
 
