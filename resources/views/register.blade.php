@@ -136,13 +136,16 @@
                                                             style="color: #5f794e;">Confirmar Contraseña</label>
                                                     </div>
                                                 </div>
-                                                <select name="tipus_id">
-                                                    <option value="1">Observador</option>
-                                                    <option value="2">Taxónomo</option>
-                                                    <option value="3">Investigador</option>
-                                                </select>
+                                                <div class="col-12">
+                                                    <label for="tipus_id" class="form-label" style="color: #5f794e;">Seleccione Tipo de Usuario</label>
+                                                    <select name="tipus_id" id="tipus_id" class="form-select" style="border: 1px solid #d3e0cf; color: #5f794e; background-color: #f9fff5;">
+                                                        <option value="1">Observador</option>
+                                                        <option value="2">Taxónomo</option>
+                                                        <option value="3">Investigador</option>
+                                                    </select>
+                                                </div>
                                                 <!-- Checkbox -->
-                                                <div class="col-12 form-check">
+                                               <!-- <div class="col-12 form-check">
                                                     <input class="form-check-input" type="checkbox" id="agree"
                                                         required>
                                                     <label class="form-check-label" for="agree"
@@ -151,7 +154,7 @@
                                                             class="link-primary text-decoration-none">Términos y
                                                             condiciones</a>
                                                     </label>
-                                                </div>
+                                                </div>-->
                                                 <!-- Botón -->
                                                 <div class="col-12 d-grid">
                                                     <button class="btn" type="submit"
