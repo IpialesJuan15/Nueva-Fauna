@@ -52,10 +52,29 @@
                                         <div class="text-center mb-4">
                                             <h2 class="h4 fw-bold" style="color: #5f794e;">Registro</h2>
                                         </div>
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
 
-                                        <form action="{{ url('/register') }}" method="POST">
+                                        <form action="{{ route('register') }}" method="POST">
                                             @csrf
                                             <div class="row gy-3">
+                                                <!-- Cedula -->
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        <input type="text" name="user_cedula" class="form-control"
+                                                            id="firstName" placeholder="Cedula" required
+                                                            style="border: 1px solid #d3e0cf;">
+                                                        <label for="firstName" class="form-label"
+                                                            style="color: #5f794e;">Cedula</label>
+                                                    </div>
+                                                </div>
                                                 <!-- Nombre -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
@@ -99,8 +118,9 @@
                                                 <!-- Password -->
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="password" name="password" class="form-control"
-                                                            id="password" placeholder="Password" required
+                                                        <input type="password" name="user_password"
+                                                            class="form-control" id="password"
+                                                            placeholder="Password" required
                                                             style="border: 1px solid #d3e0cf;">
                                                         <label for="password" class="form-label"
                                                             style="color: #5f794e;">Password</label>
@@ -108,23 +128,33 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        <input type="password" name="password_confirmation"
-                                                            class="form-control" id="password" placeholder="Password"
-                                                            required style="border: 1px solid #d3e0cf;">
+                                                        <input type="password" name="user_password_confirmation"
+                                                            class="form-control" id="password"
+                                                            placeholder="Password" required
+                                                            style="border: 1px solid #d3e0cf;">
                                                         <label for="password_confirmation" class="form-label"
                                                             style="color: #5f794e;">Confirmar Contraseña</label>
                                                     </div>
                                                 </div>
+                                                <div class="col-12">
+                                                    <label for="tipus_id" class="form-label" style="color: #5f794e;">Seleccione Tipo de Usuario</label>
+                                                    <select name="tipus_id" id="tipus_id" class="form-select" style="border: 1px solid #d3e0cf; color: #5f794e; background-color: #f9fff5;">
+                                                        <option value="1">Observador</option>
+                                                        <option value="2">Investigador</option>
+                                                        <option value="3">Taxónomo</option>
+                                                    </select>
+                                                </div>
                                                 <!-- Checkbox -->
-                                                <div class="col-12 form-check">
-                                                    <input class="form-check-input" type="checkbox" id="agree" required>
+                                               <!-- <div class="col-12 form-check">
+                                                    <input class="form-check-input" type="checkbox" id="agree"
+                                                        required>
                                                     <label class="form-check-label" for="agree"
                                                         style="color: #5f794e;">
                                                         Acepto los <a href="#"
                                                             class="link-primary text-decoration-none">Términos y
                                                             condiciones</a>
                                                     </label>
-                                                </div>
+                                                </div>-->
                                                 <!-- Botón -->
                                                 <div class="col-12 d-grid">
                                                     <button class="btn" type="submit"
@@ -148,8 +178,8 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4l1g+QkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4l1g+QkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">

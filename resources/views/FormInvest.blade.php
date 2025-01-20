@@ -26,7 +26,7 @@
                 <li><a href="#" onclick="showSection('editar'); return false;">Editar</a></li>
                 <li><a href="#" onclick="showSection('filtrar'); return false;">Buscar</a></li>
                 <li><a href="#" onclick="showSection('datos_ingresados'); return false;">Datos Ingresados</a></li>
-                <li><a href="#" onclick="showSection('salir'); return false;">Salir</a></li>
+                <li><a href="#" onclick="logout(); return false;">Salir</a></li>
             </ul>
         </nav>
     </header>
@@ -127,7 +127,7 @@
         </section>
 
         <!-- Datos Ingresados -->
-        
+
         <section id="datos_ingresados" class="content">
             <h2>Datos Ingresados</h2>
             <table id="tabla-datos" class="table table-striped">

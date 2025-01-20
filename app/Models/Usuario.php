@@ -16,14 +16,13 @@ class Usuario extends Authenticatable
 
     protected $fillable = [
         'tipus_id',
+        'user_cedula',
         'user_nombre',
         'user_apellido',
         'user_email',
         'user_password',
         'user_telefono',
-        'user_estado',
-        'created_at',
-        'updated_at',
+        'user_estado'
     ];
 
     protected $hidden = ['user_password']; // Ocultar la contraseña al serializar
@@ -31,10 +30,10 @@ class Usuario extends Authenticatable
     public $timestamps = true;
 
     // Mutador para cifrar automáticamente la contraseña
-    public function setUserPasswordAttribute($value)
-    {
-        $this->attributes['user_password'] = Hash::make($value);
-    }
+    //public function setUserPasswordAttribute($value)
+    //{
+      //  $this->attributes['user_password'] = Hash::make($value);
+    //}
 
     // Relación con TipoUsuario
     public function tipoUsuario()

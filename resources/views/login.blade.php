@@ -8,11 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('css/recuperarEmail.css') }}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
@@ -39,8 +36,8 @@
                         <div class="row g-0">
                             <!-- Imagen -->
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="{{ asset('images/imag2.jpg') }}"
-                                    alt="Formulario de inicio de sesión" class="img-fluid"
+                                <img src="{{ asset('images/imag2.jpg') }}" alt="Formulario de inicio de sesión"
+                                    class="img-fluid"
                                     style="border-radius: 1rem 0 0 1rem; object-fit: cover; height: 100%;">
                             </div>
 
@@ -51,8 +48,8 @@
 
                                     <!-- Título -->
 
-                                    <form action="" method="POST">
-
+                                    <form action="{{ route('login') }}" method="POST">
+                                        @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <i class="fas fa-leaf fa-2x me-3" style="color: #00A86B;"></i>
                                             <span class="h1 fw-bold mb-0" style="color: #00A86B;">Hola
@@ -65,14 +62,13 @@
                                         <!-- Campo Email -->
                                         <div class="form-outline mb-4">
                                             <input type="email" name="user_email" id="form2Example17"
-                                                class="form-control form-control-lg" placeholder="Ingresa tu email" />
+                                                class="form-control form-control-lg" placeholder="Correo" required>
                                         </div>
 
                                         <!-- Campo Contraseña -->
                                         <div class="form-outline mb-4">
-                                            <input type="password" name="password" id="password"
-                                                class="form-control form-control-lg"
-                                                placeholder="Ingresa tu contraseña" />
+                                            <input type="password" name="user_password" id="password"
+                                                class="form-control form-control-lg" placeholder="Contraseña" required>
                                         </div>
 
                                         <!-- Botón Iniciar Sesión -->
@@ -84,10 +80,12 @@
                                         </div>
 
                                         <!-- Links -->
-                                        <a class="small text-muted" href="{{ route('recuperarEmail') }}">¿Olvidó su contraseña?</a>
+                                        <a class="small text-muted" href="{{ route('recuperarEmail') }}">¿Olvidó su
+                                            contraseña?</a>
                                         <p class="mb-5 pb-lg-2" style="color: #00A86B;">
                                             ¿No tienes una cuenta?
-                                            <a href="{{ route('register') }}" style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
+                                            <a href="{{ route('register') }}"
+                                                style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
                                         </p>
                                         <a href="#!" class="small text-muted">Términos de uso</a>
                                         <a href="#!" class="small text-muted">Política de privacidad</a>
@@ -101,14 +99,36 @@
             </div>
         </div>
     </section>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                window.location.href = data.redirect; // Redirige al usuario
+            } else {
+                alert('Error al iniciar sesión. Verifica tus credenciales.');
+            }
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 
 </html>

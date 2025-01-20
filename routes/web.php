@@ -9,6 +9,9 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
 // Redirección según el rol
 Route::get('/observador', function () {
     return view('observador');
@@ -19,6 +22,12 @@ Route::get('/FormInvest', function () {
     return view('FormInvest');
 });
 
+// Ruta para la vista de taxónomo
+Route::get('/taxonomo', function () {
+    return view('taxonomo');
+})->name('taxonomo');
+
+
 // Rutas relacionadas con las especies
 Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
 Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
@@ -26,10 +35,6 @@ Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('esp
 Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
 Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
 
-// Ruta para la vista de taxónomo
-Route::get('/taxonomo', function () {
-    return view('taxonomo');
-})->name('taxonomo');
 
 // Ruta para la vista de home
 Route::get('/home', function () {

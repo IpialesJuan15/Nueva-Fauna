@@ -156,6 +156,25 @@ function actualizarMapa() {
         alert('Por favor, ingrese valores válidos para latitud y longitud.');
     }
 }
+function logout() {
+    if (confirm('¿Estás seguro de que deseas salir?')) {
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login'; // Redirige al formulario de login
+                } else {
+                    alert('Error al cerrar sesión. Por favor, intenta de nuevo.');
+                }
+            })
+            .catch(error => console.error('Error al cerrar sesión:', error));
+    }
+}
+
 
 // Mostrar sección específica y ocultar las demás
 function showSection(sectionId) {
