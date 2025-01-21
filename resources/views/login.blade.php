@@ -3,11 +3,9 @@
 
 <head>
     <title>Inicio de Sesión</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <!-- Bootstrap CSS v5.2.1 -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('css/recuperarEmail.css') }}">
@@ -21,13 +19,10 @@
             <a class="navbar-brand fw-bold" href="{{ route('home') }}" style="color: #00A86B;">
                 <i class="uil uil-estate"></i> Volver al Home
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
     </nav>
 
+    <!-- Login Section -->
     <section class="vh-100" style="background: linear-gradient(to right, #00A86B, #98FB98, #00C853);">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -47,27 +42,29 @@
                                 <div class="card-body p-4 p-lg-5 text-black">
 
                                     <!-- Título -->
-
                                     <form action="{{ route('login') }}" method="POST">
                                         @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <i class="fas fa-leaf fa-2x me-3" style="color: #00A86B;"></i>
-                                            <span class="h1 fw-bold mb-0" style="color: #00A86B;">Hola
-                                                Bienvenido!</span>
+                                            <span class="h1 fw-bold mb-0" style="color: #00A86B;">¡Bienvenido!</span>
                                         </div>
 
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Inicia sesión en tu
-                                            cuenta</h5>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">
+                                            Inicia sesión en tu cuenta
+                                        </h5>
 
                                         <!-- Campo Email -->
                                         <div class="form-outline mb-4">
-                                            <input type="email" name="user_email" id="form2Example17"
-                                                class="form-control form-control-lg" placeholder="Correo" required>
+                                            <label for="user_email" class="form-label">Correo Electrónico</label>
+                                            <input type="email" name="user_email" id="user_email"
+                                                class="form-control form-control-lg" placeholder="Correo" required
+                                                autofocus>
                                         </div>
 
                                         <!-- Campo Contraseña -->
                                         <div class="form-outline mb-4">
-                                            <input type="password" name="user_password" id="password"
+                                            <label for="user_password" class="form-label">Contraseña</label>
+                                            <input type="password" name="user_password" id="user_password"
                                                 class="form-control form-control-lg" placeholder="Contraseña" required>
                                         </div>
 
@@ -85,11 +82,20 @@
                                         <p class="mb-5 pb-lg-2" style="color: #00A86B;">
                                             ¿No tienes una cuenta?
                                             <a href="{{ route('register') }}"
-                                                style="color: #00C853; font-weight: bold;">Regístrese aquí</a>
+                                                style="color: #00C853; font-weight: bold;">Regístrate aquí</a>
                                         </p>
-                                        <a href="#!" class="small text-muted">Términos de uso</a>
-                                        <a href="#!" class="small text-muted">Política de privacidad</a>
                                     </form>
+
+                                    <!-- Mensajes de error -->
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>
@@ -99,36 +105,13 @@
             </div>
         </div>
     </section>
-    <script>
-        document.querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-    
-            const form = e.target;
-            const formData = new FormData(form);
-    
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                window.location.href = data.redirect; // Redirige al usuario
-            } else {
-                alert('Error al iniciar sesión. Verifica tus credenciales.');
-            }
-        });
-    </script>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 
 </html>

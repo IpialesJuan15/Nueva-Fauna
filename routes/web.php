@@ -7,39 +7,40 @@ use App\Http\Controllers\RevisionController;
 
 // Rutas públicas
 Route::get('/', function () {
-   return "HOLA MUNDO";
+    return "HOLA MUNDO";
 });
 
 // Rutas de autenticación
 Route::get('/login', function () {
-   return view('login');
+    return view('login');
 })->name('login');
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/observador', function () {
-    return view('observador');
-});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/FormInvest', function () {
+        return view('FormInvest');
+    })->name('FormInvest');
 
-// Ruta para formulario de investigación
-Route::get('/FormInvest', function () {
-    return view('FormInvest');
-});
+    Route::get('/observador', function () {
+        return view('observador');
+    })->name('observador');
 
-// Ruta para la vista de taxónomo
-Route::get('/taxonomo', function () {
-    return view('taxonomo');
-})->name('taxonomo');
+    Route::get('/taxonomo', function () {
+        return view('taxonomo');
+    })->name('taxonomo');
+});
 
 
 // Rutas relacionadas con las especies
-Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
-Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
-Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
-Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
-Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
-Route::get('/especies', [EspecieController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
+    Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
+    Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
+    Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+    Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
+});
 
 
 
@@ -55,53 +56,36 @@ Route::get('/report', function () {
 
 // Ruta para la vista de registro de usuarios
 Route::get('/register', function () {
-   return view('register');
+    return view('register');
 })->name('register');
 Route::post('/register', [UserController::class, 'register']);
 
 Route::get('/recuperarEmail', function () {
-   return view('recuperarEmail');
+    return view('recuperarEmail');
 })->name('recuperarEmail');
 
 // Rutas protegidas por autenticación
-   Route::get('/home', function () {
-       return view('home');
-   })->name('home');
 
-   Route::get('/registros', function () {
-       return view('registros');
-   })->name('registros');
 
-   Route::get('/report', function () {
-       return view('report');
-   })->name('report');
+// Rutas de especies
+Route::controller(EspecieController::class)->group(function () {
+    Route::get('/especies', 'index')->name('especies.index');
+    Route::post('/especies', 'store')->name('especies.store');
+    Route::put('/especies/editar', 'update')->name('especies.update');
+    Route::post('/especies/buscar', 'search')->name('especies.search');
+    Route::delete('/especies/{id}', 'destroy')->name('especies.destroy');
+});
 
-   // Rutas de especies
-   Route::controller(EspecieController::class)->group(function () {
-       Route::get('/especies', 'index')->name('especies.index');
-       Route::post('/especies', 'store')->name('especies.store');
-       Route::put('/especies/editar', 'update')->name('especies.update');
-       Route::post('/especies/buscar', 'search')->name('especies.search');
-       Route::delete('/especies/{id}', 'destroy')->name('especies.destroy');
-   });
+// Rutas de revisiones
+Route::post('/especies/{id}/revision', [RevisionController::class, 'store']);
 
-   // Rutas de revisiones
-   Route::post('/especies/{id}/revision', [RevisionController::class, 'store']);
 
-   Route::get('/observador', function () {
-       return view('observador');
-   });
+// Rutas específicas para taxónomos
+//Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo.index');
+Route::post('/revisiones/{id}/actualizar', [RevisionController::class, 'actualizarEstado']);
+Route::get('/revisiones/pendientes/count', [RevisionController::class, 'contarPendientes']);
+Route::post('/taxonomo/filtrar', [RevisionController::class, 'filtrar']);
 
-   Route::get('/FormInvest', function () {
-       return view('FormInvest');
-   });
-
-   // Rutas específicas para taxónomos
-   Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo.index');
-   Route::post('/revisiones/{id}/actualizar', [RevisionController::class, 'actualizarEstado']);
-   Route::get('/revisiones/pendientes/count', [RevisionController::class, 'contarPendientes']);
-   Route::post('/taxonomo/filtrar', [RevisionController::class, 'filtrar']);
-
-   Route::get('/perfil', function () {
-       return view('perfil');
-   })->name('perfil');
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil');

@@ -15,33 +15,35 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+
 </head>
 
 <body>
     <header>
         <div class="navbar-container">
-            <h1 onclick="mostrarObservaciones()" >Gestión de Datos y Validación</h1>
+            <h1 onclick="mostrarObservaciones()">Gestión de Datos y Validación</h1>
             <nav>
                 <ul>
                     <li><a href="#" onclick="showSection('registro'); return false;">Registro</a></li>
                     <li><a href="#" onclick="showSection('editar'); return false;">Editar</a></li>
                     <li><a href="#" onclick="showSection('filtrar'); return false;">Buscar</a></li>
-                    <li><a href="#" onclick="showSection('datos_ingresados'); return false;">Datos Ingresados</a></li>
+                    <li><a href="#" onclick="showSection('datos_ingresados'); return false;">Datos Ingresados</a>
+                    </li>
                     <li><a href="#" onclick="showSection('#'); return false;"></a></li>
                 </ul>
             </nav>
         </div>
-            <!-- Icono del menú de usuario -->
-            <div class="user-menu">
-                <img src="{{ asset('images/icoauc.jpg') }}" alt="Usuario" class="user-icon" onclick="toggleUserMenu()">
-                <div class="user-dropdown" id="user-dropdown">
-                    <a href="#">Mi perfil</a>
-                    <a href="#" onclick="logout(); return false;">Salir</a>
-                </div>
+        <!-- Icono del menú de usuario -->
+        <div class="user-menu">
+            <img src="{{ asset('images/icoauc.jpg') }}" alt="Usuario" class="user-icon" onclick="toggleUserMenu()">
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="#">Mi perfil</a>
+                <a href="#" onclick="logout(); return false;">Salir</a>
             </div>
-        
+        </div>
+
     </header>
-    
+
 
     <main>
 
@@ -52,40 +54,68 @@
                 <button class="btn btn-outline-primary" onclick="mostrarMapa()">Mapa</button>
                 <button class="btn btn-outline-secondary" onclick="mostrarCuadricula()">Cuadrícula</button>
             </div>
-        
+
             <!-- Contenedor de la vista de cuadrícula -->
             <div id="vista-cuadricula" class="observaciones-cuadricula">
                 <!-- Las tarjetas se llenarán dinámicamente con JS -->
             </div>
-        
+
             <!-- Contenedor del mapa -->
             <div id="vista-mapa" style="display: none;">
                 <div id="map-observaciones" style="height: 500px; width: 100%; margin-top: 20px;"></div>
             </div>
         </section>
-        
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Registro -->
         <section id="registro" class="content">
             <h2>Registro de Datos Taxonómicos</h2>
-            <form id="form-registro" class="registro-form" action="{{ url('/especies') }}" method="POST"
+            <form id="form-registro" action="{{ route('especies.store') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
-                <!-- Contenedor para dividir en dos columnas -->
                 <div class="registro-contenedor">
                     <!-- Columna Izquierda -->
                     <div class="registro-izquierda">
                         <label for="nombre_comun">Nombre Común:</label>
                         <input type="text" name="nombre_comun" id="nombre_comun" required>
+
                         <label for="reino">Reino:</label>
                         <input type="text" name="reino" id="reino" required>
+
                         <label for="familia">Familia:</label>
                         <input type="text" name="familia" id="familia" required>
+
                         <label for="genero">Género:</label>
                         <input type="text" name="genero" id="genero" required>
+
                         <label for="nombre_cientifico">Nombre Científico:</label>
                         <input type="text" name="nombre_cientifico" id="nombre_cientifico" required>
+
                         <label for="imagen">Cargar Imagen:</label>
                         <input type="file" name="imagen" id="imagen" accept="image/*" required>
+
+                        <!-- Nuevo campo para Descripción de la Especie -->
+                        <label for="descripcion">Descripción:</label>
+                        <textarea name="descripcion" id="descripcion" rows="3" required></textarea>
                     </div>
 
                     <!-- Columna Derecha -->
@@ -93,11 +123,23 @@
                         <label for="latitud">Latitud:</label>
                         <input type="number" name="latitud" id="latitud" step="0.000001"
                             placeholder="Ejemplo: -12.0464" required>
+
                         <label for="longitud">Longitud:</label>
                         <input type="number" name="longitud" id="longitud" step="0.000001"
                             placeholder="Ejemplo: -77.0428" required>
+
+                        <!-- Campo para Región de la Ubicación -->
+                        <label for="region">Región de la Ubicación:</label>
+                        <input type="text" name="region" id="region" maxlength="100"
+                            placeholder="Ejemplo: Andes Centrales" required>
+
+                        <!-- Campo para Descripción de la Ubicación -->
+                        <label for="descripcion_ubicacion">Descripción de la Ubicación:</label>
+                        <textarea name="descripcion_ubicacion" id="descripcion_ubicacion" rows="3"
+                            placeholder="Ejemplo: Cerca del río principal..." required></textarea>
+
                         <button type="button" onclick="actualizarMapa()">Mostrar en el Mapa</button>
-                        <div id="map"></div>
+                        <div id="map" style="height: 300px;"></div>
                     </div>
                 </div>
                 <button type="submit" class="guardar-registro">Guardar Registro</button>
@@ -109,30 +151,68 @@
         <!-- Editar -->
         <section id="editar" class="content" style="display:none;">
             <h2>Editar Registro</h2>
-            <form id="form-editar" action="{{ url('/especies/editar') }}" method="POST">
+            <form id="form-editar" action="{{ url('/especies/editar') }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="esp_id" id="editar_esp_id">
 
+                <!-- Campo de Búsqueda -->
                 <label for="buscar_nombre_comun">Buscar por Nombre Común:</label>
                 <input type="text" id="buscar_nombre_comun" placeholder="Ingrese Nombre Común">
                 <button type="button" id="buscar-btn">Buscar</button>
 
-                <label for="editar_nombre_comun">Nuevo Nombre Común:</label>
-                <input type="text" name="nombre_comun" id="editar_nombre_comun">
-                <label for="editar_reino">Nuevo Reino:</label>
-                <input type="text" name="reino" id="editar_reino">
-                <label for="editar_familia">Nueva Familia:</label>
-                <input type="text" name="familia" id="editar_familia">
-                <label for="editar_genero">Nuevo Género:</label>
-                <input type="text" name="genero" id="editar_genero">
-                <label for="editar_nombre_cientifico">Nuevo Nombre Científico:</label>
-                <input type="text" name="nombre_cientifico" id="editar_nombre_cientifico">
-                <label for="observacion">Observación:</label>
-                <textarea name="observacion" id="observacion" placeholder="Razón de la modificación..." required></textarea>
+                <div class="registro-contenedor">
+                    <!-- Columna Izquierda -->
+                    <div class="registro-izquierda">
+                        <label for="editar_nombre_comun">Nombre Común:</label>
+                        <input type="text" name="nombre_comun" id="editar_nombre_comun" required>
+
+                        <label for="editar_reino">Reino:</label>
+                        <input type="text" name="reino" id="editar_reino" required>
+
+                        <label for="editar_familia">Familia:</label>
+                        <input type="text" name="familia" id="editar_familia" required>
+
+                        <label for="editar_genero">Género:</label>
+                        <input type="text" name="genero" id="editar_genero" required>
+
+                        <label for="editar_nombre_cientifico">Nombre Científico:</label>
+                        <input type="text" name="nombre_cientifico" id="editar_nombre_cientifico" required>
+
+                        <label for="editar_imagen">Cargar Imagen:</label>
+                        <input type="file" name="imagen" id="editar_imagen" accept="image/*">
+
+                        <!-- Nuevo campo para Descripción de la Especie -->
+                        <label for="editar_descripcion">Descripción:</label>
+                        <textarea name="descripcion" id="editar_descripcion" rows="3" required></textarea>
+                    </div>
+
+                    <!-- Columna Derecha -->
+                    <div class="registro-derecha">
+                        <label for="editar_latitud">Latitud:</label>
+                        <input type="number" name="latitud" id="editar_latitud" step="0.000001" required>
+
+                        <label for="editar_longitud">Longitud:</label>
+                        <input type="number" name="longitud" id="editar_longitud" step="0.000001" required>
+
+                        <!-- Campo para Región de la Ubicación -->
+                        <label for="editar_region">Región de la Ubicación:</label>
+                        <input type="text" name="region" id="editar_region" maxlength="100" required>
+
+                        <!-- Campo para Descripción de la Ubicación -->
+                        <label for="editar_descripcion_ubicacion">Descripción de la Ubicación:</label>
+                        <textarea name="descripcion_ubicacion" id="editar_descripcion_ubicacion" rows="3" required></textarea>
+
+
+                        <button type="button" onclick="actualizarMapaEdicion()">Mostrar en el Mapa</button>
+                        <div id="map-editar" style="height: 300px;"></div>
+                    </div>
+                </div>
                 <button type="submit">Guardar Cambios</button>
             </form>
         </section>
+
 
 
         <!-- Filtrar -->

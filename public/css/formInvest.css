@@ -366,3 +366,7 @@ img {
 .observacion-card .btn {
     margin-bottom: 10px;
 }
+#map-editar {
+    height: 400px;
+    width: 100%;
+}

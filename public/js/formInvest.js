@@ -1,7 +1,47 @@
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-let registros = []; // Almacena todos los registros ingresados
+let registros = [];
 let map, marker;
+let mapEditar, markerEditar;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Asegurarse de que el contenedor del mapa tenga tamaño definido
+    const mapContainer = document.getElementById('map-editar');
+    if (!mapContainer) {
+        console.error('El contenedor "map-editar" no existe.');
+        return;
+    }
+
+    // Inicializar mapa de edición
+    mapEditar = L.map('map-editar').setView([0.3517, -78.1223], 13); // Centrado en Ibarra, Ecuador
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapEditar);
+
+    // Agregar marcador inicial
+    markerEditar = L.marker([0.3517, -78.1223], { draggable: false }).addTo(mapEditar);
+});
+
+// Función para actualizar el mapa en la sección de edición
+function actualizarMapaEdicion() {
+    const latitud = parseFloat(document.getElementById('editar_latitud').value);
+    const longitud = parseFloat(document.getElementById('editar_longitud').value);
+
+    if (!isNaN(latitud) && !isNaN(longitud)) {
+        markerEditar.setLatLng([latitud, longitud]);
+        mapEditar.setView([latitud, longitud], 13);
+    } else {
+        alert('Por favor, ingrese valores válidos para latitud y longitud.');
+    }
+}
+
+// Si el mapa está en una sección inicialmente oculta
+function mostrarMapaEditar() {
+    const mapContainer = document.getElementById('map-editar');
+    mapContainer.style.display = 'block'; // Mostrar el contenedor
+    mapEditar.invalidateSize(); // Asegurarse de que el mapa se redibuje correctamente
+}
+
 
 // Mapa de Observaciones
 let mapObservaciones;
@@ -12,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarObservaciones();
 
     // Inicializar el mapa de registro
-    map = L.map('map').setView([0, 0], 2);
+    map = L.map('map').setView([0.3517, -78.1223], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-    marker = L.marker([0, 0], { draggable: false }).addTo(map);
+    marker = L.marker([0.3517, -78.1223], { draggable: false }).addTo(map);
 
     // Inicializar el mapa de observaciones
-    mapObservaciones = L.map('map-observaciones').setView([0, 0], 2);
+    mapObservaciones = L.map('map-observaciones').setView([0.3517, -78.1223], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(mapObservaciones);
@@ -34,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarObservaciones() {
     // Ocultar todas las secciones
     var secciones = document.querySelectorAll('section');
-    secciones.forEach(function(seccion) {
+    secciones.forEach(function (seccion) {
         seccion.style.display = 'none';  // Ocultar todas las secciones
     });
 
@@ -145,16 +185,17 @@ function mostrarMapa() {
     document.getElementById('vista-mapa').style.display = 'block';
     mapObservaciones.invalidateSize(); // Refrescar el mapa
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos al inicializar
     cargarDatos();
 
     // Inicializar el mapa
-    map = L.map('map').setView([0, 0], 2);
+    map = L.map('map').setView([0.3517, -78.1223], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-    marker = L.marker([0, 0], { draggable: false }).addTo(map);
+    marker = L.marker([0.3517, -78.1223], { draggable: false }).addTo(map);
 
     // Asignar el evento al botón de búsqueda
     const buscarBtn = document.getElementById('buscar-btn');
@@ -163,17 +204,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// =======================
+// Funciones de datos
+// =======================
+
+// Cargar registros en la tabla
 function cargarDatos() {
     fetch('/especies', {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
     })
         .then(response => response.json())
         .then(data => {
             const tbody = document.querySelector('#tabla-datos tbody');
-            tbody.innerHTML = ''; // Limpiar tabla antes de agregar datos
+            tbody.innerHTML = '';
 
             data.forEach(especie => {
                 const ubicacion = especie.ubicaciones[0];
@@ -181,29 +225,27 @@ function cargarDatos() {
                 const fila = document.createElement('tr');
 
                 fila.innerHTML = `
-                    <td>${especie.esp_nombre_comun}</td>
-                    <td>${especie.genero.familia.reino.reino_nombre}</td>
-                    <td>${especie.genero.familia.fam_nombre}</td>
-                    <td>${especie.genero.gene_nombre}</td>
-                    <td>${especie.esp_nombre_cientifico}</td>
-                    <td>${ubicacion ? `${ubicacion.ubi_latitud}, ${ubicacion.ubi_longitud}` : 'N/A'}</td>
-                    <td>${especie.created_at ? new Date(especie.created_at).toLocaleDateString() : 'N/A'}</td>
-                    <td>
-                        ${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
-                    </td>
-                    <td>
-                        <button class="btn btn-success btn-sm" onclick="enviarRevision(${especie.esp_id})">Enviar Revisión</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
-                    </td>
-                `;
-
+                <td>${especie.esp_nombre_comun}</td>
+                <td>${especie.genero.familia.reino.reino_nombre}</td>
+                <td>${especie.genero.familia.fam_nombre}</td>
+                <td>${especie.genero.gene_nombre}</td>
+                <td>${especie.esp_nombre_cientifico}</td>
+                <td>${ubicacion ? `${ubicacion.ubi_latitud}, ${ubicacion.ubi_longitud}` : 'N/A'}</td>
+                <td>${especie.created_at ? new Date(especie.created_at).toLocaleDateString() : 'N/A'}</td>
+                <td>${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}</td>
+                <td>
+                    <button class="btn btn-success btn-sm" onclick="enviarRevision(${especie.esp_id})">Enviar Revisión</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
+                </td>
+            `;
                 tbody.appendChild(fila);
             });
         })
         .catch(error => console.error('Error al cargar los datos:', error));
 }
 
-window.enviarRevision = function(id) {
+
+window.enviarRevision = function (id) {
     if (confirm('¿Estás seguro de que deseas enviar este registro para revisión?')) {
         fetch(`/especies/${id}/revision`, {
             method: 'POST',
@@ -212,23 +254,23 @@ window.enviarRevision = function(id) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.message);
-                cargarDatos(); // Recargar la tabla
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al enviar el registro a revisión');
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    cargarDatos(); // Recargar la tabla
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al enviar el registro a revisión');
+            });
     }
 };
 
-window.eliminarRegistro = function(id) {
+window.eliminarRegistro = function (id) {
     if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
         fetch(`/especies/${id}`, {
             method: 'DELETE',
@@ -248,7 +290,7 @@ window.eliminarRegistro = function(id) {
     }
 };
 
-// Función para buscar un registro
+// Función para buscar un registro y rellenar el formulario de edición
 function buscarRegistro() {
     const nombreComun = document.getElementById('buscar_nombre_comun').value;
 
@@ -268,12 +310,18 @@ function buscarRegistro() {
         .then(response => response.json())
         .then(data => {
             if (data.esp_id) {
+                // Rellenar los campos del formulario de edición
                 document.getElementById('editar_esp_id').value = data.esp_id;
                 document.getElementById('editar_nombre_comun').value = data.esp_nombre_comun || '';
                 document.getElementById('editar_reino').value = data.reino_nombre || '';
                 document.getElementById('editar_familia').value = data.fam_nombre || '';
                 document.getElementById('editar_genero').value = data.gene_nombre || '';
                 document.getElementById('editar_nombre_cientifico').value = data.esp_nombre_cientifico || '';
+                document.getElementById('editar_descripcion').value = data.esp_descripcion || '';
+                document.getElementById('editar_latitud').value = data.latitud || '';
+                document.getElementById('editar_longitud').value = data.longitud || '';
+                document.getElementById('editar_region').value = data.region || '';
+                document.getElementById('editar_descripcion_ubicacion').value = data.descripcion_ubicacion || '';
             } else {
                 alert('Especie no encontrada.');
             }
@@ -330,7 +378,7 @@ function toggleUserMenu() {
 }
 
 // Cerrar menú desplegable si se hace clic fuera de él
-window.addEventListener('click', function(e) {
+window.addEventListener('click', function (e) {
     const dropdown = document.getElementById('user-dropdown');
     if (!dropdown.contains(e.target) && !e.target.matches('.user-icon')) {
         dropdown.classList.remove('show');
