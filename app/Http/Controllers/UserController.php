@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
-use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +22,6 @@ class UserController extends Controller
             'user_telefono' => 'required|size:10',
         ]);
 
-
-
-        // Crear el usuario
         // Crear usuario
         Usuario::create([
             'tipus_id' => $request->tipus_id,
@@ -38,13 +34,11 @@ class UserController extends Controller
             'user_estado' => true,
         ]);
 
-
         return redirect('/home')->with('success', 'Usuario registrado con éxito');
     }
 
     public function login(Request $request)
     {
-        // Validación
         // Validación
         $request->validate([
             'user_email' => 'required|email',
@@ -71,7 +65,6 @@ class UserController extends Controller
             default:
                 $redirect = '/';
         }
-
 
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
