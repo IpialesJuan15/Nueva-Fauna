@@ -3,6 +3,148 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 let registros = []; // Almacena todos los registros ingresados
 let map, marker;
 
+// Mapa de Observaciones
+let mapObservaciones;
+let markers = [];
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar datos al inicializar
+    cargarDatos();
+    cargarObservaciones();
+
+    // Inicializar el mapa de registro
+    map = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    marker = L.marker([0, 0], { draggable: false }).addTo(map);
+
+    // Inicializar el mapa de observaciones
+    mapObservaciones = L.map('map-observaciones').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapObservaciones);
+
+    // Asignar el evento al botón de búsqueda
+    const buscarBtn = document.getElementById('buscar-btn');
+    if (buscarBtn) {
+        buscarBtn.addEventListener('click', buscarRegistro);
+    }
+});
+// Función para mostrar u ocultar la sección de observaciones
+function mostrarObservaciones() {
+    // Ocultar todas las secciones
+    var secciones = document.querySelectorAll('section');
+    secciones.forEach(function(seccion) {
+        seccion.style.display = 'none';  // Ocultar todas las secciones
+    });
+
+    // Mostrar solo la sección de Observaciones
+    var observaciones = document.getElementById('observaciones');
+    observaciones.style.display = 'block';  // Mostrar Observaciones
+}
+
+// Función para cargar datos de registro
+function cargarDatos() {
+    fetch('/especies', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#tabla-datos tbody');
+            tbody.innerHTML = ''; // Limpiar tabla antes de agregar datos
+
+            data.forEach(especie => {
+                const ubicacion = especie.ubicaciones[0];
+                const imagen = especie.imagenes[0];
+                const fila = document.createElement('tr');
+
+                fila.innerHTML = `
+                    <td>${especie.esp_nombre_comun}</td>
+                    <td>${especie.genero.familia.reino.reino_nombre}</td>
+                    <td>${especie.genero.familia.fam_nombre}</td>
+                    <td>${especie.genero.gene_nombre}</td>
+                    <td>${especie.esp_nombre_cientifico}</td>
+                    <td>${ubicacion ? `${ubicacion.ubi_latitud}, ${ubicacion.ubi_longitud}` : 'N/A'}</td>
+                    <td>${especie.created_at ? new Date(especie.created_at).toLocaleDateString() : 'N/A'}</td>
+                    <td>
+                        ${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="enviarRevision(${especie.esp_id})">Enviar Revisión</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
+                    </td>
+                `;
+
+                tbody.appendChild(fila);
+            });
+        })
+        .catch(error => console.error('Error al cargar los datos:', error));
+}
+// Función para cargar observaciones
+function cargarObservaciones() {
+    fetch('/especies', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('vista-cuadricula');
+            grid.innerHTML = ''; // Limpiar la cuadrícula
+
+            // Limpiar marcadores previos del mapa
+            markers.forEach(marker => mapObservaciones.removeLayer(marker));
+            markers = [];
+
+            data.forEach(especie => {
+                // Crear tarjeta en la cuadrícula
+                const tarjeta = document.createElement('div');
+                tarjeta.classList.add('observacion-card');
+                tarjeta.innerHTML = `
+                    <img src="${especie.imagenes[0] ? `/storage/${especie.imagenes[0].img_ruta}` : 'ruta_por_defecto.jpg'}" alt="${especie.esp_nombre_comun}">
+                    <h3>${especie.esp_nombre_comun || 'Sin Nombre'}</h3>
+                    <p>${especie.esp_nombre_cientifico || 'Sin Nombre Científico'}</p>
+                    <button class="btn btn-primary btn-sm" onclick="enfocarMapa(${especie.ubicaciones[0].ubi_latitud}, ${especie.ubicaciones[0].ubi_longitud})">Ver en el Mapa</button>
+                `;
+                grid.appendChild(tarjeta);
+
+                // Crear marcador en el mapa
+                if (especie.ubicaciones && especie.ubicaciones[0]) {
+                    const marker = L.marker([
+                        especie.ubicaciones[0].ubi_latitud,
+                        especie.ubicaciones[0].ubi_longitud,
+                    ]).addTo(mapObservaciones);
+                    marker.bindPopup(`
+                        <strong>${especie.esp_nombre_comun}</strong><br>
+                        ${especie.esp_nombre_cientifico || 'Sin Nombre Científico'}
+                    `);
+                    markers.push(marker);
+                }
+            });
+        })
+        .catch(error => console.error('Error al cargar observaciones:', error));
+}
+
+// Función para enfocar el mapa en una ubicación específica
+function enfocarMapa(latitud, longitud) {
+    mapObservaciones.setView([latitud, longitud], 15);
+}
+
+// Función para manejar las vistas de cuadrícula y mapa
+function mostrarCuadricula() {
+    document.getElementById('vista-cuadricula').style.display = 'grid';
+    document.getElementById('vista-mapa').style.display = 'none';
+}
+
+function mostrarMapa() {
+    document.getElementById('vista-cuadricula').style.display = 'none';
+    document.getElementById('vista-mapa').style.display = 'block';
+    mapObservaciones.invalidateSize(); // Refrescar el mapa
+}
 document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos al inicializar
     cargarDatos();

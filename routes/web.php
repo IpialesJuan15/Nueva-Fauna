@@ -34,6 +34,8 @@ Route::put('/especies/editar', [EspecieController::class, 'update'])->name('espe
 Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
 Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
 Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+Route::get('/especies', [EspecieController::class, 'index']);
+
 
 
 // Ruta para la vista de home

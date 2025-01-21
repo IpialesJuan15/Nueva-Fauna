@@ -129,10 +129,17 @@ class EspecieController extends Controller
     }
     public function index()
     {
-        $especies = Especie::with(['genero.familia.reino', 'ubicaciones', 'imagenes'])->get();
+      $especies = Especie::with(['genero.familia.reino', 'ubicaciones', 'imagenes'])->get();
 
         return response()->json($especies);
     }
+
+  //  public function index()
+//{
+  //  $especies = Especie::with(['imagenes', 'ubicaciones'])->get(); // Incluye relaciones
+    //return response()->json($especies);
+//}
+
     public function destroy($id)
     {
         $especie = Especie::findOrFail($id);

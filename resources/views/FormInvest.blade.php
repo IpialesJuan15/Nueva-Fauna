@@ -20,7 +20,7 @@
 <body>
     <header>
         <div class="navbar-container">
-            <h1>Gestión de Datos y Validación</h1>
+            <h1 onclick="mostrarObservaciones()" >Gestión de Datos y Validación</h1>
             <nav>
                 <ul>
                     <li><a href="#" onclick="showSection('registro'); return false;">Registro</a></li>
@@ -44,6 +44,26 @@
     
 
     <main>
+
+        <section id="observaciones" class="content" style="display: none;">
+            <h2>Observaciones</h2>
+            <!-- Filtros y vistas -->
+            <div class="observaciones-header">
+                <button class="btn btn-outline-primary" onclick="mostrarMapa()">Mapa</button>
+                <button class="btn btn-outline-secondary" onclick="mostrarCuadricula()">Cuadrícula</button>
+            </div>
+        
+            <!-- Contenedor de la vista de cuadrícula -->
+            <div id="vista-cuadricula" class="observaciones-cuadricula">
+                <!-- Las tarjetas se llenarán dinámicamente con JS -->
+            </div>
+        
+            <!-- Contenedor del mapa -->
+            <div id="vista-mapa" style="display: none;">
+                <div id="map-observaciones" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+            </div>
+        </section>
+        
         <!-- Registro -->
         <section id="registro" class="content">
             <h2>Registro de Datos Taxonómicos</h2>
