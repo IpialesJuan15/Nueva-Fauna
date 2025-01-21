@@ -114,7 +114,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <button onclick="actualizarRevision({{ $revision->id }})" class="btn-guardar">
+                                    <button onclick="actualizarRevision('{{ $revision->id }}')" class="btn-guardar">
                                         💾 Guardar
                                     </button>
                                 </td>
