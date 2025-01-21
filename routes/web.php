@@ -3,15 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EspecieController;
+use App\Http\Controllers\RevisionController;
 
-// Ruta para la vista de login
+// Rutas públicas
+Route::get('/', function () {
+   return "HOLA MUNDO";
+});
+
+// Rutas de autenticación
 Route::get('/login', function () {
-    return view('login');
+   return view('login');
 })->name('login');
 
-Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+<<<<<<< HEAD
 // Redirección según el rol
 Route::get('/observador', function () {
     return view('observador');
@@ -49,30 +56,58 @@ Route::get('/report', function () {
 })->name('report');
 
 // Ruta para la vista de registro de usuarios
+=======
+>>>>>>> 834aa893f232d2762e2c72ba98723350a0a7ceb2
 Route::get('/register', function () {
-    return view('register');
+   return view('register');
 })->name('register');
-
-// Ruta para procesar registro de usuarios
 Route::post('/register', [UserController::class, 'register']);
 
-// Ruta para la recuperación de contraseña
 Route::get('/recuperarEmail', function () {
-    return view('recuperarEmail'); // Cambia "recuperarEmail" al nombre correcto del archivo Blade.
+   return view('recuperarEmail');
 })->name('recuperarEmail');
 
-// Ruta para registros adicionales
-Route::get('/registros', function () {
-    return view('registros'); // Cambia "registros" al nombre correcto del archivo Blade.
-})->name('registros');
+// Rutas protegidas por autenticación
+Route::middleware(['auth'])->group(function () {
+   Route::get('/home', function () {
+       return view('home');
+   })->name('home');
 
-// Ruta principal
-Route::get('/', function () {
-    return "HOLA MUNDO"; // Ruta principal de prueba
+   Route::get('/registros', function () {
+       return view('registros');
+   })->name('registros');
+
+   Route::get('/report', function () {
+       return view('report');
+   })->name('report');
+
+   // Rutas de especies
+   Route::controller(EspecieController::class)->group(function () {
+       Route::get('/especies', 'index')->name('especies.index');
+       Route::post('/especies', 'store')->name('especies.store');
+       Route::put('/especies/editar', 'update')->name('especies.update');
+       Route::post('/especies/buscar', 'search')->name('especies.search');
+       Route::delete('/especies/{id}', 'destroy')->name('especies.destroy');
+   });
+
+   // Rutas de revisiones
+   Route::post('/especies/{id}/revision', [RevisionController::class, 'store']);
+
+   Route::get('/observador', function () {
+       return view('observador');
+   });
+
+   Route::get('/FormInvest', function () {
+       return view('FormInvest');
+   });
+
+   // Rutas específicas para taxónomos
+   Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo.index');
+   Route::post('/revisiones/{id}/actualizar', [RevisionController::class, 'actualizarEstado']);
+   Route::get('/revisiones/pendientes/count', [RevisionController::class, 'contarPendientes']);
+   Route::post('/taxonomo/filtrar', [RevisionController::class, 'filtrar']);
+
+   Route::get('/perfil', function () {
+       return view('perfil');
+   })->name('perfil');
 });
-
-// Ruta de cierre de sesión
-Route::post('/logout', function () {
-    // Implementa la lógica de cierre de sesión aquí.
-    // Por ejemplo: Auth::logout(); return redirect('/');
-})->name('logout');
