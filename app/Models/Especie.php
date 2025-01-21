@@ -38,4 +38,10 @@ class Especie extends Model
     {
         return $this->hasMany(Registro::class, 'esp_id', 'esp_id');
     }
+
+    // Agregamos la relación con revisiones
+    public function revisiones()
+    {
+        return $this->hasMany(Revision::class, 'esp_id', 'esp_id');
+    }
 }
