@@ -1,34 +1,30 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Selección de elementos principales
+document.addEventListener('DOMContentLoaded', function() {
     const sliderPrev = document.querySelector('.slider-prev');
     const sliderNext = document.querySelector('.slider-next');
     const hero = document.querySelector('.hero');
     const sliderIndicators = document.querySelector('.slider-indicators');
 
-    // Rutas de las imágenes de fondo
     const backgroundImages = [
-        "{{ asset('images/fondo1.png') }}",
-        "{{ asset('images/fondo2.jpg') }}",
-        "{{ asset('images/fondo3.png') }}"
+        'images/fondo1.png',
+        'images/fondo2.jpg',
+        'images/fono3.png'
     ];
 
     let currentImageIndex = 0;
     let isTransitioning = false;
 
-    // Precarga de imágenes
+    // Precargar imágenes
     backgroundImages.forEach(src => {
         const img = new Image();
         img.src = src;
-        img.onload = () => console.log(`Imagen cargada: ${src}`);
-        img.onerror = () => console.error(`Error al cargar la imagen: ${src}`);
     });
 
-    // Función para cambiar a una diapositiva específica
+    // Función para ir a una diapositiva específica
     function goToSlide(index) {
-        if (isTransitioning || index === currentImageIndex) return; // Evita cambios múltiples o al mismo índice
+        if (isTransitioning || index === currentImageIndex) return;
         isTransitioning = true;
 
-        // Actualizar los indicadores
+        // Actualizar indicadores
         document.querySelectorAll('.indicator').forEach((ind, i) => {
             ind.classList.toggle('active', i === index);
         });
@@ -40,23 +36,25 @@ document.addEventListener('DOMContentLoaded', function () {
         tempDiv.style.opacity = '0';
         hero.appendChild(tempDiv);
 
-        // Esperar para realizar la transición
+        // Esperar un momento para que el DOM se actualice
         requestAnimationFrame(() => {
-            tempDiv.style.opacity = '1'; // Aparecer la nueva imagen
+            // Hacer aparecer la nueva imagen
+            tempDiv.style.opacity = '1';
 
             // Desvanecer la imagen anterior
             setTimeout(() => {
+                // Actualizar la imagen principal
                 hero.style.backgroundImage = `url('${backgroundImages[index]}')`;
                 currentImageIndex = index;
-
-                // Limpiar el contenedor
+                
+                // Limpiar
                 tempDiv.remove();
                 isTransitioning = false;
-            }, 500); // Duración de la transición
+            }, 500);
         });
     }
 
-    // Función para cambiar la imagen de fondo
+    // Función para cambiar la imagen
     function changeBackgroundImage(direction) {
         if (isTransitioning) return;
 
@@ -81,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         changeBackgroundImage('next');
     });
 
-    // Crear indicadores para el carrusel
+    // Crear indicadores
     backgroundImages.forEach((_, index) => {
         const indicator = document.createElement('button');
         indicator.classList.add('indicator');
@@ -93,24 +91,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // Configuración inicial
     hero.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
 
-    // Autoplay del carrusel
+    // Autoplay
     let autoplayInterval = setInterval(() => {
         changeBackgroundImage('next');
-    }, 5000); // Cambiar cada 5 segundos
+    }, 5000);
 
-    // Detener autoplay al hacer hover
+    // Detener autoplay al hover
     hero.addEventListener('mouseenter', () => {
         clearInterval(autoplayInterval);
     });
 
-    // Reiniciar autoplay al salir del hover
     hero.addEventListener('mouseleave', () => {
         autoplayInterval = setInterval(() => {
             changeBackgroundImage('next');
         }, 5000);
     });
 
-    // Soporte táctil (para dispositivos móviles)
+    // Soporte táctil
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -121,9 +118,9 @@ document.addEventListener('DOMContentLoaded', function () {
     hero.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         if (touchStartX - touchEndX > 50) {
-            changeBackgroundImage('next'); // Swipe hacia la izquierda
+            changeBackgroundImage('next');
         } else if (touchEndX - touchStartX > 50) {
-            changeBackgroundImage('prev'); // Swipe hacia la derecha
+            changeBackgroundImage('prev');
         }
     });
 });

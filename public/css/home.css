@@ -133,6 +133,7 @@ body {
     background-repeat: no-repeat;
     transition: opacity 0.5s ease-in-out;
     z-index: 1;
+    pointer-events: none;
 }
 
 .hero::before {
@@ -141,6 +142,7 @@ body {
     inset: 0;
     background-color: rgba(0, 0, 0, 0.2);
     z-index: 2;
+    pointer-events: none;
 }
 
 .hero-content {
@@ -149,7 +151,8 @@ body {
     display: flex;
     align-items: center;
     padding: 1rem;
-    z-index: 3; 
+    z-index: 3;
+    pointer-events: auto;
 }
 
 .hero-card {
@@ -160,6 +163,7 @@ body {
     max-width: 32rem;
     backdrop-filter: blur(8px);
     position: relative;
+    pointer-events: auto;
 }
 
 .hero-card h1 {
@@ -175,12 +179,19 @@ body {
     display: flex;
     gap: 1rem;
     position: relative;
+    pointer-events: auto;
+}
+
+.btn {
+    pointer-events: auto; /* Asegurar que los botones sean clicables */
+    cursor: pointer;
 }
 
 .hero-slider {
     position: absolute;
     inset: 0;
     z-index: 2;
+    pointer-events: none;
 }
 
 .btn-white {
@@ -208,8 +219,9 @@ body {
     color: var(--color-white);
     padding: 1rem;
     cursor: pointer;
-    z-index: 4; /* Aumentado para estar por encima del contenido */
+    z-index: 4;
     border-radius: 50%;
+    pointer-events: auto;
 }
 
 .slider-indicators {
@@ -219,9 +231,14 @@ body {
     transform: translateX(-50%);
     display: flex;
     gap: 0.5rem;
-    z-index: 4; /* Aumentado para estar por encima del contenido */
+    z-index: 4;
+    pointer-events: auto;  /* Aumentado para estar por encima del contenido */
 }
 
+.indicator {
+    pointer-events: auto; /* Asegurar que los indicadores sean clicables */
+    cursor: pointer;
+}
 
 .slider-prev {
     left: 1rem;
