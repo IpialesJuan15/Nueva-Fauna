@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 
 class Usuario extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
-    protected $table = 'usuarios'; // Nombre de la tabla
-    protected $primaryKey = 'user_id'; // Clave primaria
+    protected $table = 'usuarios';
+    protected $primaryKey = 'user_id';
 
     protected $fillable = [
         'tipus_id',
@@ -25,19 +23,24 @@ class Usuario extends Authenticatable
         'user_estado'
     ];
 
-    protected $hidden = ['user_password']; // Ocultar la contraseña al serializar
+    protected $hidden = [
+        'user_password',
+        'remember_token',
+    ];
 
-    public $timestamps = true;
-
-    // Mutador para cifrar automáticamente la contraseña
-    //public function setUserPasswordAttribute($value)
-    //{
-      //  $this->attributes['user_password'] = Hash::make($value);
-    //}
-
-    // Relación con TipoUsuario
     public function tipoUsuario()
     {
         return $this->belongsTo(TipoUsuario::class, 'tipus_id', 'tipus_id');
+    }
+
+    // Métodos necesarios para la autenticación
+    public function getAuthPassword()
+    {
+        return $this->user_password;
+    }
+
+    public function getAuthIdentifierName()
+    {
+        return 'user_id';
     }
 }

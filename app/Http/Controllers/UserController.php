@@ -51,27 +51,22 @@ class UserController extends Controller
             return back()->withErrors(['error' => 'Credenciales inválidas']);
         }
 
+        // Iniciar sesión manualmente
+        Auth::login($user);
+
         // Redirección según el tipo de usuario
         switch ($user->tipoUsuario->tipus_detalles) {
             case 'Observador':
-                $redirect = '/observador';
-                break;
+                return redirect('/observador');
             case 'Taxónomo':
-                $redirect = '/taxonomo';
-                break;
+                return redirect('/taxonomo');
             case 'Investigador':
-                $redirect = '/FormInvest';
-                break;
+                return redirect('/FormInvest');
             default:
-                $redirect = '/';
+                return redirect('/');
         }
-
-        return response()->json([
-            'message' => 'Inicio de sesión exitoso',
-            'redirect' => $redirect,
-        ]);
     }
-
+    
     public function logout(Request $request)
     {
         // Cierra la sesión del usuario
