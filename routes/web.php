@@ -18,8 +18,6 @@ Route::get('/login', function () {
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-<<<<<<< HEAD
-// Redirección según el rol
 Route::get('/observador', function () {
     return view('observador');
 });
@@ -56,8 +54,6 @@ Route::get('/report', function () {
 })->name('report');
 
 // Ruta para la vista de registro de usuarios
-=======
->>>>>>> 834aa893f232d2762e2c72ba98723350a0a7ceb2
 Route::get('/register', function () {
    return view('register');
 })->name('register');
