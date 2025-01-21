@@ -30,7 +30,7 @@ Route::get('/FormInvest', function () {
 // Ruta para la vista de taxónomo
 Route::get('/taxonomo', function () {
     return view('taxonomo');
-})->name('taxonomo');
+});
 
 
 // Rutas relacionadas con las especies
@@ -64,10 +64,8 @@ Route::get('/recuperarEmail', function () {
 })->name('recuperarEmail');
 
 // Rutas protegidas por autenticación
-Route::middleware(['auth'])->group(function () {
-   Route::get('/home', function () {
-       return view('home');
-   })->name('home');
+//Route::middleware(['auth'])->group(function () {
+
 
    Route::get('/registros', function () {
        return view('registros');
@@ -89,14 +87,6 @@ Route::middleware(['auth'])->group(function () {
    // Rutas de revisiones
    Route::post('/especies/{id}/revision', [RevisionController::class, 'store']);
 
-   Route::get('/observador', function () {
-       return view('observador');
-   });
-
-   Route::get('/FormInvest', function () {
-       return view('FormInvest');
-   });
-
    // Rutas específicas para taxónomos
    Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo.index');
    Route::post('/revisiones/{id}/actualizar', [RevisionController::class, 'actualizarEstado']);
@@ -106,4 +96,4 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/perfil', function () {
        return view('perfil');
    })->name('perfil');
-});
+//});
