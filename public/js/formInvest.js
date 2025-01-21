@@ -2,6 +2,7 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 
 let registros = []; // Almacena todos los registros ingresados
 let map, marker;
+
 document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos al inicializar
     cargarDatos();
@@ -49,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para enviar una especie a revisión
     window.enviarRevision = function (id) {
         alert(`Enviar a revisión el registro con ID: ${id}`);
-        // Aquí puedes implementar la lógica para enviar a revisión
     };
 
     // Función para eliminar un registro
@@ -72,24 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(error => console.error('Error al eliminar el registro:', error));
         }
     };
-});
-// Inicializar el mapa
-document.addEventListener('DOMContentLoaded', function () {
-    map = L.map('map').setView([0, 0], 2); // Vista inicial
 
-    // Cargar los mosaicos del mapa
+    // Inicializar el mapa
+    map = L.map('map').setView([0, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-
-    // Añadir un marcador
     marker = L.marker([0, 0], { draggable: false }).addTo(map);
-});
 
-// Asegúrate de que el DOM esté completamente cargado antes de ejecutar el código
-document.addEventListener('DOMContentLoaded', () => {
     // Asignar el evento al botón de búsqueda
-    const buscarBtn = document.getElementById('buscar-btn'); // Cambia el id según el botón de tu HTML
+    const buscarBtn = document.getElementById('buscar-btn');
     if (buscarBtn) {
         buscarBtn.addEventListener('click', buscarRegistro);
     }
@@ -108,19 +100,13 @@ function buscarRegistro() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'X-CSRF-TOKEN': csrfToken,
         },
         body: JSON.stringify({ nombre_comun: nombreComun }),
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al buscar el registro.');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.esp_id) {
-                // Llenar los campos del formulario con los datos obtenidos
                 document.getElementById('editar_esp_id').value = data.esp_id;
                 document.getElementById('editar_nombre_comun').value = data.esp_nombre_comun || '';
                 document.getElementById('editar_reino').value = data.reino_nombre || '';
@@ -156,17 +142,18 @@ function actualizarMapa() {
         alert('Por favor, ingrese valores válidos para latitud y longitud.');
     }
 }
+
 function logout() {
     if (confirm('¿Estás seguro de que deseas salir?')) {
         fetch('/logout', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-CSRF-TOKEN': csrfToken,
             },
         })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = '/login'; // Redirige al formulario de login
+                    window.location.href = '/login';
                 } else {
                     alert('Error al cerrar sesión. Por favor, intenta de nuevo.');
                 }
@@ -175,16 +162,16 @@ function logout() {
     }
 }
 
-
-// Mostrar sección específica y ocultar las demás
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.content');
-    sections.forEach(section => {
-        if (section.id === sectionId) {
-            section.style.display = 'block'; // Muestra la sección seleccionada
-        } else {
-            section.style.display = 'none'; // Oculta las demás secciones
-        }
-    });
-
+// Función para manejar el menú desplegable del usuario
+function toggleUserMenu() {
+    const dropdown = document.getElementById('user-dropdown');
+    dropdown.classList.toggle('show');
 }
+
+// Cerrar menú desplegable si se hace clic fuera de él
+window.addEventListener('click', function (e) {
+    const dropdown = document.getElementById('user-dropdown');
+    if (!dropdown.contains(e.target) && !e.target.matches('.user-icon')) {
+        dropdown.classList.remove('show');
+    }
+});

@@ -9,32 +9,37 @@ body {
 
 /* Header */
 header {
-    background-color: #28a745; /* Verde oscuro */
+    background-color: #28a745;
     color: #fff;
     padding: 10px 20px;
-    text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
+    display: flex;
+    justify-content: flex-start;  /* Inicia los elementos al principio */
+    align-items: center;
 }
 
+/*(Opcional) Título en Header, actualmente comentado en HTML*/
 header h1 {
+    position: absolute;
+    left: 30px; /* Ajusta según necesites */
     margin: 0;
     font-size: 24px;
+    white-space: nowrap;
 }
 
 /* Navigation Menu */
 nav ul {
     list-style: none;
+    margin: 0;
     padding: 0;
-    margin: 10px 0;
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 nav ul li {
-    display: inline;
+    display: inline-block;
 }
 
 nav ul li a {
@@ -43,12 +48,82 @@ nav ul li a {
     font-size: 16px;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: #28a745; /* Verde */
+    background-color: #28a745;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
 }
 
 nav ul li a:hover {
-    background-color: #218838; /* Verde más oscuro */
+    background-color: #218838;
+}
+
+/* Posicionamiento de navbar-container junto a user-menu en el extremo derecho */
+.navbar-container {
+    margin-left: auto; /* Empuja este elemento hacia la derecha */
+}
+
+/* User Menu */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.user-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Menú desplegable del usuario */
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 150px;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.user-dropdown a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Mostrar el menú desplegable */
+.user-dropdown.show {
+    display: block;
+}
+
+/* Responsivo para menú de navegación y menú desplegable */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .user-dropdown {
+        right: 10px;
+    }
 }
 
 /* Main Content */
@@ -88,8 +163,9 @@ main {
     flex-wrap: wrap;
 }
 
-.registro-izquierda, .registro-derecha {
-    width: 48%; /* Ancho de cada columna */
+.registro-izquierda, 
+.registro-derecha {
+    width: 48%;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -116,7 +192,10 @@ form label {
     font-size: 14px;
 }
 
-form input, form textarea, form button, form select {
+form input, 
+form textarea, 
+form button, 
+form select {
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -130,7 +209,7 @@ form textarea {
 }
 
 form button {
-    background-color: #28a745; /* Verde */
+    background-color: #28a745;
     color: white;
     font-size: 14px;
     font-weight: bold;
@@ -142,7 +221,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #218838; /* Verde más oscuro */
+    background-color: #218838;
 }
 
 /* Tablas */
@@ -160,7 +239,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #28a745; /* Verde */
+    background-color: #28a745;
     color: #fff;
 }
 
@@ -188,12 +267,12 @@ table button:hover {
 }
 
 table button:first-child {
-    background-color: #28a745; /* Verde para Enviar Revisión */
+    background-color: #28a745;
     color: white;
 }
 
 table button:last-child {
-    background-color: #dc3545; /* Rojo para Eliminar */
+    background-color: #dc3545;
     color: white;
 }
 
@@ -204,30 +283,30 @@ img {
     max-height: 50px;
 }
 
-/* Responsivo */
+/* Responsivo para otros elementos */
 @media (max-width: 768px) {
     .registro-contenedor {
         flex-direction: column;
     }
-
-    .registro-izquierda, .registro-derecha {
-        width: 100%; /* Apilan las columnas */
+    .registro-izquierda, 
+    .registro-derecha {
+        width: 100%;
     }
-
     nav ul {
         flex-direction: column;
         align-items: center;
     }
-
     nav ul li {
         margin: 5px 0;
     }
-
-    form input, form textarea, form button, form select {
+    form input, 
+    form textarea, 
+    form button, 
+    form select {
         font-size: 12px;
     }
-
-    table th, table td {
+    table th, 
+    table td {
         font-size: 12px;
     }
 }

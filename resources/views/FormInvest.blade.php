@@ -19,17 +19,29 @@
 
 <body>
     <header>
-        <h1>Gestión de Datos y Validacion</h1>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="showSection('registro'); return false;">Registro</a></li>
-                <li><a href="#" onclick="showSection('editar'); return false;">Editar</a></li>
-                <li><a href="#" onclick="showSection('filtrar'); return false;">Buscar</a></li>
-                <li><a href="#" onclick="showSection('datos_ingresados'); return false;">Datos Ingresados</a></li>
-                <li><a href="#" onclick="logout(); return false;">Salir</a></li>
-            </ul>
-        </nav>
+        <div class="navbar-container">
+            <h1>Gestión de Datos y Validación</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('registro'); return false;">Registro</a></li>
+                    <li><a href="#" onclick="showSection('editar'); return false;">Editar</a></li>
+                    <li><a href="#" onclick="showSection('filtrar'); return false;">Buscar</a></li>
+                    <li><a href="#" onclick="showSection('datos_ingresados'); return false;">Datos Ingresados</a></li>
+                    <li><a href="#" onclick="showSection('#'); return false;"></a></li>
+                </ul>
+            </nav>
+        </div>
+            <!-- Icono del menú de usuario -->
+            <div class="user-menu">
+                <img src="{{ asset('images/icoauc.jpg') }}" alt="Usuario" class="user-icon" onclick="toggleUserMenu()">
+                <div class="user-dropdown" id="user-dropdown">
+                    <a href="#">Mi perfil</a>
+                    <a href="#" onclick="logout(); return false;">Salir</a>
+                </div>
+            </div>
+        
     </header>
+    
 
     <main>
         <!-- Registro -->
