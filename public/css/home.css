@@ -117,9 +117,23 @@ body {
 .hero {
     position: relative;
     min-height: 100vh;
-    background-image: url('images/fondo.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .hero::before {
@@ -127,6 +141,8 @@ body {
     position: absolute;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .hero-content {
@@ -135,6 +151,8 @@ body {
     display: flex;
     align-items: center;
     padding: 1rem;
+    z-index: 3;
+    pointer-events: auto;
 }
 
 .hero-card {
@@ -143,6 +161,9 @@ body {
     padding: 2rem;
     border-radius: 0.5rem;
     max-width: 32rem;
+    backdrop-filter: blur(8px);
+    position: relative;
+    pointer-events: auto;
 }
 
 .hero-card h1 {
@@ -157,6 +178,20 @@ body {
 .hero-buttons {
     display: flex;
     gap: 1rem;
+    position: relative;
+    pointer-events: auto;
+}
+
+.btn {
+    pointer-events: auto; /* Asegurar que los botones sean clicables */
+    cursor: pointer;
+}
+
+.hero-slider {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .btn-white {
@@ -179,12 +214,30 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
+    background: rgba(0, 0, 0, 0.3);
     border: none;
     color: var(--color-white);
     padding: 1rem;
     cursor: pointer;
-    z-index: 10;
+    z-index: 4;
+    border-radius: 50%;
+    pointer-events: auto;
+}
+
+.slider-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 4;
+    pointer-events: auto;  /* Aumentado para estar por encima del contenido */
+}
+
+.indicator {
+    pointer-events: auto; /* Asegurar que los indicadores sean clicables */
+    cursor: pointer;
 }
 
 .slider-prev {
