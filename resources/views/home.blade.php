@@ -106,7 +106,7 @@
             <h2>Observaciones Recientes</h2>
             <div class="observations-grid">
                 <div class="observation">
-                    <img src="placeholder-obs-1.jpg" alt="Observación 1">
+                    <img src="../../public/images/ruficollarejo.png" alt="Observación 1">
                     <p>Especie 1</p>
                 </div>
                 <div class="observation">
