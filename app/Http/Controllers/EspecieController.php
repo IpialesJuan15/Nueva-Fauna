@@ -134,11 +134,6 @@ class EspecieController extends Controller
         return response()->json($especies);
     }
 
-    //  public function index()
-    //{
-    //  $especies = Especie::with(['imagenes', 'ubicaciones'])->get(); // Incluye relaciones
-    //return response()->json($especies);
-    //}
 
     public function destroy($id)
     {
