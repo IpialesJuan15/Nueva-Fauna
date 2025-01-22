@@ -7,8 +7,8 @@ use App\Http\Controllers\RevisionController;
 
 // Rutas públicas
 Route::get('/', function () {
-    return "HOLA MUNDO";
-});
+    return view('home');
+})->name('home');
 
 // Rutas de autenticación
 Route::get('/login', function () {
@@ -19,6 +19,10 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/taxonomo', function () {
+        return view('taxonomo');
+    })->name('taxonomo');
+    
     Route::get('/FormInvest', function () {
         return view('FormInvest');
     })->name('FormInvest');
@@ -27,9 +31,7 @@ Route::middleware(['auth'])->group(function () {
         return view('observador');
     })->name('observador');
 
-    Route::get('/taxonomo', function () {
-        return view('taxonomo');
-    })->name('taxonomo');
+   
 });
 
 
