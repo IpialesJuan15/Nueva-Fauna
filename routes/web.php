@@ -19,9 +19,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/taxonomo', function () {
-        return view('taxonomo');
-    })->name('taxonomo');
+    Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo');
+
     
     Route::get('/FormInvest', function () {
         return view('FormInvest');
