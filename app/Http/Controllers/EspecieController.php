@@ -11,6 +11,8 @@ use App\Models\Reino;
 use App\Models\Registro;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Mapa;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class EspecieController extends Controller
@@ -19,6 +21,7 @@ class EspecieController extends Controller
     {
         $user = Auth::user();
 
+        // Validar los datos
         $request->validate([
             'nombre_comun' => 'required|string|max:50',
             'reino' => 'required|string|max:50',
@@ -32,18 +35,25 @@ class EspecieController extends Controller
             'descripcion_ubicacion' => 'required|string|max:255',
         ]);
 
+        // Manejo de la imagen
         $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
 
+        // Buscar o crear el Reino
         $reino = Reino::firstOrCreate(['reino_nombre' => $request->reino]);
+
+        // Buscar o crear la Familia
         $familia = Familia::firstOrCreate([
             'fam_nombre' => $request->familia,
             'fam_reino_id' => $reino->reino_id,
         ]);
+
+        // Buscar o crear el Género
         $genero = Genero::firstOrCreate([
             'gene_nombre' => $request->genero,
             'gene_fam_id' => $familia->fam_id,
         ]);
 
+        // Crear la Especie
         $especie = Especie::create([
             'esp_gene_id' => $genero->gene_id,
             'esp_nombre_cientifico' => $request->nombre_cientifico,
@@ -52,7 +62,16 @@ class EspecieController extends Controller
             'esp_estado_valid' => false,
         ]);
 
+        // Seleccionar el mapa ya existente
+        $mapaExistente = Mapa::first(); // Toma el primer mapa encontrado en la base de datos
+
+        if (!$mapaExistente) {
+            return redirect()->back()->withErrors(['error' => 'No hay mapas disponibles en la base de datos.']);
+        }
+
+        // Crear la Ubicación usando el mapa existente
         Ubicacion::create([
+            'ubi_mapa_id' => $mapaExistente->mapa_id,
             'ubi_esp_id' => $especie->esp_id,
             'ubi_longitud' => $request->longitud,
             'ubi_latitud' => $request->latitud,
@@ -60,11 +79,13 @@ class EspecieController extends Controller
             'ubi_descripcion' => $request->descripcion_ubicacion,
         ]);
 
+        // Guardar la imagen asociada a la especie
         $especie->imagenes()->create([
             'img_ruta' => $rutaImagen,
             'img_descripcion' => 'Imagen subida automáticamente.',
         ]);
 
+        // Registrar la especie en la tabla de registros
         Registro::create([
             'esp_id' => $especie->esp_id,
             'user_id' => $user->user_id,
@@ -73,6 +94,7 @@ class EspecieController extends Controller
 
         return redirect()->back()->with('success', 'Especie registrada con éxito.');
     }
+
 
 
     public function update(Request $request)
@@ -206,17 +228,41 @@ class EspecieController extends Controller
 
     public function destroy($id)
     {
-        $especie = Especie::findOrFail($id);
+        // Buscar la especie por su ID
+        $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
 
-        // Eliminar ubicaciones relacionadas
-        $especie->ubicaciones()->delete();
+        try {
+            // Iniciar una transacción para garantizar consistencia
+            DB::beginTransaction();
 
-        // Eliminar imágenes relacionadas
-        $especie->imagenes()->delete();
+            // Eliminar ubicaciones relacionadas
+            foreach ($especie->ubicaciones as $ubicacion) {
+                $ubicacion->delete();
+            }
 
-        // Eliminar la especie
-        $especie->delete();
+            // Eliminar imágenes relacionadas y borrar físicamente los archivos
+            foreach ($especie->imagenes as $imagen) {
+                Storage::disk('public')->delete($imagen->img_ruta); // Eliminar la imagen físicamente
+                $imagen->delete();
+            }
 
-        return response()->json(['message' => 'Registro eliminado con éxito']);
+            // Eliminar registros relacionados
+            foreach ($especie->registros as $registro) {
+                $registro->delete();
+            }
+
+            // Finalmente, eliminar la especie
+            $especie->delete();
+
+            // Confirmar la transacción
+            DB::commit();
+
+            return response()->json(['message' => 'Registro eliminado con éxito'], 200);
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+
+            return response()->json(['message' => 'Error al eliminar el registro', 'error' => $e->getMessage()], 500);
+        }
     }
 }
