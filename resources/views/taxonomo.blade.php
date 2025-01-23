@@ -7,8 +7,6 @@
     <title>Panel del Taxónomo</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/taxonomo.css') }}" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -17,10 +15,6 @@
             <ul class="menu">
                 <li><a href="{{ url('/home') }}">Inicio</a></li>
                 <li><a href="{{ url('/registros') }}">Registros</a></li>
-                <li><a href="#" id="notification-trigger">
-                    <i class="fas fa-bell"></i>
-                    <span id="notification-count" class="badge">0</span>
-                </a></li>
                 <li>
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -42,6 +36,7 @@
             </div>
         @endif
 
+        <!-- Filtro -->
         <section class="filter-section">
             <h2>Buscar Registros</h2>
             <div class="filter-container">
@@ -63,10 +58,11 @@
                     <option value="aprobado">Aprobado</option>
                     <option value="rechazado">Rechazado</option>
                 </select>
-                <button class="filter-apply" onclick="filterRecords()">Filtrar</button>
+                <button id="apply-filter" class="filter-apply">Filtrar</button>
             </div>
         </section>
 
+        <!-- Tabla de Registros -->
         <section class="records-section">
             <h2>Registros para Revisión</h2>
             <table>
@@ -87,36 +83,24 @@
                             <tr data-revision-id="{{ $revision->id }}">
                                 <td>
                                     @if($revision->especie->imagenes && $revision->especie->imagenes->first())
-                                        <img src="{{ asset('storage/' . $revision->especie->imagenes->first()->img_ruta) }}" 
-                                             alt="{{ $revision->especie->esp_nombre_comun }}" 
-                                             class="bird-image">
+                                        <img src="{{ asset('storage/' . $revision->especie->imagenes->first()->img_ruta) }}" alt="{{ $revision->especie->esp_nombre_comun }}" class="bird-image">
                                     @else
-                                        <img src="{{ asset('images/no-image.jpg') }}" 
-                                             alt="No imagen disponible" 
-                                             class="bird-image">
+                                        <img src="{{ asset('images/no-image.jpg') }}" alt="No imagen disponible" class="bird-image">
                                     @endif
                                 </td>
-                                <td>{{ $revision->especie->esp_nombre_comun }}</td>
-                                <td>{{ $revision->especie->esp_nombre_cientifico }}</td>
-                                <td>{{ $revision->especie->esp_descripcion ?? 'Sin descripción' }}</td>
+                                <td contenteditable="true">{{ $revision->especie->esp_nombre_comun }}</td>
+                                <td contenteditable="true">{{ $revision->especie->esp_nombre_cientifico }}</td>
+                                <td contenteditable="true">{{ $revision->especie->esp_descripcion ?? 'Sin descripción' }}</td>
                                 <td>{{ $revision->user->user_nombre ?? '' }} {{ $revision->user->user_apellido ?? '' }}</td>
                                 <td>
                                     <select class="status-select">
-                                        <option value="pendiente" {{ $revision->estado == 'pendiente' ? 'selected' : '' }}>
-                                            Pendiente
-                                        </option>
-                                        <option value="aprobado" {{ $revision->estado == 'aprobado' ? 'selected' : '' }}>
-                                            Aprobado
-                                        </option>
-                                        <option value="rechazado" {{ $revision->estado == 'rechazado' ? 'selected' : '' }}>
-                                            Rechazado
-                                        </option>
+                                        <option value="pendiente" {{ $revision->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                        <option value="aprobado" {{ $revision->estado == 'aprobado' ? 'selected' : '' }}>Aprobado</option>
+                                        <option value="rechazado" {{ $revision->estado == 'rechazado' ? 'selected' : '' }}>Rechazado</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <button onclick="actualizarRevision('{{ $revision->id }}')" class="btn-guardar">
-                                        💾 Guardar
-                                    </button>
+                                    <button onclick="actualizarRevision('{{ $revision->id }}')" class="btn-guardar">💾 Guardar</button>
                                 </td>
                             </tr>
                         @endif
@@ -130,18 +114,60 @@
         </section>
     </main>
 
-    <section id="notifications" class="hidden">
-        <h2>Notificaciones</h2>
-        <ul id="notifications-list"></ul>
-        <button onclick="closeNotifications()">Cerrar</button>
-    </section>
+    <script>
+        document.getElementById('apply-filter').addEventListener('click', function () {
+            const species = document.getElementById('filter-species').value;
+            const status = document.getElementById('filter-status').value;
 
-    <footer>
-        <p>&copy; 2024 Observador de Aves - Ibarra, Ecuador</p>
-    </footer>
+            fetch('/taxonomo/filtrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ species, status }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const recordTable = document.getElementById('record-table');
+                recordTable.innerHTML = '';
+                data.data.forEach(revision => {
+                    const row = `
+                        <tr data-revision-id="${revision.id}">
+                            <td><img src="${revision.especie.imagenes?.[0]?.img_ruta || '/images/no-image.jpg'}" alt="${revision.especie.esp_nombre_comun}"></td>
+                            <td contenteditable="true">${revision.especie.esp_nombre_comun}</td>
+                            <td contenteditable="true">${revision.especie.esp_nombre_cientifico}</td>
+                            <td contenteditable="true">${revision.especie.esp_descripcion || 'Sin descripción'}</td>
+                            <td>${revision.user.user_nombre} ${revision.user.user_apellido}</td>
+                            <td>
+                                <select>
+                                    <option value="pendiente" ${revision.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                    <option value="aprobado" ${revision.estado === 'aprobado' ? 'selected' : ''}>Aprobado</option>
+                                    <option value="rechazado" ${revision.estado === 'rechazado' ? 'selected' : ''}>Rechazado</option>
+                                </select>
+                            </td>
+                            <td><button onclick="actualizarRevision(${revision.id})" class="btn-guardar">💾 Guardar</button></td>
+                        </tr>`;
+                    recordTable.innerHTML += row;
+                });
+            });
+        });
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="{{ asset('js/taxonomo.js') }}"></script>
+        function actualizarRevision(revisionId) {
+            const row = document.querySelector(`tr[data-revision-id="${revisionId}"]`);
+            const estado = row.querySelector('.status-select').value;
+
+            fetch(`/revisiones/${revisionId}/actualizar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ estado }),
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message));
+        }
+    </script>
 </body>
 </html>
