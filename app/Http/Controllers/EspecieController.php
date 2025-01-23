@@ -238,6 +238,9 @@ class EspecieController extends Controller
     public function destroy($id)
     {
         DB::statement("SET app.current_user_id = " . auth()->id());
+        // Buscar la especie por ID
+
+
         // Buscar la especie por su ID
         $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
         if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
@@ -283,18 +286,5 @@ class EspecieController extends Controller
         )[0]->check_especie_permissions;
     }
 
-    /**
-     * Obtener las especies visibles para el observador.
-     */
-    public function getVisibleEspecies()
-    {
-        $especies = Especie::where('esp_estado_valid', true)
-            ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'especies' => $especies,
-        ]);
-    }
+   
 }
