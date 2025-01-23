@@ -115,8 +115,17 @@ class EspecieController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        DB::statement("SET app.current_user_id = " . auth()->id());
         // Buscar la especie por ID
         $especie = Especie::findOrFail($request->esp_id);
+
+
+        if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
+            return redirect()->route('especies.index')
+                ->with('error', 'No tienes permiso para actualizar esta especie.');
+        }
+
+
 
         // Actualizar Reino
         $reino = Reino::firstOrCreate(['reino_nombre' => $request->reino]);
@@ -228,29 +237,29 @@ class EspecieController extends Controller
 
     public function destroy($id)
     {
+        DB::statement("SET app.current_user_id = " . auth()->id());
         // Buscar la especie por su ID
         $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
-
+        if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
+            return redirect()->route('especies.index')
+                ->with('error', 'No tienes permiso para actualizar esta especie.');
+        }
         try {
             // Iniciar una transacción para garantizar consistencia
             DB::beginTransaction();
-
             // Eliminar ubicaciones relacionadas
             foreach ($especie->ubicaciones as $ubicacion) {
                 $ubicacion->delete();
             }
-
             // Eliminar imágenes relacionadas y borrar físicamente los archivos
             foreach ($especie->imagenes as $imagen) {
                 Storage::disk('public')->delete($imagen->img_ruta); // Eliminar la imagen físicamente
                 $imagen->delete();
             }
-
             // Eliminar registros relacionados
             foreach ($especie->registros as $registro) {
                 $registro->delete();
             }
-
             // Finalmente, eliminar la especie
             $especie->delete();
 
@@ -265,6 +274,15 @@ class EspecieController extends Controller
             return response()->json(['message' => 'Error al eliminar el registro', 'error' => $e->getMessage()], 500);
         }
     }
+
+    private function checkPermission($especie_id, $permission)
+    {
+        return DB::select(
+            'SELECT check_especie_permissions(?,?,?)',
+            [auth()->id(), $especie_id, $permission]
+        )[0]->check_especie_permissions;
+    }
+
     /**
      * Obtener las especies visibles para el observador.
      */

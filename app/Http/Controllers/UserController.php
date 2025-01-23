@@ -69,7 +69,7 @@ class UserController extends Controller
             switch ($user->tipoUsuario->tipus_detalles) {
                 case 'Observador':
                     return redirect()->route('observador');
-                case 'Taxónomo':
+                case 'Taxonomo':
                     return redirect()->route('taxonomo');
                 case 'Investigador':
                     return redirect()->route('FormInvest');
