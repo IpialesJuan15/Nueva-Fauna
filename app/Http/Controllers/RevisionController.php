@@ -68,38 +68,40 @@ class RevisionController extends Controller
     }
 
     public function actualizarEstado(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                'estado' => 'required|in:pendiente,aprobado,rechazado'
-            ]);
+{
+    try {
+        $request->validate([
+            'estado' => 'required|in:pendiente,aprobado,rechazado',
+            'comentario' => 'nullable|string'
+        ]);
 
-            $revision = Revision::findOrFail($id);
-            $revision->estado = $request->estado;
-            $revision->taxonomo_id = Auth::id();
-            $revision->comentario = $request->comentario;
-            $revision->save();
+        $revision = Revision::findOrFail($id);
+        $revision->estado = $request->estado;
+        $revision->taxonomo_id = Auth::id();
+        $revision->comentario = $request->comentario;
+        $revision->save();
 
-            if ($request->estado === 'aprobado') {
-                $especie = Especie::find($revision->esp_id);
-                if ($especie) {
-                    $especie->esp_estado_valid = true;
-                    $especie->save();
-                }
+        if ($request->estado === 'aprobado') {
+            $especie = Especie::find($revision->esp_id);
+            if ($especie) {
+                $especie->visible_observador = true; // Asegúrate de que esta columna exista en la tabla especies
+                $especie->save();
             }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Estado actualizado correctamente'
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error en actualizarEstado: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al actualizar el estado: ' . $e->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Estado actualizado correctamente'
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Error en actualizarEstado: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al actualizar el estado: ' . $e->getMessage()
+        ], 500);
     }
+}
+
 
     public function contarPendientes()
     {

@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::get('/observador/especies', [EspecieController::class, 'getVisibleEspecies'])->name('observador.especies');
+
 
 // Ruta para la vista de home
 Route::get('/home', function () {
