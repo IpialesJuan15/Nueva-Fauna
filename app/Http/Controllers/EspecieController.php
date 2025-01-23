@@ -286,18 +286,5 @@ class EspecieController extends Controller
         )[0]->check_especie_permissions;
     }
 
-    /**
-     * Obtener las especies visibles para el observador.
-     */
-    public function getVisibleEspecies()
-    {
-        $especies = Especie::where('esp_estado_valid', true)
-            ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'especies' => $especies,
-        ]);
-    }
+    
 }
