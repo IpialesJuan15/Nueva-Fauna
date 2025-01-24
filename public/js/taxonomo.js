@@ -1,13 +1,3 @@
-// Mostrar Notificaciones
-document.getElementById('notification-trigger').addEventListener('click', function () {
-    const notifications = document.getElementById('notifications');
-    notifications.classList.toggle('hidden');
-});
-
-// Cerrar Notificaciones
-function closeNotifications() {
-    document.getElementById('notifications').classList.add('hidden');
-}
 
 // Guardar Registro
 function saveRecord(button) {
@@ -32,48 +22,3 @@ function previewImage(input) {
         reader.readAsDataURL(file);
     }
 }
-
-
-function actualizarRevision(revisionId) {
-    const row = document.querySelector(`tr[data-revision-id="${revisionId}"]`);
-    const estado = row.querySelector('.status-select').value;
-
-    fetch(`/revisiones/${revisionId}/actualizar`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify({
-            estado: estado
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Revisión actualizada exitosamente');
-            // Actualizar la fila o recargar la tabla según sea necesario
-        } else {
-            alert('Error al actualizar la revisión');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error al actualizar la revisión');
-    });
-}
-
-// Agregar notificaciones en tiempo real (opcional)
-function actualizarNotificaciones() {
-    fetch('/revisiones/pendientes/count')
-        .then(response => response.json())
-        .then(data => {
-            const notificationsList = document.getElementById('notifications-list');
-            notificationsList.innerHTML = `
-                <li>Tienes ${data.count} revisiones pendientes</li>
-            `;
-        });
-}
-
-// Actualizar notificaciones cada minuto
-setInterval(actualizarNotificaciones, 60000);

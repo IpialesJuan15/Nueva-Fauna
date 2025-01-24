@@ -225,6 +225,7 @@ form button:hover {
 }
 
 /* Tablas */
+/* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -275,6 +276,7 @@ table button:last-child {
     background-color: #dc3545;
     color: white;
 }
+
 
 /* Imágenes */
 img {

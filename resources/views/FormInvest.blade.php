@@ -253,6 +253,7 @@
                         <th>Ubicación</th>
                         <th>Fecha de Registro</th>
                         <th>Imagen</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>

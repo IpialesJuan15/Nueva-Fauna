@@ -84,6 +84,7 @@ function mostrarObservaciones() {
 }
 
 // Función para cargar datos de registro
+// Función para cargar los datos y el estado de validación
 function cargarDatos() {
     fetch('/especies', {
         method: 'GET',
@@ -112,17 +113,20 @@ function cargarDatos() {
                     <td>
                         ${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
                     </td>
+                    <td>${especie.esp_estado_valid ? 'Aprobada' : 'Pendiente'}</td>
                     <td>
-                        <button class="btn btn-success btn-sm" onclick="enviarRevision(${especie.esp_id})">Enviar Revisión</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
                     </td>
                 `;
-
                 tbody.appendChild(fila);
             });
         })
         .catch(error => console.error('Error al cargar los datos:', error));
 }
+
+
+
+
 // Función para cargar observaciones
 function cargarObservaciones() {
     fetch('/especies', {

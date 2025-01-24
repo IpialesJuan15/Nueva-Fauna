@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Mapa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Validacion;
+use Illuminate\Support\Facades\Log;
 
 class EspecieController extends Controller
 {
@@ -285,6 +287,50 @@ class EspecieController extends Controller
             [auth()->id(), $especie_id, $permission]
         )[0]->check_especie_permissions;
     }
+    public function getVisibleEspecies()
+    {
+        $especies = Especie::where('esp_estado_valid', true)
+            ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
+            ->get();
 
-    
+        return response()->json([
+            'success' => true,
+            'especies' => $especies,
+        ]);
+    }
+    public function validarEspecie(Request $request, $id)
+{
+    $request->validate([
+        'estado' => 'required|in:Aprobado,Rechazado',
+        'comentarios' => 'nullable|string|max:255',
+    ]);
+
+    $registro = Registro::where('esp_id', $id)->where('regis_estado', 'pendiente')->first();
+
+    if (!$registro) {
+        return redirect()->route('taxonomo')->with('error', 'Registro no encontrado o ya ha sido procesado.');
+    }
+
+    // Actualizar estado del registro
+    $registro->update([
+        'regis_estado' => $request->estado,
+    ]);
+
+    // Actualizar estado de la especie
+    $especie = Especie::findOrFail($id);
+    $especie->update([
+        'esp_estado_valid' => $request->estado === 'Aprobado',
+    ]);
+
+    // Guardar la validación
+    Validacion::create([
+        'valid_regis_id' => $registro->regis_id,
+        'valid_user_id' => Auth::id(),
+        'valid_fecha' => now(),
+        'valid_comentarios' => $request->comentarios,
+    ]);
+
+    return redirect()->route('taxonomo')->with('success', 'Especie ' . strtolower($request->estado) . ' correctamente.');
+}
+
 }
