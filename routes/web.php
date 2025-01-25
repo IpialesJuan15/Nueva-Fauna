@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 // Ruta para la vista de registro de usuarios
 Route::get('/register', function () {
     return view('register');
@@ -47,13 +51,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
     Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
     Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
-    Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+    Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy'); // Eliminar especie
     Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
     Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
 
+
 });
 
-Route::get('/observador/especies', [EspecieController::class, 'getVisibleEspecies'])->name('observador.especies');
+Route::get('/observador/especies', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('observador.especies');
+
 // Ruta para la vista de report
 Route::get('/report', function () {
     return view('report');

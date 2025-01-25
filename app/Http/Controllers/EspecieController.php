@@ -239,46 +239,49 @@ class EspecieController extends Controller
 
     public function destroy($id)
     {
-        DB::statement("SET app.current_user_id = " . auth()->id());
-        // Buscar la especie por ID
-
-
-        // Buscar la especie por su ID
-        $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
-        if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
-            return redirect()->route('especies.index')
-                ->with('error', 'No tienes permiso para actualizar esta especie.');
-        }
         try {
-            // Iniciar una transacción para garantizar consistencia
             DB::beginTransaction();
+
+            // Verificar si la especie existe y validar permisos
+            $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
+
+            if (!$this->checkPermission($especie->esp_id, 'delete')) {
+                return response()->json([
+                    'message' => 'No tienes permiso para eliminar esta especie.'
+                ], 403);
+            }
+
             // Eliminar ubicaciones relacionadas
             foreach ($especie->ubicaciones as $ubicacion) {
                 $ubicacion->delete();
             }
-            // Eliminar imágenes relacionadas y borrar físicamente los archivos
+
+            // Eliminar imágenes relacionadas y sus archivos
             foreach ($especie->imagenes as $imagen) {
-                Storage::disk('public')->delete($imagen->img_ruta); // Eliminar la imagen físicamente
+                Storage::disk('public')->delete($imagen->img_ruta); // Borra el archivo físicamente
                 $imagen->delete();
             }
+
             // Eliminar registros relacionados
             foreach ($especie->registros as $registro) {
                 $registro->delete();
             }
-            // Finalmente, eliminar la especie
+
+            // Eliminar la especie
             $especie->delete();
 
-            // Confirmar la transacción
             DB::commit();
-
-            return response()->json(['message' => 'Registro eliminado con éxito'], 200);
+            return response()->json(['message' => 'Registro eliminado con éxito.'], 200);
         } catch (\Exception $e) {
-            // Revertir la transacción en caso de error
             DB::rollBack();
-
-            return response()->json(['message' => 'Error al eliminar el registro', 'error' => $e->getMessage()], 500);
+            Log::error('Error al eliminar el registro: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Error al eliminar el registro.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
+
 
     private function checkPermission($especie_id, $permission)
     {
@@ -287,8 +290,45 @@ class EspecieController extends Controller
             [auth()->id(), $especie_id, $permission]
         )[0]->check_especie_permissions;
     }
-    public function getVisibleEspecies()
+
+    public function validarEspecie(Request $request, $id)
     {
+        $request->validate([
+            'estado' => 'required|in:Aprobado,Rechazado',
+            'comentarios' => 'nullable|string|max:255',
+        ]);
+
+        // Buscar el registro independientemente de su estado
+        $registro = Registro::where('esp_id', $id)->first();
+
+        if (!$registro) {
+            return redirect()->route('taxonomo')->with('error', 'Registro no encontrado.');
+        }
+
+        // Actualizar el estado del registro
+        $registro->update([
+            'regis_estado' => $request->estado,
+        ]);
+
+        // Actualizar el estado de la especie
+        $especie = Especie::findOrFail($id);
+        $especie->update([
+            'esp_estado_valid' => $request->estado === 'Aprobado',
+        ]);
+
+        // Guardar la validación
+        Validacion::create([
+            'valid_regis_id' => $registro->regis_id,
+            'valid_user_id' => Auth::id(),
+            'valid_fecha' => now(),
+            'valid_comentarios' => $request->comentarios,
+        ]);
+
+        return redirect()->route('taxonomo')->with('success', 'Especie ' . strtolower($request->estado) . ' correctamente.');
+    }
+    public function obtenerEspeciesAprobadas()
+    {
+        // Obtener especies aprobadas
         $especies = Especie::where('esp_estado_valid', true)
             ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
             ->get();
@@ -298,39 +338,4 @@ class EspecieController extends Controller
             'especies' => $especies,
         ]);
     }
-    public function validarEspecie(Request $request, $id)
-{
-    $request->validate([
-        'estado' => 'required|in:Aprobado,Rechazado',
-        'comentarios' => 'nullable|string|max:255',
-    ]);
-
-    $registro = Registro::where('esp_id', $id)->where('regis_estado', 'pendiente')->first();
-
-    if (!$registro) {
-        return redirect()->route('taxonomo')->with('error', 'Registro no encontrado o ya ha sido procesado.');
-    }
-
-    // Actualizar estado del registro
-    $registro->update([
-        'regis_estado' => $request->estado,
-    ]);
-
-    // Actualizar estado de la especie
-    $especie = Especie::findOrFail($id);
-    $especie->update([
-        'esp_estado_valid' => $request->estado === 'Aprobado',
-    ]);
-
-    // Guardar la validación
-    Validacion::create([
-        'valid_regis_id' => $registro->regis_id,
-        'valid_user_id' => Auth::id(),
-        'valid_fecha' => now(),
-        'valid_comentarios' => $request->comentarios,
-    ]);
-
-    return redirect()->route('taxonomo')->with('success', 'Especie ' . strtolower($request->estado) . ' correctamente.');
-}
-
 }
