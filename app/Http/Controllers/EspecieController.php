@@ -65,15 +65,15 @@ class EspecieController extends Controller
         ]);
 
         // Seleccionar el mapa ya existente
-        $mapaExistente = Mapa::first(); // Toma el primer mapa encontrado en la base de datos
+        //$mapaExistente = Mapa::first(); // Toma el primer mapa encontrado en la base de datos
 
-        if (!$mapaExistente) {
-            return redirect()->back()->withErrors(['error' => 'No hay mapas disponibles en la base de datos.']);
-        }
+        //if (!$mapaExistente) {
+        //  return redirect()->back()->withErrors(['error' => 'No hay mapas disponibles en la base de datos.']);
+        //}
 
         // Crear la Ubicación usando el mapa existente
         Ubicacion::create([
-            'ubi_mapa_id' => $mapaExistente->mapa_id,
+            // 'ubi_mapa_id' => $mapaExistente->mapa_id,
             'ubi_esp_id' => $especie->esp_id,
             'ubi_longitud' => $request->longitud,
             'ubi_latitud' => $request->latitud,
@@ -281,25 +281,17 @@ class EspecieController extends Controller
             ], 500);
         }
     }
-
-
-    private function checkPermission($especie_id, $permission)
-    {
-        return DB::select(
-            'SELECT check_especie_permissions(?,?,?)',
-            [auth()->id(), $especie_id, $permission]
-        )[0]->check_especie_permissions;
-    }
-
     public function validarEspecie(Request $request, $id)
     {
         $request->validate([
             'estado' => 'required|in:Aprobado,Rechazado',
             'comentarios' => 'nullable|string|max:255',
         ]);
+        DB::statement("SET app.current_user_id = " . auth()->id());
 
         // Buscar el registro independientemente de su estado
         $registro = Registro::where('esp_id', $id)->first();
+
 
         if (!$registro) {
             return redirect()->route('taxonomo')->with('error', 'Registro no encontrado.');
@@ -312,6 +304,10 @@ class EspecieController extends Controller
 
         // Actualizar el estado de la especie
         $especie = Especie::findOrFail($id);
+        if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
+            return redirect()->route('especies.index')
+                ->with('error', 'No tienes permiso para actualizar esta especie.');
+        }
         $especie->update([
             'esp_estado_valid' => $request->estado === 'Aprobado',
         ]);
@@ -326,6 +322,16 @@ class EspecieController extends Controller
 
         return redirect()->route('taxonomo')->with('success', 'Especie ' . strtolower($request->estado) . ' correctamente.');
     }
+
+    private function checkPermission($especie_id, $permission)
+    {
+        return DB::select(
+            'SELECT check_especie_permissions(?,?,?)',
+            [auth()->id(), $especie_id, $permission]
+        )[0]->check_especie_permissions;
+    }
+
+
     public function obtenerEspeciesAprobadas()
     {
         // Obtener especies aprobadas
