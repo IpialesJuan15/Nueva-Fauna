@@ -19,6 +19,12 @@ use Illuminate\Support\Facades\Log;
 
 class EspecieController extends Controller
 {
+    public function create()
+    {
+        $reinos = DB::table('tax_reinos')->pluck('reino_nombre');
+        return view('formInvest', compact('reinos'));
+    }
+
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -26,7 +32,7 @@ class EspecieController extends Controller
         // Validar los datos
         $request->validate([
             'nombre_comun' => 'required|string|max:50',
-            'reino' => 'required|string|max:50',
+            'reino' => 'required|string|exists:tax_reinos,reino_nombre',
             'familia' => 'required|string|max:50',
             'genero' => 'required|string|max:50',
             'nombre_cientifico' => 'required|string|max:50',
@@ -37,11 +43,11 @@ class EspecieController extends Controller
             'descripcion_ubicacion' => 'required|string|max:255',
         ]);
 
+        // Buscar el ID del reino seleccionado
+        $reino = DB::table('tax_reinos')->where('reino_nombre', $request->reino)->first();
+
         // Manejo de la imagen
         $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
-
-        // Buscar o crear el Reino
-        $reino = Reino::firstOrCreate(['reino_nombre' => $request->reino]);
 
         // Buscar o crear la Familia
         $familia = Familia::firstOrCreate([
@@ -64,16 +70,8 @@ class EspecieController extends Controller
             'esp_estado_valid' => false,
         ]);
 
-        // Seleccionar el mapa ya existente
-        //$mapaExistente = Mapa::first(); // Toma el primer mapa encontrado en la base de datos
-
-        //if (!$mapaExistente) {
-        //  return redirect()->back()->withErrors(['error' => 'No hay mapas disponibles en la base de datos.']);
-        //}
-
-        // Crear la Ubicación usando el mapa existente
+        // Crear la Ubicación
         Ubicacion::create([
-            // 'ubi_mapa_id' => $mapaExistente->mapa_id,
             'ubi_esp_id' => $especie->esp_id,
             'ubi_longitud' => $request->longitud,
             'ubi_latitud' => $request->latitud,
@@ -97,8 +95,6 @@ class EspecieController extends Controller
         return redirect()->back()->with('success', 'Especie registrada con éxito.');
     }
 
-
-
     public function update(Request $request)
     {
         // Validar los datos enviados
@@ -121,13 +117,10 @@ class EspecieController extends Controller
         // Buscar la especie por ID
         $especie = Especie::findOrFail($request->esp_id);
 
-
         if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
             return redirect()->route('especies.index')
                 ->with('error', 'No tienes permiso para actualizar esta especie.');
         }
-
-
 
         // Actualizar Reino
         $reino = Reino::firstOrCreate(['reino_nombre' => $request->reino]);
@@ -229,13 +222,13 @@ class EspecieController extends Controller
         // Si no se encuentra la especie, devolver error
         return response()->json(['message' => 'Especie no encontrada'], 404);
     }
+
     public function index()
     {
         $especies = Especie::with(['genero.familia.reino', 'ubicaciones', 'imagenes'])->get();
 
         return response()->json($especies);
     }
-
 
     public function destroy($id)
     {
@@ -281,6 +274,7 @@ class EspecieController extends Controller
             ], 500);
         }
     }
+
     public function validarEspecie(Request $request, $id)
     {
         $request->validate([
@@ -291,7 +285,6 @@ class EspecieController extends Controller
 
         // Buscar el registro independientemente de su estado
         $registro = Registro::where('esp_id', $id)->first();
-
 
         if (!$registro) {
             return redirect()->route('taxonomo')->with('error', 'Registro no encontrado.');
@@ -330,7 +323,6 @@ class EspecieController extends Controller
             [auth()->id(), $especie_id, $permission]
         )[0]->check_especie_permissions;
     }
-
 
     public function obtenerEspeciesAprobadas()
     {

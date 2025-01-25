@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy'); // Eliminar especie
     Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
     Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
+    Route::get('/especies/create', [EspecieController::class, 'create'])->name('especies.create');
 
 
 });

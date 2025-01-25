@@ -99,8 +99,12 @@
                         <input type="text" name="nombre_comun" id="nombre_comun" required>
 
                         <label for="reino">Reino:</label>
-                        <input type="text" name="reino" id="reino" required>
-
+                        <select name="reino" id="reino" class="form-select" required>
+                        <option value="" selected disabled>Seleccione un Reino</option>
+                        @foreach ($reinos as $reino)
+                            <option value="{{ $reino }}">{{ $reino }}</option>
+                        @endforeach
+                        </select>
                         <label for="familia">Familia:</label>
                         <input type="text" name="familia" id="familia" required>
 
