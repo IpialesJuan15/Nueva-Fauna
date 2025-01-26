@@ -21,8 +21,11 @@ class EspecieController extends Controller
 {
     public function create()
     {
-        $reinos = DB::table('tax_reinos')->pluck('reino_nombre');
-        return view('formInvest', compact('reinos'));
+        $reinos = DB::table('tax_reinos')->pluck('reino_nombre'); // Nombres de los reinos
+        $familias = DB::table('tax_familias')->pluck('fam_nombre'); // Nombres de las familias
+        $generos = DB::table('tax_generos')->pluck('gene_nombre'); // Nombres de los géneros
+
+        return view('FormInvest', compact('reinos', 'familias', 'generos')); // Pasar datos a la vista
     }
 
     public function store(Request $request)
@@ -94,6 +97,31 @@ class EspecieController extends Controller
 
         return redirect()->back()->with('success', 'Especie registrada con éxito.');
     }
+
+    public function getFamiliasGeneros(Request $request)
+{
+    // Obtener el nombre del Reino desde la solicitud
+    $reino = $request->query('reino');
+
+    // Filtrar las Familias relacionadas con el Reino seleccionado
+    $familias = DB::table('tax_familias')
+        ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
+        ->where('tax_reinos.reino_nombre', $reino)
+        ->pluck('fam_nombre');
+
+    // Filtrar los Géneros relacionados con las Familias del Reino seleccionado
+    $generos = DB::table('tax_generos')
+        ->join('tax_familias', 'tax_generos.gene_fam_id', '=', 'tax_familias.fam_id')
+        ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
+        ->where('tax_reinos.reino_nombre', $reino)
+        ->pluck('gene_nombre');
+
+    // Devolver los resultados en formato JSON
+    return response()->json([
+        'familias' => $familias,
+        'generos' => $generos,
+    ]);
+}
 
     public function update(Request $request)
     {

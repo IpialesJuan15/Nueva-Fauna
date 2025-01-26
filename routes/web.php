@@ -30,9 +30,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/FormInvest', function () {
-        return view('FormInvest');
-    })->name('FormInvest');
+
+    Route::get('/FormInvest', [EspecieController::class, 'create'])->name('FormInvest');
 
     Route::get('/observador', function () {
         return view('observador');
@@ -55,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
     Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
     Route::get('/especies/create', [EspecieController::class, 'create'])->name('especies.create');
+    Route::get('/getFamiliasGeneros', [EspecieController::class, 'getFamiliasGeneros'])->name('getFamiliasGeneros');
+
 
 
 });
