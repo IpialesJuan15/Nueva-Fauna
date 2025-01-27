@@ -19,6 +19,7 @@ class Especie extends Model
         'updated_at',
     ];
 
+    // Relaciones existentes
     public function genero()
     {
         return $this->belongsTo(Genero::class, 'esp_gene_id', 'gene_id');
@@ -39,9 +40,56 @@ class Especie extends Model
         return $this->hasMany(Registro::class, 'esp_id', 'esp_id');
     }
 
-    // Agregamos la relación con revisiones
     public function revisiones()
     {
         return $this->hasMany(Revision::class, 'esp_id', 'esp_id');
+    }
+
+    // Método para obtener el nombre del estado
+    public function getEstadoNombre()
+    {
+        switch($this->esp_estado_valid) {
+            case 1:
+                return 'Pendiente';
+            case 2:
+                return 'Aprobado';
+            case 3:
+                return 'Rechazado';
+            default:
+                return 'Pendiente';
+        }
+    }
+
+    // Método para obtener el color de la clase CSS según el estado
+    public function getEstadoClase()
+    {
+        switch($this->esp_estado_valid) {
+            case 1:
+                return 'estado-pendiente';
+            case 2:
+                return 'estado-aprobado';
+            case 3:
+                return 'estado-rechazado';
+            default:
+                return 'estado-pendiente';
+        }
+    }
+
+    // Método para verificar si la especie está pendiente
+    public function estaPendiente()
+    {
+        return $this->esp_estado_valid == 1;
+    }
+
+    // Método para verificar si la especie está aprobada
+    public function estaAprobada()
+    {
+        return $this->esp_estado_valid == 2;
+    }
+
+    // Método para verificar si la especie está rechazada
+    public function estaRechazada()
+    {
+        return $this->esp_estado_valid == 3;
     }
 }

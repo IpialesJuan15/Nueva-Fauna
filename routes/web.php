@@ -47,19 +47,21 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     // Rutas para las especies
-    Route::post('/especies', [EspecieController::class, 'store'])->name('especies.store');
-    Route::put('/especies/editar', [EspecieController::class, 'update'])->name('especies.update');
-    Route::post('/especies/buscar', [EspecieController::class, 'search'])->name('especies.search');
-    Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy'); // Eliminar especie
-    Route::get('/especies', [EspecieController::class, 'index'])->name('especies.index');
-    Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
-    Route::get('/especies/create', [EspecieController::class, 'create'])->name('especies.create');
-    Route::get('/getFamiliasGeneros', [EspecieController::class, 'getFamiliasGeneros'])->name('getFamiliasGeneros');
-
-
+    Route::prefix('especies')->group(function () {
+        Route::get('/', [EspecieController::class, 'index'])->name('especies.index');
+        Route::post('/', [EspecieController::class, 'store'])->name('especies.store');
+        Route::put('/{id}', [EspecieController::class, 'update'])->name('especies.update');
+        Route::delete('/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+        Route::post('/buscar', [EspecieController::class, 'search'])->name('especies.search');
+        Route::post('/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
+        Route::post('/{id}/imagen', [EspecieController::class, 'actualizarImagen'])->name('especies.actualizarImagen');
+        Route::get('/create', [EspecieController::class, 'create'])->name('especies.create');
+        Route::get('/familias-generos', [EspecieController::class, 'getFamiliasGeneros'])->name('getFamiliasGeneros');
+    });
 
 });
 
+Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
 Route::get('/observador/especies', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('observador.especies');
 
 // Ruta para la vista de report

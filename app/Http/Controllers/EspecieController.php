@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+<?php
+
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Especie;
 use App\Models\Familia;
@@ -15,7 +19,7 @@ use App\Models\Mapa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Validacion;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log; // Agregar esta línea
 
 class EspecieController extends Controller
 {
@@ -305,63 +309,90 @@ class EspecieController extends Controller
 
     public function validarEspecie(Request $request, $id)
     {
-        $request->validate([
-            'estado' => 'required|in:Aprobado,Rechazado',
-            'comentarios' => 'nullable|string|max:255',
-        ]);
-        DB::statement("SET app.current_user_id = " . auth()->id());
-
-        // Buscar el registro independientemente de su estado
-        $registro = Registro::where('esp_id', $id)->first();
-
-        if (!$registro) {
-            return redirect()->route('taxonomo')->with('error', 'Registro no encontrado.');
+        try {
+            // Validar la especie existe
+            $especie = Especie::findOrFail($id);
+            
+            // Actualizar el estado
+            $especie->update([
+                'esp_estado_valid' => ($request->estado === 'Aprobado') ? 2 : 3
+            ]);
+    
+            // Buscar el registro asociado
+            $registro = Registro::where('esp_id', $id)->first();
+            if ($registro) {
+                $registro->update([
+                    'regis_estado' => $request->estado
+                ]);
+            }
+    
+            return response()->json([
+                'success' => true,
+                'message' => "Especie {$request->estado} correctamente"
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error en validarEspecie: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al procesar la validación'
+            ], 500);
         }
-
-        // Actualizar el estado del registro
-        $registro->update([
-            'regis_estado' => $request->estado,
-        ]);
-
-        // Actualizar el estado de la especie
-        $especie = Especie::findOrFail($id);
-        if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
-            return redirect()->route('especies.index')
-                ->with('error', 'No tienes permiso para actualizar esta especie.');
-        }
-        $especie->update([
-            'esp_estado_valid' => $request->estado === 'Aprobado',
-        ]);
-
-        // Guardar la validación
-        Validacion::create([
-            'valid_regis_id' => $registro->regis_id,
-            'valid_user_id' => Auth::id(),
-            'valid_fecha' => now(),
-            'valid_comentarios' => $request->comentarios,
-        ]);
-
-        return redirect()->route('taxonomo')->with('success', 'Especie ' . strtolower($request->estado) . ' correctamente.');
     }
 
-    private function checkPermission($especie_id, $permission)
-    {
-        return DB::select(
-            'SELECT check_especie_permissions(?,?,?)',
-            [auth()->id(), $especie_id, $permission]
-        )[0]->check_especie_permissions;
+private function convertirEstadoANumero($estado)
+{
+    switch ($estado) {
+        case 'Aprobado':
+            return 2;
+        case 'Rechazado':
+            return 3;
+        default:
+            return 1; // Pendiente
     }
+}
+
+// Agregar este método para obtener el nombre del estado
+public function getEstadoNombre($estadoNumerico)
+{
+    switch ($estadoNumerico) {
+        case 1:
+            return 'Pendiente';
+        case 2:
+            return 'Aprobado';
+        case 3:
+            return 'Rechazado';
+        default:
+            return 'Desconocido';
+    }
+}
+
+private function checkPermission($especie_id, $permission)
+{
+    return DB::selectOne(
+        'SELECT check_especie_permissions(?, ?, ?) as result',
+        [Auth::id(), $especie_id, $permission]
+    )->result;
+}
 
     public function obtenerEspeciesAprobadas()
     {
-        // Obtener especies aprobadas
-        $especies = Especie::where('esp_estado_valid', true)
-            ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'especies' => $especies,
-        ]);
+        try {
+            // Obtener solo especies con estado_valid = 2 (Aprobado)
+            $especies = Especie::where('esp_estado_valid', 2)
+                ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
+                ->get();
+    
+            return response()->json([
+                'success' => true,
+                'especies' => $especies
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener las especies: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
