@@ -306,37 +306,65 @@ class EspecieController extends Controller
     public function validarEspecie(Request $request, $id)
     {
         try {
-            // Validar la especie existe
-            $especie = Especie::findOrFail($id);
-            
-            // Actualizar el estado
-            $especie->update([
-                'esp_estado_valid' => ($request->estado === 'Aprobado') ? 2 : 3
+            // Log inicial
+            Log::info('Iniciando validación de especie', [
+                'id' => $id,
+                'estado' => $request->estado
             ]);
     
-            // Buscar el registro asociado
-            $registro = Registro::where('esp_id', $id)->first();
-            if ($registro) {
-                $registro->update([
-                    'regis_estado' => $request->estado
+            // Obtener la especie con sus registros
+            $especie = Especie::with('registros')->findOrFail($id);
+            
+            DB::beginTransaction();
+            
+            try {
+                // Actualizar estado de la especie
+                $estadoNumerico = $request->estado === 'Aprobado' ? 2 : 3;
+                
+                $especie->update([
+                    'esp_estado_valid' => $estadoNumerico
                 ]);
+    
+                // Actualizar el registro asociado
+                $registro = $especie->registros()->first();
+                if ($registro) {
+                    $registro->update([
+                        'regis_estado' => strtolower($request->estado)
+                    ]);
+                }
+    
+                DB::commit();
+    
+                Log::info('Validación completada exitosamente', [
+                    'especie_id' => $id,
+                    'nuevo_estado' => $estadoNumerico
+                ]);
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => "Especie {$request->estado} correctamente",
+                    'estado' => $especie->getEstadoNombre(),
+                    'clase' => $especie->getEstadoClase()
+                ]);
+    
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
             }
     
-            return response()->json([
-                'success' => true,
-                'message' => "Especie {$request->estado} correctamente"
-            ]);
-    
         } catch (\Exception $e) {
-            Log::error('Error en validarEspecie: ' . $e->getMessage());
+            Log::error('Error en validarEspecie', [
+                'mensaje' => $e->getMessage(),
+                'linea' => $e->getLine(),
+                'archivo' => $e->getFile()
+            ]);
             
             return response()->json([
                 'success' => false,
-                'message' => 'Error al procesar la validación'
+                'message' => 'Error al procesar la validación: ' . $e->getMessage()
             ], 500);
         }
     }
-
 private function convertirEstadoANumero($estado)
 {
     switch ($estado) {
