@@ -132,7 +132,7 @@ async function actualizarImagen(input, especieId) {
 }
 
 // Validar especie
-function validarEspecie(especieId, estado) {
+/*function validarEspecie(especieId, estado) {
     const token = document.querySelector('meta[name="csrf-token"]').content;
     
     console.log('Token CSRF:', token); // Para debug
@@ -193,9 +193,9 @@ function validarEspecie(especieId, estado) {
             });
         }
     });
-}
+}*/
 // Enviar validación al servidor
-async function enviarValidacion(especieId, estado) {
+/*async function enviarValidacion(especieId, estado) {
     try {
         const response = await fetch(`/especies/${especieId}/validar`, {
             method: 'POST',
@@ -228,7 +228,7 @@ async function enviarValidacion(especieId, estado) {
         mostrarNotificacion('Error al procesar la validación', 'error');
         console.error('Error:', error);
     }
-}
+}*/
 
 // Aplicar filtros
 function aplicarFiltros() {

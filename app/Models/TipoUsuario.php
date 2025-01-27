@@ -25,4 +25,10 @@ class TipoUsuario extends Model
     {
         return $this->hasMany(Usuario::class, 'tipus_id', 'tipus_id');
     }
+
+    // Scope para filtrar tipos de usuario específicos
+    public function scopeFiltrarTiposEspecificos($query)
+    {
+        return $query->whereIn('tipus_detalles', ['Observador', 'Taxonomo', 'Investigador']);
+    }
 }

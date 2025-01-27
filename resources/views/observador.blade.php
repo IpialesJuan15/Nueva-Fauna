@@ -26,7 +26,11 @@
             <nav>
                 <ul>
                     <li><a href="{{ url('/observador') }}">Inicio</a></li>
-                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <!--<li><a href="{{ url('/login') }}">Login</a></li>-->
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                    </form>
                 </ul>
             </nav>
         </div>

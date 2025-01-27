@@ -16,10 +16,9 @@ Route::get('/home', function () {
 })->name('home');
 
 // Ruta para la vista de registro de usuarios
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [UserController::class, 'register']);
+
 
 // Rutas de autenticación
 Route::get('/login', function () {
@@ -49,9 +48,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('observador');*/
 
     Route::get('/taxonomo', function () {
-        // Traer todas las especies, incluidas las creadas por el investigador.
-        $especies = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
-            ->get();  // Sin filtrar por esp_estado_valid (se pueden agregar filtros si es necesario)
+        $especies = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])->get();
         return view('taxonomo', compact('especies'));
     })->name('taxonomo');
 });

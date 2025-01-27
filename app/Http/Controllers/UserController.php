@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
+use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * Mostrar formulario de registro.
+     */
+    public function showRegisterForm()
+    {
+        // Filtrar los tipos de usuario permitidos
+        $tiposUsuarios = TipoUsuario::whereIn('tipus_detalles', ['Observador', 'Taxonomo', 'Investigador'])->get();
+
+        return view('register', compact('tiposUsuarios'));
+    }
+
     /**
      * Registro de usuario
      */
@@ -39,6 +51,7 @@ class UserController extends Controller
 
         return redirect('/home')->with('success', 'Usuario registrado con éxito');
     }
+
 
     /**
      * Inicio de sesión
@@ -83,7 +96,6 @@ class UserController extends Controller
             'error' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
         ]);
     }
-
 
     /**
      * Cierre de sesión
