@@ -71,21 +71,25 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', [EspecieController::class, 'create'])->name('especies.create');
         Route::get('/familias-generos', [EspecieController::class, 'getFamiliasGeneros'])->name('getFamiliasGeneros');
     });
+    
+    //Route::get('/report', [EspecieController::class, 'mostrarReporte'])->name('report');
+
+
 
 });
 Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
 
 Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
 Route::get('/observador/especies', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('observador.especies');
-Route::get('/observador/especies/{id}', [EspecieController::class, 'obtenerDetalleEspecie'])
-    ->name('observador.especie.detalle');
+//Route::get('/observador/especies/{id}', [EspecieController::class, 'obtenerDetalleEspecie'])->name('observador.especie.detalle');
 
-    //Route::get('/observador', [EspecieController::class, 'vistaObservador'])->name('observador');
+//Route::get('/especies-aprobadas', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('especies.aprobadas');
 
-// Ruta para la vista de report
-Route::get('/report', function () {
-    return view('report');
-})->name('report');
+//Route::get('/observador', [EspecieController::class, 'vistaObservador'])->name('observador');
+Route::get('/report', [EspecieController::class, 'mostrarReporte'])->name('reporte');
+
+Route::get('/especies/validadas/contar', [EspecieController::class, 'contarEspeciesValidadas'])->name('especies.validadas.contar');
+Route::get('/observaciones/validadas/contar', [EspecieController::class, 'contarObservacionesValidadas'])->name('observaciones.validadas.contar');
 
 
 Route::get('/recuperarEmail', function () {
@@ -93,25 +97,3 @@ Route::get('/recuperarEmail', function () {
 })->name('recuperarEmail');
 
 
-// Rutas de especies
-//Route::controller(EspecieController::class)->group(function () {
-    //Route::get('/especies', 'index')->name('especies.index');
-    //Route::post('/especies', 'store')->name('especies.store');
-    //Route::put('/especies/editar', 'update')->name('especies.update');
-    //Route::post('/especies/buscar', 'search')->name('especies.search');
-  //  Route::delete('/especies/{id}', 'destroy')->name('especies.destroy');
-//});
-
-// Rutas de revisiones
-//Route::post('/especies/{id}/revision', [RevisionController::class, 'store']);
-
-
-// Rutas específicas para taxónomos
-//Route::get('/taxonomo', [RevisionController::class, 'indexTaxonomo'])->name('taxonomo.index');
-//Route::post('/revisiones/{id}/actualizar', [RevisionController::class, 'actualizarEstado']);
-//Route::get('/revisiones/pendientes/count', [RevisionController::class, 'contarPendientes']);
-//Route::post('/taxonomo/filtrar', [RevisionController::class, 'filtrar']);
-
-//Route::get('/perfil', function () {
-  //  return view('perfil');
-//})->name('perfil');

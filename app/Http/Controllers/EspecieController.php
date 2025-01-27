@@ -358,36 +358,6 @@ class EspecieController extends Controller
         )->result;
     }
 
-
-    /*private function convertirEstadoANumero($estado)
-    {
-        switch ($estado) {
-            case 'Aprobado':
-                return 2;
-            case 'Rechazado':
-                return 3;
-            default:
-                return 1; // Pendiente
-        }
-    }
-
-    // Agregar este método para obtener el nombre del estado
-    public function getEstadoNombre($estadoNumerico)
-    {
-        switch ($estadoNumerico) {
-            case 1:
-                return 'Pendiente';
-            case 2:
-                return 'Aprobado';
-            case 3:
-                return 'Rechazado';
-            default:
-                return 'Desconocido';
-        }
-    }*/
-
-
-
     public function obtenerEspeciesAprobadas()
     {
         try {
@@ -424,24 +394,67 @@ class EspecieController extends Controller
         return view('observador', compact('especies'));
     }
     public function obtenerDetalleEspecie($id)
-{
-    try {
-        $especie = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])->findOrFail($id);
+    {
+        try {
+            // Buscar especie con sus relaciones
+            $especie = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
+                ->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'especie' => $especie,
-        ], 200);
-    } catch (\Exception $e) {
-        Log::error('Error al obtener detalles de la especie', [
-            'id' => $id,
-            'message' => $e->getMessage(),
-        ]);
-        return response()->json([
-            'success' => false,
-            'message' => 'Especie no encontrada',
-        ], 404);
+            return response()->json([
+                'success' => true,
+                'especie' => $especie,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Especie no encontrada',
+            ], 404);
+        }
     }
-}
 
+    public function mostrarReporte(Request $request)
+    {
+        try {
+            // Obtener el ID o nombre común desde los parámetros
+            $id = $request->query('id'); // Si usas ID
+            $nombreComun = $request->query('species'); // Si usas nombre común
+
+            // Buscar la especie por ID o nombre común
+            $especie = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
+                ->when($id, function ($query) use ($id) {
+                    $query->where('esp_id', $id);
+                })
+                ->when($nombreComun, function ($query) use ($nombreComun) {
+                    $query->where('esp_nombre_comun', $nombreComun);
+                })
+                ->firstOrFail();
+
+            // Retornar la vista del reporte con la especie
+            return view('report', compact('especie'));
+        } catch (\Exception $e) {
+            // Manejar el caso cuando no se encuentra la especie
+            return view('report')->with('error', 'Especie no encontrada.');
+        }
+    }
+
+    public function contarEspeciesValidadas()
+    {
+        $totalEspeciesValidadas = Especie::whereHas('registros', function ($query) {
+            $query->where('regis_estado', 'Aprobado');
+        })->count();
+
+        return response()->json(['total' => $totalEspeciesValidadas]);
+    }
+
+    public function contarObservacionesValidadas()
+    {
+        // Contar las observaciones de especies validadas
+        $totalObservaciones = Registro::whereHas('especie', function ($query) {
+            $query->whereHas('registros', function ($subQuery) {
+                $subQuery->where('regis_estado', 'Aprobado'); // Filtrar especies validadas
+            });
+        })->count();
+
+        return response()->json(['total' => $totalObservaciones]);
+    }
 }

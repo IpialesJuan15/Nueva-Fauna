@@ -89,11 +89,11 @@
             <h2>Comunidad Birdly Ecuador</h2>
             <div class="stats-container">
                 <div class="stat">
-                    <h3>1,234,567</h3>
+                    <h3>0</h3> <!-- Este número será reemplazado dinámicamente -->
                     <p>Observaciones</p>
                 </div>
                 <div class="stat">
-                    <h3>98,765</h3>
+                    <h3>0</h3> <!-- Este número será reemplazado dinámicamente -->
                     <p>Especies</p>
                 </div>
                 <div class="stat">

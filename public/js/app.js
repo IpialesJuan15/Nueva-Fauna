@@ -12,6 +12,68 @@ document.addEventListener("DOMContentLoaded", function () {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     const markers = new L.FeatureGroup().addTo(map);
 
+    // Asignar el evento de cerrar modal al botón de cierre
+document.querySelector('.close').addEventListener('click', cerrarModal);
+// Función para cargar detalles de una especie
+async function verDetalles(especieId) {
+    try {
+        // Realizar una solicitud al servidor para obtener los detalles
+        const response = await fetch(`/observador/especies/${especieId}`);
+        const data = await response.json();
+
+        if (data.success) {
+            const especie = data.especie;
+            // Construir el contenido del reporte
+            const detalleHTML = `
+                <h2>${especie.esp_nombre_comun}</h2>
+                <img src="/storage/${especie.imagenes[0]?.img_ruta || 'no-image.jpg'}" 
+                     alt="${especie.esp_nombre_comun}" 
+                     style="width:100%; border-radius: 8px;">
+                <p><strong>Nombre Científico:</strong> <i>${especie.esp_nombre_cientifico}</i></p>
+                <p><strong>Descripción:</strong> ${especie.esp_descripcion}</p>
+                <p><strong>Familia:</strong> ${especie.genero.familia.fam_nombre}</p>
+                <p><strong>Género:</strong> ${especie.genero.gene_nombre}</p>
+                <p><strong>Reino:</strong> ${especie.genero.familia.reino.reino_nombre}</p>
+                <p><strong>Ubicación:</strong> ${especie.ubicaciones[0]?.ubi_descripcion || 'No disponible'}</p>
+                <p><strong>Región:</strong> ${especie.ubicaciones[0]?.ubi_region || 'No disponible'}</p>
+            `;
+
+            // Colocar el contenido en el modal
+            document.getElementById('detalleEspecie').innerHTML = detalleHTML;
+
+            // Mostrar el modal
+            const modal = document.getElementById('detalleModal');
+            modal.style.display = 'block';
+        } else {
+            // Manejar el caso en el que no se encuentre la especie
+            mostrarNotificacion('Especie no encontrada', 'error');
+        }
+    } catch (error) {
+        console.error('Error al cargar los detalles de la especie:', error);
+        mostrarNotificacion('Hubo un error al cargar los detalles.', 'error');
+    }
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+    const modal = document.getElementById('detalleModal');
+    modal.style.display = 'none';
+}
+
+// Función para mostrar notificaciones
+function mostrarNotificacion(mensaje, tipo) {
+    Swal.fire({
+        title: tipo === 'success' ? '¡Éxito!' : 'Error',
+        text: mensaje,
+        icon: tipo,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
+}
+
     function fetchVisibleSpecies() {
         fetch('/observador/especies')
             .then(response => response.json())
@@ -137,39 +199,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inicializar
     fetchVisibleSpecies();
 });
-
-async function verDetalles(id) {
-    try {
-        const response = await fetch(`/observador/especies/${id}`);
-        const data = await response.json();
-
-        if (data.success) {
-            const especie = data.especie;
-            const detalleHTML = `
-                <h2>${especie.esp_nombre_comun}</h2>
-                <img src="/storage/${especie.imagenes[0].img_ruta}" alt="${especie.esp_nombre_comun}" style="width:100%; border-radius: 8px;">
-                <p><strong>Nombre Científico:</strong> <i>${especie.esp_nombre_cientifico}</i></p>
-                <p><strong>Descripción:</strong> ${especie.esp_descripcion}</p>
-                <p><strong>Familia:</strong> ${especie.genero.familia.fam_nombre}</p>
-                <p><strong>Género:</strong> ${especie.genero.gene_nombre}</p>
-                <p><strong>Reino:</strong> ${especie.genero.familia.reino.reino_nombre}</p>
-                <p><strong>Ubicación:</strong> ${especie.ubicaciones[0]?.ubi_descripcion || 'No disponible'}</p>
-                <p><strong>Región:</strong> ${especie.ubicaciones[0]?.ubi_region || 'No disponible'}</p>
-            `;
-            document.getElementById('detalleEspecie').innerHTML = detalleHTML;
-
-            const modal = document.getElementById('detalleModal');
-            modal.style.display = 'block';
-        } else {
-            mostrarNotificacion(data.message, 'error');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion('Error al cargar los detalles de la especie', 'error');
-    }
-}
-
-function cerrarModal() {
-    const modal = document.getElementById('detalleModal');
-    modal.style.display = 'none';
-}

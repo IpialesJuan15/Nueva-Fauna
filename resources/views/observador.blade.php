@@ -76,11 +76,14 @@
                     @if (!empty($especies) && $especies->count() > 0)
                         @foreach ($especies as $especie)
                             <div class="card">
-                                <img src="{{ asset('storage/' . $especie->imagenes->first()->img_ruta) }}" alt="{{ $especie->esp_nombre_comun }}" class="card-image">
+                                <img src="{{ asset('storage/' . $especie->imagenes->first()->img_ruta) }}" 
+                                     alt="{{ $especie->esp_nombre_comun }}" 
+                                     class="card-image">
                                 <div class="card-content">
                                     <h4>{{ $especie->esp_nombre_comun }}</h4>
                                     <p><i>{{ $especie->esp_nombre_cientifico }}</i></p>
-                                    <button class="btn-details" onclick="verDetalles({{ $especie->esp_id }})">Detalles</button>
+                                    <!-- Enlace que lleva al informe de la especie -->
+                                    <a href="{{ route('reporte', ['id' => $especie->esp_id]) }}" class="btn-details">Detalles</a>
                                 </div>
                             </div>
                         @endforeach
@@ -88,7 +91,10 @@
                         <p>No hay especies disponibles para mostrar.</p>
                     @endif
                 </div>
-            </div>            
+            </div>
+            
+            </div>
+                  
             
             <!-- Modal para Detalles -->
             <div id="detalleModal" class="modal">
