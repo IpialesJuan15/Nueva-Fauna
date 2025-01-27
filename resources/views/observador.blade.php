@@ -72,8 +72,34 @@
             </div>
             <div class="species-section">
                 <h3>Especies</h3>
-                <div class="card-container" id="speciesList"></div>
+                <div class="card-container" id="speciesList">
+                    @if (!empty($especies) && $especies->count() > 0)
+                        @foreach ($especies as $especie)
+                            <div class="card">
+                                <img src="{{ asset('storage/' . $especie->imagenes->first()->img_ruta) }}" alt="{{ $especie->esp_nombre_comun }}" class="card-image">
+                                <div class="card-content">
+                                    <h4>{{ $especie->esp_nombre_comun }}</h4>
+                                    <p><i>{{ $especie->esp_nombre_cientifico }}</i></p>
+                                    <button class="btn-details" onclick="verDetalles({{ $especie->esp_id }})">Detalles</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No hay especies disponibles para mostrar.</p>
+                    @endif
+                </div>
+            </div>            
+            
+            <!-- Modal para Detalles -->
+            <div id="detalleModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                    <div id="detalleEspecie">
+                        <!-- Aquí se cargará la información de la especie -->
+                    </div>
+                </div>
             </div>
+            
         </div>
         <div class="combined-report-container">
             <button id="generateCombinedReport" class="btn combined-report-btn" style="display:none;">Generar Informe Conjunto</button>

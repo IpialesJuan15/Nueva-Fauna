@@ -106,24 +106,9 @@
         <section id="mas" class="recent-observations">
             <h2>Observaciones Recientes</h2>
             <div class="observations-grid">
-                <div class="observation">
-                    <img src="{{ asset('images/conejillo.jpg') }}" alt="Observación 1">
-                    <p>Especie 1</p>
-                </div>
-                <div class="observation">
-                    <img src="{{ asset('images/armadillo.jpg') }}" alt="Observación 2">
-                    <p>Especie 2</p>
-                </div>
-                <div class="observation">
-                    <img src="{{ asset('images/colibri.jpg') }}" alt="Observación 3">
-                    <p>Especie 3</p>
-                </div>
-                <div class="observation">
-                    <img src="{{ asset('images/capibara.jpg') }}" alt="Observación 4">
-                    <p>Especie 4</p>
-                </div>
+                <!-- Aquí se cargarán dinámicamente las especies aprobadas -->
             </div>
-            <button class="btn btn-primary">Ver más observaciones</button>
+            <button class="btn btn-primary" onclick="cargarEspeciesAprobadas()">Actualizar observaciones</button>
         </section>
     </main>
 

@@ -100,29 +100,33 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="editable" data-field="esp_nombre_comun" data-original="{{ $especie->esp_nombre_comun }}">
-                                {{ $especie->esp_nombre_comun }}
-                            </td>
-                            <td class="editable" data-field="esp_nombre_cientifico" data-original="{{ $especie->esp_nombre_cientifico }}">
-                                {{ $especie->esp_nombre_cientifico }}
-                            </td>
-                            <td class="editable" data-field="esp_descripcion" data-original="{{ $especie->esp_descripcion }}">
-                                {{ $especie->esp_descripcion }}
-                            </td>
+                            <td>{{ $especie->esp_nombre_comun }}</td>
+                            <td>{{ $especie->esp_nombre_cientifico }}</td>
+                            <td>{{ $especie->esp_descripcion }}</td>
                             <td class="estado-cell">
-                                <span class="estado-badge estado-{{ strtolower($especie->getEstadoNombre()) }}">
-                                    {{ $especie->getEstadoNombre() }}
+                                <span class="estado-badge 
+                                    {{ strtolower($especie->registros->first()->regis_estado ?? 'pendiente') === 'aprobado' ? 'estado-aprobado' : '' }}
+                                    {{ strtolower($especie->registros->first()->regis_estado ?? 'pendiente') === 'rechazado' ? 'estado-rechazado' : '' }}
+                                    {{ strtolower($especie->registros->first()->regis_estado ?? 'pendiente') === 'pendiente' ? 'estado-pendiente' : '' }}">
+                                    {{ ucfirst($especie->registros->first()->regis_estado ?? 'Pendiente') }}
                                 </span>
-                            </td>
-                            <td class="actions-cell">
-                                    <div class="action-buttons">
-                                    <button onclick="validarEspecie('{{ $especie->esp_id }}', 'Aprobado')" class="btn-aprobar">
-                                        <i class="fas fa-check"></i> Aprobar
-                                    </button>
-                                        <button onclick="validarEspecie('{{ $especie->esp_id }}', 'Rechazado')" class="btn-rechazar">
+                            </td>                            
+                            <td>
+                                <!-- Formulario único con comentarios -->
+                                <form action="{{ route('especies.validar', ['id' => $especie->esp_id]) }}" method="POST">
+                                    @csrf
+                                    <textarea name="comentarios" placeholder="Comentarios (opcional)" rows="3" style="width: 100%; resize: none; padding: 8px; border-radius: 6px; border: 1px solid #ddd;"></textarea>
+                                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                        <button type="submit" name="estado" value="Aprobado"
+                                            class="btn btn-success" style="background-color: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                                            <i class="fas fa-check"></i> Aprobar
+                                        </button>
+                                        <button type="submit" name="estado" value="Rechazado"
+                                            class="btn btn-danger" style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
                                             <i class="fas fa-times"></i> Rechazar
                                         </button>
                                     </div>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

@@ -34,8 +34,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/FormInvest', [EspecieController::class, 'create'])->name('FormInvest');
 
     Route::get('/observador', function () {
-        return view('observador');
+        $especies = Especie::with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
+            ->whereHas('registros', function ($query) {
+                $query->where('regis_estado', 'Aprobado'); // Filtrar por especies aprobadas
+            })
+            ->get();
+    
+        return view('observador', compact('especies'));
     })->name('observador');
+
+    
+    /*Route::get('/observador', function () {
+        return view('observador');
+    })->name('observador');*/
 
     Route::get('/taxonomo', function () {
         // Traer todas las especies, incluidas las creadas por el investigador.
@@ -66,6 +77,10 @@ Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('es
 
 Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
 Route::get('/observador/especies', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('observador.especies');
+Route::get('/observador/especies/{id}', [EspecieController::class, 'obtenerDetalleEspecie'])
+    ->name('observador.especie.detalle');
+
+    //Route::get('/observador', [EspecieController::class, 'vistaObservador'])->name('observador');
 
 // Ruta para la vista de report
 Route::get('/report', function () {
