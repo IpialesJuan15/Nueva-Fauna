@@ -80,8 +80,11 @@
                     @foreach ($especies as $especie)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $especie->imagenes->first()->img_ruta) }}"
-                                    alt="{{ $especie->esp_nombre_comun }}" class="bird-image">
+                            @if ($especie->imagenes->isNotEmpty())
+                                <img src="{{ asset('storage/' . $especie->imagenes->first()->img_ruta) }}" alt="{{ $especie->esp_nombre_comun }}" class="bird-image">
+                                @else
+                                    <span>Sin imagen disponible</span>
+                            @endif
                             </td>
                             <td>{{ $especie->esp_nombre_comun }}</td>
                             <td>{{ $especie->esp_nombre_cientifico }}</td>
