@@ -139,9 +139,9 @@
                                                 <div class="col-12">
                                                     <label for="tipus_id" class="form-label" style="color: #5f794e;">Seleccione Tipo de Usuario</label>
                                                     <select name="tipus_id" id="tipus_id" class="form-select" style="border: 1px solid #d3e0cf; color: #5f794e; background-color: #f9fff5;">
-                                                        <option value="1">Observador</option>
-                                                        <option value="2">Investigador</option>
-                                                        <option value="3">Taxonomo</option>
+                                                        <option value="10">Observador</option>
+                                                        <option value="8">Investigador</option>
+                                                        <option value="6">Taxonomo</option>
                                                     </select>
                                                 </div>
                                                 <!-- Checkbox -->
