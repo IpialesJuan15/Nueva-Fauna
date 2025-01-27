@@ -5,6 +5,15 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 let registros = [];
 let map, marker;
 let mapEditar, markerEditar;
+document.addEventListener('DOMContentLoaded', () => {
+    // Delegar el evento de clic para los botones de eliminación
+    document.body.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-eliminar')) {
+            const especieId = e.target.getAttribute('data-id');
+            eliminarRegistro(especieId);
+        }
+    });
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     // Asegurarse de que el contenedor del mapa tenga tamaño definido
@@ -86,7 +95,28 @@ function mostrarObservaciones() {
 }
 
 
-window.eliminarRegistro = function (id) {
+
+/*window.eliminarRegistro = function (id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+        fetch(`/especies/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Registro eliminado con éxito.');
+                    cargarDatos(); // Recargar la tabla
+                } else {
+                    alert('Error al eliminar el registro.');
+                }
+            })
+            .catch(error => console.error('Error al eliminar el registro:', error));
+    }
+};*/
+
+/*window.eliminarRegistro = function (id) {
     if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
         fetch(`/especies/${id}`, {
             method: 'DELETE',
@@ -112,7 +142,7 @@ window.eliminarRegistro = function (id) {
             alert(`Error: ${error.message}`);
         });
     }
-};
+};*/
 
 // Función para cargar datos en la tabla
 function cargarDatos() {
@@ -122,19 +152,12 @@ function cargarDatos() {
             'Content-Type': 'application/json',
         },
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al cargar los datos.');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         const tbody = document.querySelector('#tabla-datos tbody');
         tbody.innerHTML = ''; // Limpiar la tabla antes de agregar datos
 
         data.forEach(especie => {
-            const ubicacion = especie.ubicaciones[0];
-            const imagen = especie.imagenes[0];
             const fila = document.createElement('tr');
 
             fila.innerHTML = `
@@ -143,23 +166,46 @@ function cargarDatos() {
                 <td>${especie.genero.familia.fam_nombre}</td>
                 <td>${especie.genero.gene_nombre}</td>
                 <td>${especie.esp_nombre_cientifico}</td>
-                <td>${ubicacion ? `${ubicacion.ubi_latitud}, ${ubicacion.ubi_longitud}` : 'N/A'}</td>
+                <td>${especie.ubicaciones[0] ? `${especie.ubicaciones[0].ubi_latitud}, ${especie.ubicaciones[0].ubi_longitud}` : 'N/A'}</td>
                 <td>${especie.created_at ? new Date(especie.created_at).toLocaleDateString() : 'N/A'}</td>
                 <td>
-                    ${imagen ? `<img src="/storage/${imagen.img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
+                    ${especie.imagenes[0] ? `<img src="/storage/${especie.imagenes[0].img_ruta}" alt="${especie.esp_nombre_comun}" width="50" height="50">` : 'Sin imagen'}
                 </td>
                 <td>${especie.esp_estado_valid ? 'Aprobada' : 'Pendiente'}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarRegistro(${especie.esp_id})">Eliminar Registro</button>
+                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="${especie.esp_id}">Eliminar Registro</button>
                 </td>
             `;
             tbody.appendChild(fila);
         });
     })
-    .catch(error => {
-        console.error('Error al cargar los datos:', error);
-        alert('Error al cargar los datos. Por favor, intenta nuevamente.');
-    });
+    .catch(error => console.error('Error al cargar los datos:', error));
+}
+
+// Función para eliminar un registro
+function eliminarRegistro(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+        fetch(`/especies/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Registro eliminado con éxito.');
+                cargarDatos(); // Recargar la tabla o los datos después de la eliminación
+            } else {
+                response.json().then(data => {
+                    alert(`Error: ${data.message}`);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar el registro:', error);
+            alert('Hubo un problema al eliminar el registro.');
+        });
+    }
 }
 
 ocument.getElementById('reino').addEventListener('change', function () {
@@ -199,29 +245,10 @@ ocument.getElementById('reino').addEventListener('change', function () {
         });
 });
 
-/*window.eliminarRegistro = function (id) {
-    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-        fetch(`/especies/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Registro eliminado con éxito.');
-                    cargarDatos(); // Recargar la tabla
-                } else {
-                    alert('Error al eliminar el registro.');
-                }
-            })
-            .catch(error => console.error('Error al eliminar el registro:', error));
-    }
-};
 
 // Función para cargar datos de registro
 // Función para cargar los datos y el estado de validación
-function cargarDatos() {
+/*function cargarDatos() {
     fetch('/especies', {
         method: 'GET',
         headers: {

@@ -51,15 +51,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [EspecieController::class, 'index'])->name('especies.index');
         Route::post('/', [EspecieController::class, 'store'])->name('especies.store');
         Route::put('/{id}', [EspecieController::class, 'update'])->name('especies.update');
-        Route::delete('/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+        //Route::delete('/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
+        
+
         Route::post('/buscar', [EspecieController::class, 'search'])->name('especies.search');
-        Route::post('/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
+        //Route::post('/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
         Route::post('/{id}/imagen', [EspecieController::class, 'actualizarImagen'])->name('especies.actualizarImagen');
         Route::get('/create', [EspecieController::class, 'create'])->name('especies.create');
         Route::get('/familias-generos', [EspecieController::class, 'getFamiliasGeneros'])->name('getFamiliasGeneros');
     });
 
 });
+Route::delete('/especies/{id}', [EspecieController::class, 'destroy'])->name('especies.destroy');
 
 Route::post('/especies/{id}/validar', [EspecieController::class, 'validarEspecie'])->name('especies.validar');
 Route::get('/observador/especies', [EspecieController::class, 'obtenerEspeciesAprobadas'])->name('observador.especies');

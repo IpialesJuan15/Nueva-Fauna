@@ -99,29 +99,29 @@ class EspecieController extends Controller
     }
 
     public function getFamiliasGeneros(Request $request)
-{
-    // Obtener el nombre del Reino desde la solicitud
-    $reino = $request->query('reino');
+    {
+        // Obtener el nombre del Reino desde la solicitud
+        $reino = $request->query('reino');
 
-    // Filtrar las Familias relacionadas con el Reino seleccionado
-    $familias = DB::table('tax_familias')
-        ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
-        ->where('tax_reinos.reino_nombre', $reino)
-        ->pluck('fam_nombre');
+        // Filtrar las Familias relacionadas con el Reino seleccionado
+        $familias = DB::table('tax_familias')
+            ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
+            ->where('tax_reinos.reino_nombre', $reino)
+            ->pluck('fam_nombre');
 
-    // Filtrar los Géneros relacionados con las Familias del Reino seleccionado
-    $generos = DB::table('tax_generos')
-        ->join('tax_familias', 'tax_generos.gene_fam_id', '=', 'tax_familias.fam_id')
-        ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
-        ->where('tax_reinos.reino_nombre', $reino)
-        ->pluck('gene_nombre');
+        // Filtrar los Géneros relacionados con las Familias del Reino seleccionado
+        $generos = DB::table('tax_generos')
+            ->join('tax_familias', 'tax_generos.gene_fam_id', '=', 'tax_familias.fam_id')
+            ->join('tax_reinos', 'tax_familias.fam_reino_id', '=', 'tax_reinos.reino_id')
+            ->where('tax_reinos.reino_nombre', $reino)
+            ->pluck('gene_nombre');
 
-    // Devolver los resultados en formato JSON
-    return response()->json([
-        'familias' => $familias,
-        'generos' => $generos,
-    ]);
-}
+        // Devolver los resultados en formato JSON
+        return response()->json([
+            'familias' => $familias,
+            'generos' => $generos,
+        ]);
+    }
 
     public function update(Request $request)
     {
@@ -260,60 +260,68 @@ class EspecieController extends Controller
 
     public function destroy($id)
     {
+        DB::statement("SET app.current_user_id = " . auth()->id());
+        Log::info("Intentando eliminar especie con ID: {$id}");
+
+        $especie = Especie::with(['ubicaciones', 'imagenes', 'registros.validaciones'])->find($id);
+
+        if (!$especie) {
+            Log::error("Especie no encontrada con ID: {$id}");
+            return response()->json(['message' => 'Registro no encontrado'], 404);
+        }
+
         try {
             DB::beginTransaction();
 
-            // Verificar si la especie existe y validar permisos
-            $especie = Especie::with(['ubicaciones', 'imagenes', 'registros'])->findOrFail($id);
-
-            if (!$this->checkPermission($especie->esp_id, 'delete')) {
-                return response()->json([
-                    'message' => 'No tienes permiso para eliminar esta especie.'
-                ], 403);
+            // Eliminar validaciones asociadas
+            foreach ($especie->registros as $registro) {
+                foreach ($registro->validaciones as $validacion) {
+                    $validacion->delete();
+                }
+                $registro->delete(); // Eliminar registros relacionados
             }
 
             // Eliminar ubicaciones relacionadas
-            foreach ($especie->ubicaciones as $ubicacion) {
-                $ubicacion->delete();
-            }
+            $especie->ubicaciones()->delete();
 
-            // Eliminar imágenes relacionadas y sus archivos
+            // Eliminar imágenes relacionadas
             foreach ($especie->imagenes as $imagen) {
-                Storage::disk('public')->delete($imagen->img_ruta); // Borra el archivo físicamente
+                Storage::disk('public')->delete($imagen->img_ruta); // Eliminar físicamente el archivo
                 $imagen->delete();
             }
 
-            // Eliminar registros relacionados
-            foreach ($especie->registros as $registro) {
-                $registro->delete();
-            }
-
-            // Eliminar la especie
+            // Finalmente, eliminar la especie
             $especie->delete();
 
             DB::commit();
-            return response()->json(['message' => 'Registro eliminado con éxito.'], 200);
+
+            Log::info("Especie eliminada correctamente con ID: {$id}");
+            return response()->json(['message' => 'Registro eliminado con éxito']);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al eliminar el registro: ' . $e->getMessage());
-            return response()->json([
-                'message' => 'Error al eliminar el registro.',
-                'error' => $e->getMessage(),
-            ], 500);
+            Log::error("Error al eliminar especie con ID: {$id}. Error: {$e->getMessage()}");
+
+            return response()->json(['message' => 'Error al eliminar el registro', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function validarEspecie(Request $request, $id)
     {
         try {
+
+            DB::statement("SET app.current_user_id = " . auth()->id());
             // Validar la especie existe
             $especie = Especie::findOrFail($id);
-            
+            if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
+                return redirect()->route('especies.index')
+                    ->with('error', 'No tienes permiso para actualizar esta especie.');
+            }
             // Actualizar el estado
             $especie->update([
                 'esp_estado_valid' => ($request->estado === 'Aprobado') ? 2 : 3
             ]);
-    
+
             // Buscar el registro asociado
             $registro = Registro::where('esp_id', $id)->first();
             if ($registro) {
@@ -321,15 +329,14 @@ class EspecieController extends Controller
                     'regis_estado' => $request->estado
                 ]);
             }
-    
+
             return response()->json([
                 'success' => true,
                 'message' => "Especie {$request->estado} correctamente"
             ]);
-    
         } catch (\Exception $e) {
             Log::error('Error en validarEspecie: ' . $e->getMessage());
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error al procesar la validación'
@@ -337,40 +344,40 @@ class EspecieController extends Controller
         }
     }
 
-private function convertirEstadoANumero($estado)
-{
-    switch ($estado) {
-        case 'Aprobado':
-            return 2;
-        case 'Rechazado':
-            return 3;
-        default:
-            return 1; // Pendiente
+    private function convertirEstadoANumero($estado)
+    {
+        switch ($estado) {
+            case 'Aprobado':
+                return 2;
+            case 'Rechazado':
+                return 3;
+            default:
+                return 1; // Pendiente
+        }
     }
-}
 
-// Agregar este método para obtener el nombre del estado
-public function getEstadoNombre($estadoNumerico)
-{
-    switch ($estadoNumerico) {
-        case 1:
-            return 'Pendiente';
-        case 2:
-            return 'Aprobado';
-        case 3:
-            return 'Rechazado';
-        default:
-            return 'Desconocido';
+    // Agregar este método para obtener el nombre del estado
+    public function getEstadoNombre($estadoNumerico)
+    {
+        switch ($estadoNumerico) {
+            case 1:
+                return 'Pendiente';
+            case 2:
+                return 'Aprobado';
+            case 3:
+                return 'Rechazado';
+            default:
+                return 'Desconocido';
+        }
     }
-}
 
-private function checkPermission($especie_id, $permission)
-{
-    return DB::selectOne(
-        'SELECT check_especie_permissions(?, ?, ?) as result',
-        [Auth::id(), $especie_id, $permission]
-    )->result;
-}
+    private function checkPermission($especie_id, $permission)
+    {
+        return DB::selectOne(
+            'SELECT check_especie_permissions(?, ?, ?) as result',
+            [Auth::id(), $especie_id, $permission]
+        )->result;
+    }
 
     public function obtenerEspeciesAprobadas()
     {
@@ -379,7 +386,7 @@ private function checkPermission($especie_id, $permission)
             $especies = Especie::where('esp_estado_valid', 2)
                 ->with(['imagenes', 'ubicaciones', 'genero.familia.reino'])
                 ->get();
-    
+
             return response()->json([
                 'success' => true,
                 'especies' => $especies
