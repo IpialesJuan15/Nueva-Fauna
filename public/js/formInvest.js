@@ -1,41 +1,6 @@
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-ocument.getElementById('reino').addEventListener('change', function () {
-    const reino = this.value; // Obtener el valor del Reino seleccionado
 
-    // Realizar una solicitud AJAX al servidor para obtener Familias y Géneros
-    fetch(`/getFamiliasGeneros?reino=${reino}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar las Familias y Géneros.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Actualizar el campo de Familias
-            const familiaSelect = document.getElementById('familia');
-            familiaSelect.innerHTML = '<option value="" selected disabled>Seleccione una Familia</option>';
-            data.familias.forEach(familia => {
-                familiaSelect.innerHTML += `<option value="${familia}">${familia}</option>`;
-            });
-
-            // Actualizar el campo de Géneros
-            const generoSelect = document.getElementById('genero');
-            generoSelect.innerHTML = '<option value="" selected disabled>Seleccione un Género</option>';
-            data.generos.forEach(genero => {
-                generoSelect.innerHTML += `<option value="${genero}">${genero}</option>`;
-            });
-        })
-        .catch(error => {
-            console.error('Error al cargar Familias y Géneros:', error);
-            alert('Hubo un problema al cargar las Familias y Géneros. Por favor, intenta nuevamente.');
-        });
-});
 
 let registros = [];
 let map, marker;
@@ -197,7 +162,42 @@ function cargarDatos() {
     });
 }
 
+ocument.getElementById('reino').addEventListener('change', function () {
+    const reino = this.value; // Obtener el valor del Reino seleccionado
 
+    // Realizar una solicitud AJAX al servidor para obtener Familias y Géneros
+    fetch(`/getFamiliasGeneros?reino=${reino}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al cargar las Familias y Géneros.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Actualizar el campo de Familias
+            const familiaSelect = document.getElementById('familia');
+            familiaSelect.innerHTML = '<option value="" selected disabled>Seleccione una Familia</option>';
+            data.familias.forEach(familia => {
+                familiaSelect.innerHTML += `<option value="${familia}">${familia}</option>`;
+            });
+
+            // Actualizar el campo de Géneros
+            const generoSelect = document.getElementById('genero');
+            generoSelect.innerHTML = '<option value="" selected disabled>Seleccione un Género</option>';
+            data.generos.forEach(genero => {
+                generoSelect.innerHTML += `<option value="${genero}">${genero}</option>`;
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar Familias y Géneros:', error);
+            alert('Hubo un problema al cargar las Familias y Géneros. Por favor, intenta nuevamente.');
+        });
+});
 
 /*window.eliminarRegistro = function (id) {
     if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {

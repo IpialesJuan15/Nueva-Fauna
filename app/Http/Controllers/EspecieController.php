@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-<?php
-
-namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Especie;
 use App\Models\Familia;
@@ -310,8 +306,15 @@ class EspecieController extends Controller
     public function validarEspecie(Request $request, $id)
     {
         try {
+            DB::statement("SET app.current_user_id = " . auth()->id());
+
             // Validar la especie existe
             $especie = Especie::findOrFail($id);
+
+            if (!$especie || !$this->checkPermission($especie->esp_id, 'edit')) {
+            return redirect()->route('especies.index')
+                ->with('error', 'No tienes permiso para actualizar esta especie.');
+        }
             
             // Actualizar el estado
             $especie->update([
