@@ -133,6 +133,10 @@ async function actualizarImagen(input, especieId) {
 
 // Validar especie
 function validarEspecie(especieId, estado) {
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    
+    console.log('Token CSRF:', token); // Para debug
+    
     Swal.fire({
         title: `¿Estás seguro de ${estado.toLowerCase()} esta especie?`,
         text: "Esta acción no se puede deshacer",
@@ -144,52 +148,52 @@ function validarEspecie(especieId, estado) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            const formData = new FormData();
-            formData.append('estado', estado);
-            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+            // Debug
+            console.log('Enviando petición:', {
+                url: `/especies/${especieId}/validar`,
+                estado: estado,
+                token: token
+            });
 
             fetch(`/especies/${especieId}/validar`, {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({ estado: estado })
             })
-            .then(response => response.json())
+            .then(async response => {
+                const text = await response.text();
+                console.log('Respuesta del servidor:', text);
+                
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Error al procesar la respuesta del servidor');
+                }
+            })
             .then(data => {
                 if (data.success) {
-                    Swal.fire(
-                        '¡Completado!',
-                        `La especie ha sido ${estado.toLowerCase()} exitosamente`,
-                        'success'
-                    ).then(() => {
-                        // Actualizar la interfaz
-                        const row = document.querySelector(`tr[data-especie-id="${especieId}"]`);
-                        const estadoCell = row.querySelector('.estado-badge');
-                        estadoCell.className = `estado-badge estado-${estado.toLowerCase()}`;
-                        estadoCell.textContent = estado;
-
-                        // Ocultar los botones de acción
-                        const actionButtons = row.querySelector('.action-buttons');
-                        actionButtons.innerHTML = `<span class="estado-${estado.toLowerCase()}">${estado}</span>`;
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: `La especie ha sido ${estado.toLowerCase()} correctamente`,
+                        icon: 'success'
+                    }).then(() => {
+                        location.reload(); // Recargar la página para mostrar los cambios
                     });
                 } else {
-                    throw new Error(data.message);
+                    throw new Error(data.message || 'Error al procesar la solicitud');
                 }
             })
             .catch(error => {
-                Swal.fire(
-                    'Error',
-                    'Hubo un problema al procesar la solicitud',
-                    'error'
-                );
                 console.error('Error:', error);
+                Swal.fire('Error', 'Hubo un problema al procesar la solicitud', 'error');
             });
         }
     });
 }
-
 // Enviar validación al servidor
 async function enviarValidacion(especieId, estado) {
     try {

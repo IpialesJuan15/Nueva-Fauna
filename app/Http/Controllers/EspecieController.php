@@ -328,6 +328,32 @@ class EspecieController extends Controller
                 $registro->update([
                     'regis_estado' => $request->estado
                 ]);
+    
+                // Actualizar el registro asociado
+                $registro = $especie->registros()->first();
+                if ($registro) {
+                    $registro->update([
+                        'regis_estado' => strtolower($request->estado)
+                    ]);
+                }
+    
+                DB::commit();
+    
+                Log::info('Validación completada exitosamente', [
+                    'especie_id' => $id,
+                    'nuevo_estado' => $estadoNumerico
+                ]);
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => "Especie {$request->estado} correctamente",
+                    'estado' => $especie->getEstadoNombre(),
+                    'clase' => $especie->getEstadoClase()
+                ]);
+    
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
             }
 
             return response()->json([
@@ -339,7 +365,7 @@ class EspecieController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Error al procesar la validación'
+                'message' => 'Error al procesar la validación: ' . $e->getMessage()
             ], 500);
         }
     }
