@@ -372,3 +372,57 @@ img {
     height: 400px;
     width: 100%;
 }
+/* Corrección para la tabla de Datos Ingresados */
+#datos_ingresados {
+    overflow-x: auto; /* Permite el scroll horizontal si la tabla es muy ancha */
+    width: 60%; /* Asegura que el contenedor de la tabla ocupe el espacio disponible */
+    max-width: 60%; /* Previene que se salga del contorno */
+    box-sizing: border-box; /* Incluye paddings y bordes en el cálculo del ancho */
+}
+
+#tabla-datos {
+    width: 100%; /* Asegura que la tabla se ajuste al contenedor */
+    min-width: 800px; /* Define un ancho mínimo para evitar colapsos en columnas */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#tabla-datos th,
+#tabla-datos td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word; /* Ajusta el contenido dentro de las celdas */
+    box-sizing: border-box;
+}
+
+#tabla-datos th {
+    background-color: #28a745;
+    color: #fff;
+}
+
+#tabla-datos tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tabla-datos tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsividad específica para la tabla */
+@media (max-width: 768px) {
+    #tabla-datos {
+        display: block; /* Convierte la tabla en un bloque para scroll horizontal */
+        overflow-x: auto;
+    }
+
+    #tabla-datos th,
+    #tabla-datos td {
+        font-size: 12px; /* Ajusta el tamaño de la fuente para pantallas pequeñas */
+    }
+
+    #datos_ingresados {
+        padding: 10px; /* Agrega un poco de espacio interno en dispositivos pequeños */
+    }
+}
