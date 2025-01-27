@@ -107,20 +107,23 @@
                         </select>
 
                         <label for="familia">Familia:</label>
-                        <select name="familia" id="familia" class="form-select" required>
-                            <option value="" selected disabled>Seleccione una Familia</option>
+                        <!--<select name="familia" id="familia" class="form-select" required>-->
+                            <input type="text" name="familia" id="familia" required>
+
+                            <!--<option value="" selected disabled>Seleccione una Familia</option>
                             @foreach ($familias as $familia)
                                 <option value="{{ $familia }}">{{ $familia }}</option>
-                            @endforeach
-                        </select>   
+                            @endforeach-->
+                       <!-- </select>   -->
 
                         <label for="genero">Género:</label>
-                        <select name="genero" id="genero" class="form-select" required>
+                        <input type="text" name="genero" id="genero" required>
+                        <!--<select name="genero" id="genero" class="form-select" required>
                             <option value="" selected disabled>Seleccione un Género</option>
                             @foreach ($generos as $genero)
                                 <option value="{{ $genero }}">{{ $genero }}</option>
                             @endforeach
-                        </select>
+                        </select>-->
 
                         <label for="nombre_cientifico">Nombre Científico:</label>
                         <input type="text" name="nombre_cientifico" id="nombre_cientifico" required>
