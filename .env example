@@ -1,9 +1,9 @@
-APP_NAME=Laravel
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
+APP_NAME="Nueva Fauna"
+APP_ENV=production
+APP_KEY= # Se generará automáticamente en Render
+APP_DEBUG=false
 APP_TIMEZONE=UTC
-APP_URL=http://localhost
+APP_URL=https://tudominio.render.com
 
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en
@@ -22,13 +22,13 @@ LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
 
 DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
+DB_HOST=bdd-unificada.postgres.database.azure.com
 DB_PORT=5432
-DB_DATABASE=registrotaxonomico
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=postgres
+DB_USERNAME=TAX_FA
+DB_PASSWORD=TAX_FA
 
-SESSION_DRIVER=database
+SESSION_DRIVER=file
 SESSION_LIFETIME=120
 SESSION_ENCRYPT=false
 SESSION_PATH=/
